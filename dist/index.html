@@ -45,6 +45,10 @@
               <li><i class="fa fa-sign-out-alt"></i> Log out</li>
             </a>
           </ul>
+
+          <footer>
+            Created by <a href="https://github.com/fbiernat" class="author-link">fbiernat</a>
+          </footer>
         </div>
       </div>
 
@@ -52,26 +56,30 @@
         
         <div class="top-bar">
           <div class="search-bar-wrapper">
-            <div class="search-icon">
-              <div class="search-icon-handle"></div>
-            </div>
-            <input type="text" id="search-input">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="search-input" placeholder="Search">
           </div>
           <div class="push-right account-controls flex-row">
             <div class="notifications-icon">
               <i class="far fa-bell"></i>
             </div>
-            <div class="username-container">Jan Kowalski</div>
-            <div class="user-profle-photo"></div>
+            <div class="username-container">
+              <span id="user-name">Zuzanna Jurczak</span>
+              <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div>
+              <img src="./assets/user-profile-picture.jpg" class="user-profile-picture" alt="User profile picture">
+            </div>
           </div>
         </div>
 
         <div class="container">
 
           <div class="flex-row">
-            <h1>Projects</h1>
+            <h1>Overview</h1>
             <div class="push-right align-center">
-              This week
+              This Week
+              <i class="fas fa-chevron-down chevron"></i>
             </div>
           </div>
 

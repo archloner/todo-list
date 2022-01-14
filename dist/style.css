@@ -2,14 +2,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
 :root {
-  --menu-right-padding: 35px;
+  /* COLORS */
+  --accent-color: rgb(7, 126, 86);
+
   --light-gray: rgba(0,0,0,0.35);
+  --background-color: rgba(255, 255, 255, 0.8);
+
+  --dark-mode-bg-color: rgb(31, 27, 27);
+  --dark-mode-font-color: rgb(182, 182, 182);
+  --dark-mode-font-color-lighter: rgb(255, 255, 255);
+
+  --main-padding: 35px;
   --search-icon-line-thickness: 2px;
+}
+
+:root body.dark-mode {
+  background-color: var(--dark-mode-bg-color);
+  color: var(--dark-mode-font-color);
 }
 
 body {
   margin: 0;
-  background-color: white;
+  background-color: var(--background-color);
+  color: var(--light-gray);
   font-family: 'Roboto', Verdana, Geneva, Tahoma, sans-serif;
   min-height: 100vh;
 }
@@ -30,13 +45,15 @@ a {
 
 .menu-left {
   flex: 0 1 300px;
+  min-width: 177px;
   border-right: 2px solid rgba(0,0,0,0.08);
-  padding: var(--menu-right-padding);
+  padding: var(--main-padding);
 }
 
 .brand {
   margin-bottom: 30px;
   font-size: 1.4rem;
+  color: black;
 }
 
 .menu {
@@ -51,6 +68,18 @@ a {
   margin: 0;
 }
 
+.menu footer {
+  text-align: center;
+}
+
+.author-link {
+  color: var(--accent-color);
+}
+
+.author-link:hover {
+  text-decoration: underline;
+}
+
 a.menu-item li {
   transition: all 0.25s;
 }
@@ -61,7 +90,7 @@ a.menu-item li {
 
 .menu-item li {
   margin: 25px 0;
-  color: var(--light-gray);
+  color: inherit;
   position: relative;
 }
 
@@ -78,8 +107,8 @@ a.menu-item li {
   position: absolute;
   height: 150%;
   width: 3px;
-  background-color: rgb(7, 126, 86);
-  right: calc(-1 * var(--menu-right-padding) - 2px);
+  background-color: var(--accent-color);
+  right: calc(-1 * var(--main-padding) - 2px);
   top: -25%;
   z-index: 10;
 }
@@ -100,76 +129,111 @@ a.menu-item li {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  padding: var(--main-padding);
 }
 
 .top-bar {
   display: flex;
   align-items: center;
+  margin-bottom: 50px;
 }
 
 .search-bar-wrapper {
   display: flex;
+  color: inherit;
+  width: auto;
+  flex: 1 1 auto;
+  margin-right: 10px;
 }
 
 .search-icon {
-  width: 30px;
-  height: 30px;
-  position: relative; 
+  margin: 10px;
+  font-size: 1.2rem;
 }
 
-.search-icon::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: var(--light-gray);
-}
-
-.search-icon::before {
-  content: '';
-  position: absolute;
-  top: calc(2px + var(--search-icon-line-thickness));
-  left: calc(2px + var(--search-icon-line-thickness));
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: white;
-  z-index: 10;
-}
-
-.search-icon-handle {
+.search-bar-wrapper input {
+  border: 0;
+  min-width: 150px;
   width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.search-icon-handle::after {
-  content: '';
-  position: absolute;
-  width: 7px;
-  height: var(--search-icon-line-thickness);
-  background-color: var(--light-gray);
-  top: 19px;
-  left: 19px;
-  transform: rotate(45deg)
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  padding: 5px;
 }
 
 .push-right {
   margin-left: auto;
 }
 
-.account-controls {}
+.account-controls {
+  display: flex;
+  align-items: center;
+  color: black;
+}
 
-.container {}
+.notifications-icon {
+  font-size: 1.2rem;
+  position: relative;
+}
+
+.notifications-icon::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: orangered;
+  top: 4px;
+  left: 11px;
+  z-index: 10;
+}
+
+.chevron {
+  font-size: 0.7rem;
+  margin: 0 5px;
+}
+
+.username-container {
+  margin: 0 15px;
+}
+
+.user-profile-picture {
+  width: 45px;
+  height: auto;
+  border-radius: 50%;
+  float: left;
+}
+
+.container {
+  color: black;
+}
 
 .flex-row {
   display: flex;
+  align-items: center;
 }
 
 .align-center {
   align-items: center;
   justify-content: center;
 }
+
+/* DARK MODE */
+
+.dark-mode .menu-left {
+  border-right-color: rgba(255, 255, 255, 0.07);
+}
+
+.dark-mode .menu-item:hover li {
+  color: var(--dark-mode-font-color-lighter);
+}
+
+.dark-mode .active.menu-item li{
+  color: var(--dark-mode-font-color-lighter);
+}
+
+.dark-mode .search-bar-wrapper input {
+  background-color: var(--dark-mode-bg-color);
+  color: var(--dark-mode-font-color);
+}
+
+/* MEDIA QUERIES */
