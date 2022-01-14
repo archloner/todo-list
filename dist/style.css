@@ -1,4 +1,98 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+:root {
+  --menu-right-padding: 35px;
+}
+
 body {
   margin: 0;
   background-color: white;
+  font-family: 'Roboto', Verdana, Geneva, Tahoma, sans-serif;
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+.menu-left {
+  flex: 0 1 300px;
+  border-right: 2px solid rgba(0,0,0,0.08);
+  padding: var(--menu-right-padding);
+}
+
+.brand {
+  margin-bottom: 30px;
+  font-size: 1.4rem;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  height: 75%;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a.menu-item li {
+  transition: all 0.25s;
+}
+
+.menu-item:hover li {
+  color: rgba(0,0,0,0.55);
+}
+
+.menu-item li {
+  margin: 25px 0;
+  color: rgba(0,0,0,0.35);
+  position: relative;
+}
+
+.menu-item li i {
+  margin-right: 15px;
+}
+
+.active.menu-item li{
+  color: black;
+}
+
+.active.menu-item li::after {
+  content: '';
+  position: absolute;
+  height: 150%;
+  width: 3px;
+  background-color: rgb(7, 126, 86);
+  right: calc(-1 * var(--menu-right-padding));
+  top: -25%;
+}
+
+.flex-grow {
+  flex: 1 0 100%;
+}
+
+.flex-shirnk {
+  flex: 0 1 auto;
+}
+
+.push-bottom {
+  margin-top: auto;
+}
+
+.content-right {
+  flex: 1 1 auto;
 }
