@@ -13,30 +13,77 @@
       <div class="menu-left">
         <div class="brand">.todo</div>
 
+        <div class="menu-controls">
+          <button class="btn">+ New list</button>
+        </div>
+
         <div class="menu">
           <!-- links to actual lists here instead of this links? -->
           <ul class="flex-grow">
             <a href="" class="menu-item active">
-              <li ><i class="fa fa-home"></i> Overview</li>
+              <li>
+                <div class="flex-row">
+                  <i class="fa fa-home"></i>
+                  <div class="menu-item-text">
+                    Overview
+                    <p class="tasks-amount">6 Tasks</p>
+                  </div>
+                </div>
+              </li>
             </a>
 
             <a href="" class="menu-item">
-              <li><i class="fa fa-chart-bar"></i> Stats</li>
-            </a>
-            
-            <a href="" class="menu-item">
-              <li><i class="far fa-folder"></i> Projects</li>
-            </a>
-            <a href="" class="menu-item">
-              <li><i class="far fa-comment-alt"></i> Chat</li>
-            </a>
-            <a href="" class="menu-item">
-              <li><i class="far fa-calendar"></i> Calendar</li>
+              <li>
+                <div class="flex-row">
+                  <i class="fas fa-tasks"></i>
+                  <div class="menu-item-text">
+                    Groceries
+                    <p class="tasks-amount">10 Tasks</p>
+                  </div>
+                </div>
+              </li>
             </a>
 
+            <a href="" class="menu-item">
+              <li>
+                <div class="flex-row">
+                  <i class="fas fa-tasks"></i>
+                  <div class="menu-item-text">
+                    Workout
+                    <p class="tasks-amount">4 Tasks</p>
+                  </div>
+                </div>
+              </li>
+            </a>
+
+            <a href="" class="menu-item">
+              <li>
+                <div class="flex-row">
+                  <i class="fas fa-tasks"></i>
+                  <div class="menu-item-text">
+                    Reading
+                    <p class="tasks-amount">5 Tasks</p>
+                  </div>
+                </div>
+              </li>
+            </a>
+
+            <div class="line"></div>
+
+            <a href="" class="menu-item">
+              <li>
+                <div class="flex-row">
+                  <i class="far fa-calendar-check"></i>
+                  <div class="menu-item-text">
+                    Done
+                    <p class="tasks-amount">15 Tasks</p>
+                  </div>
+                </div>
+              </li>
+            </a>
           </ul>
 
-          <ul class="flex-shrink">
+          <ul class="push-bottom">
             <a href="" class="menu-item">
               <li><i class="fa fa-cog"></i> Settings</li>
             </a>
@@ -45,19 +92,19 @@
               <li><i class="fa fa-sign-out-alt"></i> Log out</li>
             </a>
           </ul>
-
-          <footer>
-            Created by <a href="https://github.com/fbiernat" class="author-link">fbiernat</a>
-          </footer>
         </div>
+        <footer>
+          Created by
+          <a href="https://github.com/fbiernat" class="author-link">fbiernat</a>
+          2022
+        </footer>
       </div>
 
       <div class="content-right">
-        
         <div class="top-bar">
           <div class="search-bar-wrapper">
             <i class="fas fa-search search-icon"></i>
-            <input type="text" id="search-input" placeholder="Search">
+            <input type="text" id="search-input" placeholder="Search" />
           </div>
           <div class="push-right account-controls flex-row">
             <div class="notifications-icon">
@@ -68,22 +115,109 @@
               <i class="fas fa-chevron-down chevron"></i>
             </div>
             <div>
-              <img src="./assets/user-profile-picture.jpg" class="user-profile-picture" alt="User profile picture">
+              <img
+                src="./assets/user-profile-picture.jpg"
+                class="user-profile-picture"
+                alt="User profile picture"
+              />
+            </div>
+            <div class="icon">
+              <i class="fas fa-adjust"></i>
             </div>
           </div>
         </div>
 
         <div class="container">
-
           <div class="flex-row">
-            <h1>Overview</h1>
+            <h1 class="list-title">Overview</h1>
             <div class="push-right align-center">
-              This Week
-              <i class="fas fa-chevron-down chevron"></i>
+              <!-- This Week
+              <i class="fas fa-chevron-down chevron"></i> -->
+              <i class="fas fa-ellipsis-v"></i>
             </div>
           </div>
+          <p class="list-description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
 
+          <div class="tasks-wrapper">
+            <div class="tasks-title">Today</div>
+
+            <div class="task">
+              <div class="checkbox-wrapper">
+                <div class="checkbox"></div>
+              </div>
+
+              <div class="task-content">
+                <div class="task-text">Update about page header</div>
+                <div class="task-menu">
+                  <i class="fas fa-ellipsis-v"></i>
+                </div>
+              </div>
+            </div>
+            
+            <div class="task">
+              <div class="checkbox-wrapper">
+                <div class="checkbox"></div>
+              </div>
+
+              <div class="task-content">
+                <div class="task-text">About page wording</div>
+                <div class="task-menu">
+                  <i class="fas fa-ellipsis-v"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="task">
+              <div class="checkbox-wrapper">
+                <div class="checkbox"></div>
+              </div>
+
+              <div class="task-content">
+                <div class="task-text">New landing page layout</div>
+                <div class="task-menu">
+                  <i class="fas fa-ellipsis-v"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="task">
+              <div class="checkbox-wrapper">
+                <div class="checkbox"></div>
+              </div>
+
+              <div class="task-content">
+                <div class="task-text">Update global iconset</div>
+                <div class="task-menu">
+                  <i class="fas fa-ellipsis-v"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="task">
+              <div class="checkbox-wrapper">
+                <div class="checkbox"></div>
+              </div>
+
+              <div class="task-content">
+                <div class="task-text">New case study thumbnails</div>
+                <div class="task-menu">
+                  <i class="fas fa-ellipsis-v"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="tasks-title">Done here?</div>
+
+          </div>
         </div>
+
+        <div class="new-task-btn">
+          +
+        </div>
+
 
       </div>
     </div>
