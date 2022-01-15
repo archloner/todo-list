@@ -10,10 +10,12 @@ export class App {
   constructor() {
     this.model = new Model();
     this.controller = new DisplayController();
-    this.view = new ProjectView();
+    this.view = new SingleProjectView();
   }
 
-  init() {}
+  init() {
+    this.controller.init();
+  }
 
   start() {}
 }

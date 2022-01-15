@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="./main.js"></script>
+    <script src="./main.js" defer></script>
     <link rel="stylesheet" href="./style.css" />
     <title>Todo List Application</title>
   </head>
@@ -120,7 +120,7 @@
                 alt="User profile picture"
               />
             </div>
-            <div class="icon">
+            <div class="icon dark-mode-icon">
               <i class="fas fa-adjust"></i>
             </div>
           </div>
@@ -141,7 +141,14 @@
           </p>
 
           <div class="tasks-wrapper">
-            <div class="tasks-title">Todo</div>
+            <div class="flex-row">
+              <div class="tasks-title">Todo</div>
+              <div class="push-right">
+                <span id="expand-all-hide-all-span" class="font-sm">
+                  Expand all
+                </span>
+              </div>
+            </div>
 
             <div class="task">
               <div class="checkbox-wrapper">
@@ -149,13 +156,29 @@
               </div>
 
               <div class="task-content">
-                <div class="task-text">Update about page header</div>
+                <div class="task-text">
+                  <div class="title">
+                    Update about page header
+                  </div>
+                  <div class="task-details hide">
+                    <div class="description font-sm">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                    </div>
+                    <div class="flex-row">
+                      <div class="priority bg-light font-sm">Default</div>
+                      <div class="due-date font-sm">
+                        Due date
+                        <span class="date"> 20 January 2022 </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="task-menu">
-                  <i class="fas fa-ellipsis-v"></i>
+                  <i class="fas fa-chevron-down icon"></i>
                 </div>
               </div>
             </div>
-            
+
             <div class="task priority-high-border">
               <div class="checkbox-wrapper">
                 <div class="checkbox"></div>
@@ -164,23 +187,21 @@
               <div class="task-content">
                 <div class="task-text">
                   <div class="title">About page wording</div>
-                  <div>
-                    <div class="description font-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+                  <div class="task-details hide">
+                    <div class="description font-sm">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                    </div>
                     <div class="flex-row">
-                      <div class="priority bg-danger font-sm">
-                        High
-                      </div>
+                      <div class="priority bg-danger font-sm">High</div>
                       <div class="due-date font-sm">
-                        Due date 
-                        <span class="date">
-                          20 January 2022
-                        </span>
+                        Due date
+                        <span class="date"> 20 January 2022 </span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="task-menu">
-                  <i class="fas fa-chevron-up"></i>
+                  <i class="fas fa-chevron-down icon"></i>
                 </div>
               </div>
             </div>
@@ -191,76 +212,144 @@
               </div>
 
               <div class="task-content">
-                <div class="task-text">New landing page layout</div>
-                <div class="task-menu">
-                  <i class="fas fa-chevron-down"></i>
+                <div class="task-text">
+                  <div class="title">New landing page layout</div>
+                  <div class="task-details hide">
+                    <div class="description font-sm">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                    </div>
+                    <div class="flex-row">
+                      <div class="priority bg-medium font-sm">Medium</div>
+                      <div class="due-date font-sm">
+                        Due date
+                        <span class="date"> 20 January 2022 </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="task-menu">
+                <i class="fas fa-chevron-down icon"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="task priority-low-border">
+            <div class="checkbox-wrapper">
+              <div class="checkbox"></div>
+            </div>
+
+            <div class="task-content">
+              <div class="task-text">
+                <div class="title">Update global iconset</div>
+                <div class="task-details hide">
+                  <div class="description font-sm">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                  </div>
+                  <div class="flex-row">
+                    <div class="priority bg-low font-sm">Low</div>
+                    <div class="due-date font-sm">
+                      Due date
+                      <span class="date"> 20 January 2022 </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+            <div class="task-menu">
+              <i class="fas fa-chevron-down icon"></i>
+            </div>
+          </div>
 
-            <div class="task priority-low-border">
-              <div class="checkbox-wrapper">
-                <div class="checkbox"></div>
-              </div>
-
-              <div class="task-content">
-                <div class="task-text">Update global iconset</div>
-                <div class="task-menu">
-                  <i class="fas fa-chevron-down"></i>
-                </div>
-              </div>
+          <div class="task">
+            <div class="checkbox-wrapper">
+              <div class="checkbox"></div>
             </div>
 
-            <div class="task">
-              <div class="checkbox-wrapper">
-                <div class="checkbox"></div>
-              </div>
-
-              <div class="task-content">
-                <div class="task-text">New case study thumbnails</div>
-                <div class="task-menu">
-                  <i class="fas fa-chevron-down"></i>
+            <div class="task-content">
+              <div class="task-text">
+                <div class="title">New case study thumbnails</div>
+                <div class="task-details hide">
+                  <div class="description font-sm">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                  </div>
+                  <div class="flex-row">
+                    <div class="priority bg-light font-sm">Default</div>
+                    <div class="due-date font-sm">
+                      Due date
+                      <span class="date"> 20 January 2022 </span>
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <div class="task-menu">
+                <i class="fas fa-chevron-down icon"></i>
               </div>
             </div>
+          </div>
 
-            <!-- Done here? -->
-            <div class="tasks-title">Done</div>
+          <!-- Done here? -->
+          <div class="tasks-title">Done</div>
 
-            <div class="task">
-              <div class="checkbox-wrapper">
-                <div class="checkbox"></div>
-              </div>
-
-              <div class="task-content">
-                <div class="task-text">Update global iconset</div>
-                <div class="task-menu">
-                  <i class="fas fa-chevron-down"></i>
-                </div>
-              </div>
+          <div class="task">
+            <div class="checkbox-wrapper">
+              <div class="checkbox"></div>
             </div>
 
-            <div class="task">
-              <div class="checkbox-wrapper">
-                <div class="checkbox checked">
+            <div class="task-content">
+              <div class="task-text">
+                <div class="title">Update global iconset</div>
+                <div class="task-details hide">
+                  <div class="description font-sm">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                  </div>
+                  <div class="flex-row">
+                    <div class="priority bg-light font-sm">Default</div>
+                    <div class="due-date font-sm">
+                      Due date
+                      <span class="date"> 20 January 2022 </span>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div class="task-menu">
+                <i class="fas fa-chevron-down icon"></i>
+              </div>
+            </div>
+          </div>
 
-              <div class="task-content">
-                <div class="task-text">New case study thumbnails</div>
-                <div class="task-menu">
-                  <i class="fas fa-chevron-down"></i>
+          <div class="task">
+            <div class="checkbox-wrapper">
+              <div class="checkbox checked"></div>
+            </div>
+
+            <div class="task-content">
+              <div class="task-text">
+                <div class="title">New case study thumbnails</div>
+                <div class="task-details hide">
+                  <div class="description font-sm">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                  </div>
+                  <div class="flex-row">
+                    <div class="priority bg-light font-sm">Default</div>
+                    <div class="due-date font-sm">
+                      Due date
+                      <span class="date"> 20 January 2022 </span>
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <div class="task-menu">
+                <i class="fas fa-chevron-down icon"></i>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="new-task-btn">
-          <i class="fas fa-plus"></i>
-        </div>
-
       </div>
+    </div>
+    <div class="new-task-btn">
+      <i class="fas fa-plus"></i>
     </div>
   </body>
 </html>

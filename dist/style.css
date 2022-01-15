@@ -67,7 +67,7 @@ a {
 .brand {
   margin-top: 8px;
   margin-bottom: 20px;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   color: black;
 }
 
@@ -146,6 +146,8 @@ a.menu-item li {
 
 .btn {
   border: 2px solid black;
+  border-bottom: 4px solid black;
+  border-right: 4px solid black;
   border-radius: 6px;
   padding: 5px 10px;
   font-size: 1rem;
@@ -157,6 +159,8 @@ a.menu-item li {
 
 .btn:hover {
   border: 2px solid transparent;
+  border-bottom: 4px solid black;
+  border-right: 4px solid black;
   background-color: black;
   color: white;
 }
@@ -253,6 +257,14 @@ a.menu-item li {
   cursor: pointer;
 }
 
+.fa-adjust {
+  transition: all .3s ease;
+}
+
+.fa-adjust:hover {
+  color: white;
+}
+
 .username-container {
   margin: 0 15px;
 }
@@ -263,6 +275,8 @@ a.menu-item li {
   border-radius: 50%;
   float: left;
   cursor: pointer;
+  border: 4px solid white;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.08);
 }
 
 .container {
@@ -274,6 +288,7 @@ a.menu-item li {
 .flex-row {
   display: flex;
   align-items: center;
+  width: auto;
 }
 
 .align-center {
@@ -302,6 +317,11 @@ a.menu-item li {
 .tasks-title {
   color: var(--light-mode-font-color-lighter);
   margin: var(--padding-small) 0;
+}
+
+#expand-all-hide-all-span {
+  cursor: pointer;
+  color: var(--light-mode-font-color-lighter);
 }
 
 .task {
@@ -344,15 +364,19 @@ a.menu-item li {
 
 .task-content {
   display: flex;
-  flex: 1 0 auto;
+  flex: 1 1 auto;
 }
 
 .task-text {
-  flex: 1 0 auto;
+  flex: 1 1 auto;
 }
 
 .hide {
   display: none;
+}
+
+.task-details {
+  animation: task-details-expand .3s;
 }
 
 .task-text div {
@@ -406,6 +430,10 @@ a.menu-item li {
   border-bottom: 5px solid lightgreen;
 }
 
+.bg-light {
+  background-color: var(--light-mode-bg-color-darker);
+}
+
 .task-text .due-date {
   color: var(--light-mode-font-color-lighter)
 }
@@ -422,6 +450,7 @@ a.menu-item li {
 .new-task-btn {
   font-size: 1.8rem;
   background-color: var(--light-mode-bg-color);
+  box-shadow: 5px 5px 10px rgba(0,0,0,0.08);
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -460,4 +489,26 @@ a.menu-item li {
   color: var(--dark-mode-font-color);
 }
 
+/* KEYFRAMES */
+@keyframes task-details-expand {
+  0% {
+    transform: scaleY(.5);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
 /* MEDIA QUERIES */
+
+@media screen and (max-width: 900px) {
+  
+  .menu-left {
+    min-width: 150px;
+    font-size: 0.7rem;
+  }
+
+}
