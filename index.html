@@ -18,7 +18,6 @@
         </div>
 
         <div class="menu">
-          <!-- links to actual lists here instead of this links? -->
           <ul class="flex-grow">
             <a href="" class="menu-item active">
               <li>
@@ -95,7 +94,7 @@
         </div>
         <footer>
           Created by
-          <a href="https://github.com/fbiernat" class="author-link">fbiernat</a>
+          <a href="https://github.com/fbiernat" class="author-link">Efbj3rn</a>
           2022
         </footer>
       </div>
@@ -142,7 +141,7 @@
           </p>
 
           <div class="tasks-wrapper">
-            <div class="tasks-title">Today</div>
+            <div class="tasks-title">Todo</div>
 
             <div class="task">
               <div class="checkbox-wrapper">
@@ -157,20 +156,36 @@
               </div>
             </div>
             
-            <div class="task">
+            <div class="task priority-high-border">
               <div class="checkbox-wrapper">
                 <div class="checkbox"></div>
               </div>
 
               <div class="task-content">
-                <div class="task-text">About page wording</div>
+                <div class="task-text">
+                  <div class="title">About page wording</div>
+                  <div>
+                    <div class="description font-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+                    <div class="flex-row">
+                      <div class="priority bg-danger font-sm">
+                        High
+                      </div>
+                      <div class="due-date font-sm">
+                        Due date 
+                        <span class="date">
+                          20 January 2022
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="task-menu">
-                  <i class="fas fa-ellipsis-v"></i>
+                  <i class="fas fa-chevron-up"></i>
                 </div>
               </div>
             </div>
 
-            <div class="task">
+            <div class="task priority-medium-border">
               <div class="checkbox-wrapper">
                 <div class="checkbox"></div>
               </div>
@@ -178,12 +193,12 @@
               <div class="task-content">
                 <div class="task-text">New landing page layout</div>
                 <div class="task-menu">
-                  <i class="fas fa-ellipsis-v"></i>
+                  <i class="fas fa-chevron-down"></i>
                 </div>
               </div>
             </div>
 
-            <div class="task">
+            <div class="task priority-low-border">
               <div class="checkbox-wrapper">
                 <div class="checkbox"></div>
               </div>
@@ -191,7 +206,7 @@
               <div class="task-content">
                 <div class="task-text">Update global iconset</div>
                 <div class="task-menu">
-                  <i class="fas fa-ellipsis-v"></i>
+                  <i class="fas fa-chevron-down"></i>
                 </div>
               </div>
             </div>
@@ -204,20 +219,46 @@
               <div class="task-content">
                 <div class="task-text">New case study thumbnails</div>
                 <div class="task-menu">
-                  <i class="fas fa-ellipsis-v"></i>
+                  <i class="fas fa-chevron-down"></i>
                 </div>
               </div>
             </div>
 
-            <div class="tasks-title">Done here?</div>
+            <!-- Done here? -->
+            <div class="tasks-title">Done</div>
 
+            <div class="task">
+              <div class="checkbox-wrapper">
+                <div class="checkbox"></div>
+              </div>
+
+              <div class="task-content">
+                <div class="task-text">Update global iconset</div>
+                <div class="task-menu">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="task">
+              <div class="checkbox-wrapper">
+                <div class="checkbox checked">
+                </div>
+              </div>
+
+              <div class="task-content">
+                <div class="task-text">New case study thumbnails</div>
+                <div class="task-menu">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="new-task-btn">
-          +
+          <i class="fas fa-plus"></i>
         </div>
-
 
       </div>
     </div>
