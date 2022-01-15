@@ -14,7 +14,9 @@
         <div class="brand">.todo</div>
 
         <div class="menu-controls">
-          <button class="btn">+ New list</button>
+          <button class="btn btn-outline-primary">
+            <i class="fas fa-plus"></i> New list
+          </button>
         </div>
 
         <div class="menu">
@@ -157,9 +159,7 @@
 
               <div class="task-content">
                 <div class="task-text">
-                  <div class="title">
-                    Update about page header
-                  </div>
+                  <div class="title">Update about page header</div>
                   <div class="task-details hide">
                     <div class="description font-sm">
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit
@@ -350,6 +350,64 @@
     </div>
     <div class="new-task-btn">
       <i class="fas fa-plus"></i>
+    </div>
+
+    <div class="modal-wrapper">
+      <div class="new-task-modal modal-show-animation">
+        <h1 class="title">Add new task</h1>
+        <div class="form-row">
+          <label for="task-title" class="form-label">Task title</label>
+          <input type="text" name="task-title" id="task-title" />
+        </div>
+
+        <div class="form-row">
+          <label for="task-description" class="form-label"
+            >Task description</label
+          >
+          <input type="text" name="task-description" id="task-description" />
+        </div>
+
+        <div class="form-row">
+          <label for="task-priority" class="form-label">Priority</label>
+          <form>
+            <div class="flex-row radio-wrapper">
+              <div class="radio-container">
+                <input
+                  type="radio"
+                  name="priority"
+                  id="priority-default"
+                  value="default"
+                  checked
+                />
+                <label for="priority-default">Default</label>
+              </div>
+              <div class="radio-container">
+                <input type="radio" name="priority" id="priority-low" value="low"/>
+                <label for="priority-low">Low</label>
+              </div>
+              <div class="radio-container">
+                <input type="radio" name="priority" id="priority-medium" value="medium"/>
+                <label for="priority-medium">Medium</label>
+              </div>
+              <div class="radio-container">
+                <input type="radio" name="priority" id="priority-high" value="high"/>
+                <label for="priority-high">High</label>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="form-row">
+          <label for="task-due-date" class="form-label">Due date</label>
+          <input type="date" name="task-title" id="task-title" />
+        </div>
+
+        <div class="form-row form-controls">
+          <button class="btn btn-primary">Create</button>
+        </div>
+
+        <div class="close-btn"><i class="fas fa-times"></i></div>
+      </div>
     </div>
   </body>
 </html>
