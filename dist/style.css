@@ -15,6 +15,8 @@
   --dark-mode-font-color: rgb(182, 182, 182);
   --dark-mode-font-color-lighter: rgb(255, 255, 255);
 
+  --font-size-small: .8rem;
+
   --padding-main: 35px;
   --padding-small: 15px;
   --padding-big: 50px;
@@ -48,7 +50,8 @@ a {
 
 .wrapper {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 }
 
 .menu-left {
@@ -149,7 +152,7 @@ a.menu-item li {
   font-family: 'Roboto', sans-serif;
   background-color: transparent;
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.25s ease;
 }
 
 .btn:hover {
@@ -348,13 +351,76 @@ a.menu-item li {
   flex: 1 0 auto;
 }
 
+.hide {
+  display: none;
+}
+
+.task-text div {
+  margin-bottom: .25rem;
+}
+
+.font-sm {
+  font-size: var(--font-size-small);
+}
+
+.task-text .description {
+  margin-top: .5rem;
+  /* font-size: 0.9rem; */
+  color: var(--light-mode-font-color-lighter);
+}
+
+.task-text .flex-row div {
+  margin-right: .5rem;
+  
+}
+
+.task-text .priority {
+  padding: .25rem .4rem;
+  border-radius: 7px;
+}
+
+.bg-danger {
+  background-color: crimson;
+  color: white;
+}
+
+.priority-high-border {
+  border-bottom: 5px solid crimson;
+}
+
+.bg-medium {
+  background-color: lightsalmon;
+  color: white;
+}
+
+.priority-medium-border {
+  border-bottom: 5px solid lightsalmon;
+}
+
+.bg-low {
+  background-color: lightgreen;
+  color: white;
+}
+
+.priority-low-border {
+  border-bottom: 5px solid lightgreen;
+}
+
+.task-text .due-date {
+  color: var(--light-mode-font-color-lighter)
+}
+
+.task-text .due-date .date {
+  color: var(--light-mode-font-color);
+}
+
 .task-menu {
   cursor: pointer;
   color: var(--light-mode-font-color-lighter);
 }
 
 .new-task-btn {
-  font-size: 2rem;
+  font-size: 1.8rem;
   background-color: var(--light-mode-bg-color);
   width: 50px;
   height: 50px;
@@ -364,10 +430,10 @@ a.menu-item li {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   right: 20px;
-  transition: all 0.25s;
+  transition: all 0.25s ease;
 }
 
 .new-task-btn:hover {
