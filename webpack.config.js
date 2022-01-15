@@ -7,7 +7,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, "dist"),
     },
-    watchFiles: ["src/**", "dist/**/*css", "dist/index.html"],
+    watchFiles: ["src/**/*.js", "dist/**/*.css", "dist/index.html"],
   },
   output: {
     filename: "main.js",
