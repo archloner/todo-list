@@ -25,7 +25,7 @@
 
   --checkbox-thickness: 2px;
   --checkbox-size: 18px;
-
+  --input-border: 3px;
   --search-icon-line-thickness: 2px;
 }
 
@@ -232,13 +232,18 @@ a.menu-item li {
 }
 
 input[type="text"] {
-  border: 0;
+  border: var(--input-border) solid transparent;
   border-radius: 10px;
   min-width: 150px;
   width: 100%;
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
   font-size: 1rem;
   padding: 15px 15px;
+}
+
+input[type="text"]:focus {
+  outline: none !important;
+  border: var(--input-border) solid var(--accent-color);
 }
 
 .push-right {
@@ -427,6 +432,11 @@ input[type="text"] {
   border-radius: 7px;
 }
 
+.bg-white {
+  background-color: white;
+  color: black;
+}
+
 .bg-danger {
   background-color: crimson;
   color: white;
@@ -529,6 +539,10 @@ input[type="text"] {
   background-color: rgba(0,0,0,.75);
 }
 
+.modal-wrapper.hide {
+  display: none;
+}
+
 .new-task-modal {
   max-width: 500px;
   width: 100%;
@@ -552,7 +566,15 @@ input[type="text"] {
 }
 
 .modal-dissmis-animation {
-  animation: modal-slide-down-fade-out .3s ease;
+  animation: modal-slide-down-fade-out .6s ease;
+}
+
+.wrapper-fade-out-animation {
+  animation: fade-out .6s ease;
+}
+
+.wrapper-fade-in-animation {
+  animation: fade-in .6s ease;
 }
 
 .new-task-modal .close-btn {
@@ -602,20 +624,25 @@ input[type="text"] {
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  background-color: white;
   margin: 0 .25rem;
   padding: 15px;
   border-radius: 10px;
+  color: black;
 }
 
 .new-task-modal input[type="date"] {
-  border: 0;
+  border: var(--input-border) solid transparent;
   border-radius: 10px;
   min-width: 150px;
   width: 100%;
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
   font-size: 1rem;
   padding: 15px 15px;
+}
+
+.new-task-modal input[type="date"]:focus {
+  outline: none !important;
+  border: var(--input-border) solid var(--accent-color);
 }
 
 .form-controls {
@@ -649,12 +676,43 @@ input[type="text"] {
 @keyframes modal-slide-up-fade-in {
   0% {
     transform: translateY(50px);
-    opacity: 0;
+    opacity: 0.4;
   }
 
   100% {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@keyframes modal-slide-down-fade-out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
   }
 }
 
