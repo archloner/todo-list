@@ -1,2 +1,5 @@
-console.log('Hello world')
-console.log('Webpack dev server test2')
+import { App } from './App';
+
+let app = new App();
+app.init();
+app.start();
