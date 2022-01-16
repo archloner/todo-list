@@ -279,7 +279,7 @@ input[type="text"]:focus {
   z-index: 10;
 }
 
-.chevron {
+.username-container .chevron {
   font-size: 0.7rem;
   margin: 0 5px;
   cursor: pointer;
@@ -451,7 +451,7 @@ input[type="text"]:focus {
 }
 
 .priority-high-border {
-  border-left: 5px solid var(--color-danger);
+  border-bottom: 5px solid var(--color-danger);
 }
 
 .bg-medium {
@@ -470,7 +470,7 @@ input[type="text"]:focus {
 
 .priority-low-border {
   border-bottom: 5px solid var(--color-low);
-  border-right: 5px solid var(--color-low);
+  /* border-right: 5px solid var(--color-low); */
 }
 
 .bg-light {
@@ -486,8 +486,12 @@ input[type="text"]:focus {
 }
 
 .task-menu {
-  cursor: pointer;
   color: var(--light-mode-font-color-lighter);
+}
+
+.task-menu .icon {
+  cursor: pointer;
+  margin-left: .5rem;
 }
 
 .new-task-btn {
