@@ -21,7 +21,7 @@
 
         <div class="menu">
           <ul class="flex-grow">
-            <a href="" class="menu-item active">
+            <a href="#" class="menu-item active">
               <li>
                 <div class="flex-row">
                   <i class="fa fa-home"></i>
@@ -33,7 +33,7 @@
               </li>
             </a>
 
-            <a href="" class="menu-item">
+            <a href="#" class="menu-item">
               <li>
                 <div class="flex-row">
                   <i class="fas fa-tasks"></i>
@@ -45,7 +45,7 @@
               </li>
             </a>
 
-            <a href="" class="menu-item">
+            <a href="#" class="menu-item">
               <li>
                 <div class="flex-row">
                   <i class="fas fa-tasks"></i>
@@ -57,7 +57,7 @@
               </li>
             </a>
 
-            <a href="" class="menu-item">
+            <a href="#" class="menu-item">
               <li>
                 <div class="flex-row">
                   <i class="fas fa-tasks"></i>
@@ -71,7 +71,7 @@
 
             <div class="line"></div>
 
-            <a href="" class="menu-item">
+            <a href="#" class="menu-item">
               <li>
                 <div class="flex-row">
                   <i class="far fa-calendar-check"></i>
@@ -85,11 +85,11 @@
           </ul>
 
           <ul class="push-bottom">
-            <a href="" class="menu-item">
+            <a href="#" class="menu-item">
               <li><i class="fa fa-cog"></i> Settings</li>
             </a>
 
-            <a href="" class="menu-item">
+            <a href="#" class="menu-item">
               <li><i class="fa fa-sign-out-alt"></i> Log out</li>
             </a>
           </ul>
@@ -152,7 +152,7 @@
               </div>
             </div>
 
-            <div class="task">
+            <div class="task" data-index="0">
               <div class="checkbox-wrapper">
                 <div class="checkbox"></div>
               </div>
@@ -175,12 +175,12 @@
                 </div>
                 <div class="task-menu">
                   <i class="fas fa-chevron-down icon chevron"></i>
-                  <i class="fas fa-ellipsis-v icon more"></i>
+                  <i class="far fa-trash-alt icon delete"></i>
                 </div>
               </div>
             </div>
 
-            <div class="task priority-high-border">
+            <div class="task priority-high-border" data-index="1">
               <div class="checkbox-wrapper">
                 <div class="checkbox"></div>
               </div>
@@ -208,7 +208,7 @@
               </div>
             </div>
 
-            <div class="task priority-medium-border">
+            <div class="task priority-medium-border" data-index="2">
               <div class="checkbox-wrapper">
                 <div class="checkbox"></div>
               </div>
@@ -229,15 +229,15 @@
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <div class="task-menu">
-                <i class="fas fa-chevron-down icon"></i>
+                <div class="task-menu">
+                  <i class="fas fa-chevron-down icon"></i>
+                  <i class="far fa-trash-alt icon delete"></i>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="task priority-low-border">
+          <div class="task priority-low-border" data-index="3">
             <div class="checkbox-wrapper">
               <div class="checkbox"></div>
             </div>
@@ -258,13 +258,14 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="task-menu">
-              <i class="fas fa-chevron-down icon"></i>
+              <div class="task-menu">
+                <i class="fas fa-chevron-down icon"></i>
+                <i class="far fa-trash-alt icon delete"></i>
+              </div>
             </div>
           </div>
 
-          <div class="task">
+          <div class="task" data-index="4">
             <div class="checkbox-wrapper">
               <div class="checkbox"></div>
             </div>
@@ -287,6 +288,7 @@
               </div>
               <div class="task-menu">
                 <i class="fas fa-chevron-down icon"></i>
+                <i class="far fa-trash-alt icon delete"></i>
               </div>
             </div>
           </div>
@@ -294,7 +296,7 @@
           <!-- Done here? -->
           <div class="tasks-title">Done</div>
 
-          <div class="task">
+          <div class="task" data-index="5">
             <div class="checkbox-wrapper">
               <div class="checkbox"></div>
             </div>
@@ -317,11 +319,12 @@
               </div>
               <div class="task-menu">
                 <i class="fas fa-chevron-down icon"></i>
+                <i class="far fa-trash-alt icon delete"></i>
               </div>
             </div>
           </div>
 
-          <div class="task">
+          <div class="task" data-index="6">
             <div class="checkbox-wrapper">
               <div class="checkbox checked"></div>
             </div>
@@ -344,6 +347,7 @@
               </div>
               <div class="task-menu">
                 <i class="fas fa-chevron-down icon"></i>
+                <i class="far fa-trash-alt icon delete"></i>
               </div>
             </div>
           </div>
@@ -354,19 +358,32 @@
       <i class="fas fa-plus"></i>
     </div>
 
-    <div class="modal-wrapper hide wrapper-fade-in-animation" id="new-task-modal-wrapper">
+    <div
+      class="modal-wrapper hide wrapper-fade-in-animation"
+      id="new-task-modal-wrapper"
+    >
       <div class="new-task-modal modal-show-animation">
         <h1 class="title">Add new task</h1>
         <div class="form-row">
           <label for="task-title" class="form-label">Task title</label>
-          <input type="text" name="task-title" id="task-title" placeholder="Title"/>
+          <input
+            type="text"
+            name="task-title"
+            id="task-title"
+            placeholder="Title"
+          />
         </div>
 
         <div class="form-row">
           <label for="task-description" class="form-label"
             >Task description</label
           >
-          <input type="text" name="task-description" id="task-description" placeholder="Description"/>
+          <input
+            type="text"
+            name="task-description"
+            id="task-description"
+            placeholder="Description"
+          />
         </div>
 
         <div class="form-row">
@@ -384,15 +401,30 @@
                 <label for="priority-default">Default</label>
               </div>
               <div class="radio-container bg-low">
-                <input type="radio" name="priority" id="priority-low" value="low"/>
+                <input
+                  type="radio"
+                  name="priority"
+                  id="priority-low"
+                  value="low"
+                />
                 <label for="priority-low">Low</label>
               </div>
               <div class="radio-container bg-medium">
-                <input type="radio" name="priority" id="priority-medium" value="medium"/>
+                <input
+                  type="radio"
+                  name="priority"
+                  id="priority-medium"
+                  value="medium"
+                />
                 <label for="priority-medium">Medium</label>
               </div>
               <div class="radio-container bg-danger">
-                <input type="radio" name="priority" id="priority-high" value="high"/>
+                <input
+                  type="radio"
+                  name="priority"
+                  id="priority-high"
+                  value="high"
+                />
                 <label for="priority-high">High</label>
               </div>
             </div>

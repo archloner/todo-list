@@ -1,12 +1,18 @@
+import { TaskController } from "./TaskController";
+
 export class DisplayController {
   content;
+  taskController;
 
   constructor() {
-    this.content = document.querySelector('.wrapper');
+    this.content = document.querySelector(".wrapper");
+    this.taskController = new TaskController();
   }
 
   init() {
     this.attachEventListeners();
+    console.log(this.taskController.getProjectTasks(1));
+    // view.render(project)
   }
 
   attachEventListeners() {
@@ -17,6 +23,7 @@ export class DisplayController {
     this.addShowNewTaskModalEventListener();
     this.addHideNewTaskModalEventListener();
     this.addNewTaskSubmitListener();
+    this.addDeleteTaskListener();
   }
 
   addTaskDetailsToggleEventListeners() {
@@ -52,7 +59,7 @@ export class DisplayController {
           for (let task of tasks) {
             this.showTaskDetails(task);
           }
-          btn.textContent = "Hide all";
+          btn.textContent = "Collapse all";
         } else {
           for (let task of tasks) {
             this.hideTaskDetails(task);
@@ -80,65 +87,78 @@ export class DisplayController {
   }
 
   addShowNewTaskModalEventListener() {
-    const btn = document.querySelector('.new-task-btn');
-    const modalWrapper = document.querySelector('#new-task-modal-wrapper');
-    btn.addEventListener('click', (e) => {
+    const btn = document.querySelector(".new-task-btn");
+    const modalWrapper = document.querySelector("#new-task-modal-wrapper");
+    btn.addEventListener("click", (e) => {
       this.showNewTaskModal(modalWrapper);
-    })
+    });
   }
 
   showNewTaskModal(modalWrapper) {
     this.resetModalForm();
-    modalWrapper.classList.remove('hide');
+    modalWrapper.classList.remove("hide");
   }
 
   resetModalForm() {
-    const form = document.querySelector('.new-task-modal .form-row form');
+    const form = document.querySelector(".new-task-modal .form-row form");
     form.reset();
   }
 
   addHideNewTaskModalEventListener() {
-    const wrapper = document.querySelector('#new-task-modal-wrapper');
-    wrapper.addEventListener('click', (e) => {
+    const wrapper = document.querySelector("#new-task-modal-wrapper");
+    wrapper.addEventListener("click", (e) => {
       e.stopPropagation();
-      if (e.target.classList.contains('modal-wrapper')) {
+      if (e.target.classList.contains("modal-wrapper")) {
         this.animateModalClosing();
       }
     });
 
-    const closeBtn = document.querySelector('.modal-wrapper .close-btn');
-    closeBtn.addEventListener('click', (e) => {
+    const closeBtn = document.querySelector(".modal-wrapper .close-btn");
+    closeBtn.addEventListener("click", (e) => {
       this.animateModalClosing();
     });
   }
 
   animateModalClosing() {
     const ANIMATION_DURATION_TIME = 600;
-    
-    const wrapper = document.querySelector('#new-task-modal-wrapper');
-    const modal = wrapper.querySelector('.new-task-modal')
 
-    modal.classList.add('modal-dissmis-animation');
-    wrapper.classList.remove('wrapper-fade-in-animation');
-    wrapper.classList.add('wrapper-fade-out-animation');
+    const wrapper = document.querySelector("#new-task-modal-wrapper");
+    const modal = wrapper.querySelector(".new-task-modal");
+
+    modal.classList.add("modal-dissmis-animation");
+    wrapper.classList.remove("wrapper-fade-in-animation");
+    wrapper.classList.add("wrapper-fade-out-animation");
     setTimeout(() => {
-      wrapper.classList.add('hide');
-      modal.classList.remove('modal-dissmis-animation');
-      wrapper.classList.remove('wrapper-fade-out-animation');
-      wrapper.classList.add('wrapper-fade-in-animation');
+      wrapper.classList.add("hide");
+      modal.classList.remove("modal-dissmis-animation");
+      wrapper.classList.remove("wrapper-fade-out-animation");
+      wrapper.classList.add("wrapper-fade-in-animation");
     }, ANIMATION_DURATION_TIME);
   }
 
   addNewTaskSubmitListener() {
-    const btn = document.querySelector('#new-task-submit');
-    btn.addEventListener('click', (e) => {
+    const btn = document.querySelector("#new-task-submit");
+    btn.addEventListener("click", (e) => {
       this.submitNewTaskModal();
       this.animateModalClosing();
     });
   }
 
   submitNewTaskModal() {
-    console.log('New task submited!');
+    console.log("New task submited!");
   }
 
+  addDeleteTaskListener() {
+    const btns = document.querySelectorAll('.task-menu .delete');
+    for (let btn of btns) {
+      const task = btn.parentElement.parentElement.parentElement;
+      const taskId = task.getAttribute('data-index');
+      btn.addEventListener('click', this.handleDeleteTask.bind(this, taskId));
+    }
+  }
+
+  handleDeleteTask(taskId) {
+    console.log('delete task with id ' + taskId);
+    // this.confirmTaskDelete();
+  }
 }

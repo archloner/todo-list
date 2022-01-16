@@ -1,13 +1,15 @@
-export const sampleTask = {
-  createdDate: new Date(),
-  title: 'Sample task',
-  description: 'More informations about new task',
-  dueDate: new Date(),
-  priority: PriorityType.HIGH,
-  notes: '?',
-  checklist: '?',
-  log: []
-}
+// export const sampleTask = {
+//   createdDate: new Date(),
+//   title: 'Sample task',
+//   description: 'More informations about new task',
+//   dueDate: new Date(),
+//   priority: PriorityType.HIGH,
+//   notes: '?',
+//   checklist: '?',
+//   log: []
+// }
+
+import { IndexSupplier } from "../util/IndexSupplier";
 
 export class Task {
   createdDate;
@@ -22,6 +24,7 @@ export class Task {
   checklist;
 
   constructor(title, description, dueDate, priority) {
+    this.id = IndexSupplier.nextIndex();
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
@@ -35,6 +38,14 @@ export class Task {
 
   isComplete() {
     return isComplete === true;
+  }
+
+  markAsComplete() {
+    this.isComplete = true;
+  }
+
+  markAsNotComplete() {
+    this.isComplete = false;
   }
 
 }
