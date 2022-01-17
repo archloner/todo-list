@@ -19,6 +19,8 @@ export class DisplayController {
     // Showing and hiding task details
     this.addTaskDetailsToggleEventListeners();
     this.addExpandHideAllEventListener();
+    // Task more menu open/close
+    this.addToggleMoreMenuListener();
     // New Task modal show button and close
     this.addShowNewTaskModalEventListener();
     this.addHideNewTaskModalEventListener();
@@ -149,16 +151,44 @@ export class DisplayController {
   }
 
   addDeleteTaskListener() {
-    const btns = document.querySelectorAll('.task-menu .delete');
+    const btns = document.querySelectorAll(".task-menu .delete");
     for (let btn of btns) {
       const task = btn.parentElement.parentElement.parentElement;
-      const taskId = task.getAttribute('data-index');
-      btn.addEventListener('click', this.handleDeleteTask.bind(this, taskId));
+      const taskId = task.getAttribute("data-index");
+      btn.addEventListener("click", this.handleDeleteTask.bind(this, taskId));
     }
   }
 
   handleDeleteTask(taskId) {
-    console.log('delete task with id ' + taskId);
+    console.log("delete task with id " + taskId);
     // this.confirmTaskDelete();
+  }
+
+  addToggleMoreMenuListener() {
+    const btns = document.querySelectorAll(".task-menu .more");
+    for (let btn of btns) {
+      btn.addEventListener("click", (e) => {
+        console.log("open menu");
+        const menu = btn.nextElementSibling;
+        setTimeout(() => {
+          menu.classList.toggle("hide");
+        }, 50);
+      });
+    }
+
+    document.addEventListener("click", (e) => {
+      // if clicked outside of .more-menu and not on more button
+      if (
+        !e.target.classList.contains("more-menu") &&
+        !e.target.classList.contains("more-menu-option")
+      ) {
+        // hide all menus
+        const menus = document.querySelectorAll(".more-menu:not(.hide)");
+        for (let menu of menus) {
+          menu.classList.add("hide"); // hide
+          console.log("hiding menu");
+        }
+      }
+    });
   }
 }
