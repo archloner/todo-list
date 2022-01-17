@@ -12,6 +12,7 @@
   --color-medium: gold;
   --color-low: greenyellow;
   --color-white: white;
+  --color-black: black;
 
   --light-gray: rgba(0,0,0,0.35);
   --light-mode-bg-color: rgb(250, 250, 250);
@@ -28,6 +29,7 @@
 
   --padding-main: 35px;
   --padding-small: 15px;
+  --padding-extra-small: 10px;
   --padding-big: 50px;
 
   --checkbox-thickness: 2px;
@@ -487,12 +489,62 @@ input[type="text"]:focus {
 
 .task-menu {
   color: var(--light-mode-font-color-lighter);
+  position: relative;
+  flex: 0 0 auto;
 }
 
-.task-menu .icon {
+.icon {
   cursor: pointer;
-  margin-left: .5rem;
+  padding: .2rem;
 }
+
+.more-menu-option {
+  display: flex;
+  align-items: center;
+  transition: all .3s ease;
+  color: var(--dark-mode-font-color);
+}
+
+.more-menu-option:hover {
+  color: var(--color-black);
+}
+
+.task-menu .more-menu {
+  position: absolute;
+  left: 65px;
+  top: -20px;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.08);
+  padding: var(--padding-extra-small);
+  font-size: .8rem;
+  border-radius: 7px;
+  animation: fade-in .3s ease;
+  z-index: 16;
+}
+
+.task-menu .more-menu::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-white);
+  transform: rotate(45deg);
+  position: absolute;
+  left: -5px;
+  top: 40%;
+  z-index: 15;
+}
+
+.task-menu .more-menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.task-menu .more-menu .more-menu-option {
+  cursor: pointer;
+} 
+
 
 .new-task-btn {
   font-size: 1.8rem;
@@ -540,7 +592,8 @@ input[type="text"]:focus {
 
 .modal-wrapper {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -558,7 +611,7 @@ input[type="text"]:focus {
 
 .new-task-modal {
   max-width: 500px;
-  width: 100%;
+  width: 90%;
   background-color: var(--light-mode-bg-color-darker);
   padding: var(--padding-main);
   box-shadow: 2px 2px 10px rgba(0,0,0,.08);
@@ -629,15 +682,18 @@ input[type="text"]:focus {
 }
 
 .radio-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  width: auto;
 }
 
 .radio-container {
   display: flex;
-  flex: 1 1 25%;
+  flex: 1 1 20%;
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  margin: 0 .25rem;
+  margin: .25rem .25rem;
   padding: 15px;
   border-radius: 10px;
   color: black;
