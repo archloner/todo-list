@@ -21,11 +21,13 @@ export class DisplayController {
     this.addExpandHideAllEventListener();
     // Task more menu open/close
     this.addToggleMoreMenuListener();
+    this.addDeleteTaskClickListener();
+    this.addEditTaskClickListener();
     // New Task modal show button and close
     this.addShowNewTaskModalEventListener();
     this.addHideNewTaskModalEventListener();
     this.addNewTaskSubmitListener();
-    this.addDeleteTaskListener();
+    // this.addDeleteTaskListener();
   }
 
   addTaskDetailsToggleEventListeners() {
@@ -150,25 +152,24 @@ export class DisplayController {
     console.log("New task submited!");
   }
 
-  addDeleteTaskListener() {
-    const btns = document.querySelectorAll(".task-menu .delete");
-    for (let btn of btns) {
-      const task = btn.parentElement.parentElement.parentElement;
-      const taskId = task.getAttribute("data-index");
-      btn.addEventListener("click", this.handleDeleteTask.bind(this, taskId));
-    }
-  }
+  // addDeleteTaskListener() {
+  //   const btns = document.querySelectorAll(".task-menu .delete");
+  //   for (let btn of btns) {
+  //     const task = btn.parentElement.parentElement.parentElement;
+  //     const taskId = task.getAttribute("data-index");
+  //     btn.addEventListener("click", this.handleDeleteTask.bind(this, taskId));
+  //   }
+  // }
 
-  handleDeleteTask(taskId) {
-    console.log("delete task with id " + taskId);
-    // this.confirmTaskDelete();
-  }
+  // handleDeleteTask(taskId) {
+  //   console.log("delete task with id " + taskId);
+  //   // this.confirmTaskDelete();
+  // }
 
   addToggleMoreMenuListener() {
     const btns = document.querySelectorAll(".task-menu .more");
     for (let btn of btns) {
       btn.addEventListener("click", (e) => {
-        console.log("open menu");
         const menu = btn.nextElementSibling;
         setTimeout(() => {
           menu.classList.toggle("hide");
@@ -186,9 +187,42 @@ export class DisplayController {
         const menus = document.querySelectorAll(".more-menu:not(.hide)");
         for (let menu of menus) {
           menu.classList.add("hide"); // hide
-          console.log("hiding menu");
         }
       }
     });
+  }
+
+  addDeleteTaskClickListener() {
+    const deleteBtns = document.querySelectorAll(".more-menu-option.delete");
+    console.log(deleteBtns);
+    for (let btn of deleteBtns) {
+      const index =
+        btn.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute(
+          "data-index"
+        );
+      btn.addEventListener("click", this.handleDeleteTask.bind(this, index));
+    }
+  }
+
+  handleDeleteTask(index) {
+    console.log("Deleting task with id " + index);
+    // this.confirmDeletingTask();
+    // model.deleteTask(taskId);
+  }
+
+  addEditTaskClickListener() {
+    const editBtns = document.querySelectorAll(".more-menu-option.edit");
+    for (let btn of editBtns) {
+      const index =
+        btn.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute(
+          "data-index"
+        );
+      btn.addEventListener("click", this.handleEditTask.bind(this, index));
+    }
+  }
+
+  handleEditTask(index) {
+    console.log("Editing task with id " + index);
+    // open edit modal
   }
 }
