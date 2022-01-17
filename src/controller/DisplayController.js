@@ -27,7 +27,8 @@ export class DisplayController {
     this.addShowNewTaskModalEventListener();
     this.addHideNewTaskModalEventListener();
     this.addNewTaskSubmitListener();
-    // this.addDeleteTaskListener();
+    // Dark-mode/light-mode switch
+    this.addToggleDarkModeClickListener();
   }
 
   addTaskDetailsToggleEventListeners() {
@@ -100,6 +101,7 @@ export class DisplayController {
 
   showNewTaskModal(modalWrapper) {
     this.resetModalForm();
+    window.scrollTo(0, 0)
     modalWrapper.classList.remove("hide");
   }
 
@@ -152,20 +154,6 @@ export class DisplayController {
     console.log("New task submited!");
   }
 
-  // addDeleteTaskListener() {
-  //   const btns = document.querySelectorAll(".task-menu .delete");
-  //   for (let btn of btns) {
-  //     const task = btn.parentElement.parentElement.parentElement;
-  //     const taskId = task.getAttribute("data-index");
-  //     btn.addEventListener("click", this.handleDeleteTask.bind(this, taskId));
-  //   }
-  // }
-
-  // handleDeleteTask(taskId) {
-  //   console.log("delete task with id " + taskId);
-  //   // this.confirmTaskDelete();
-  // }
-
   addToggleMoreMenuListener() {
     const btns = document.querySelectorAll(".task-menu .more");
     for (let btn of btns) {
@@ -194,7 +182,6 @@ export class DisplayController {
 
   addDeleteTaskClickListener() {
     const deleteBtns = document.querySelectorAll(".more-menu-option.delete");
-    console.log(deleteBtns);
     for (let btn of deleteBtns) {
       const index =
         btn.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute(
@@ -225,4 +212,17 @@ export class DisplayController {
     console.log("Editing task with id " + index);
     // open edit modal
   }
+
+  addToggleDarkModeClickListener() {
+    const btn = document.querySelector('.dark-mode-icon');
+    if (btn) {
+      btn.addEventListener('click', (e) => {
+        const body = document.querySelector('body');
+        body.classList.toggle('dark-mode');
+      });
+    } else {
+      console.log('Dark-mode switch button not found')
+    }
+  }
+
 }

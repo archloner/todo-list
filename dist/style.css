@@ -21,9 +21,12 @@
   --light-mode-font-color: black;
   --light-mode-font-color-lighter: rgb(136, 136, 136);
 
-  --dark-mode-bg-color: rgb(31, 27, 27);
+  --dark-mode-bg-color: rgb(51, 47, 47);
+  --dark-mode-bg-color-darker: rgb(37, 31, 31);
+  --dark-mode-bg-color-dark: rgb(0, 0, 0);
   --dark-mode-font-color: rgb(182, 182, 182);
   --dark-mode-font-color-lighter: rgb(255, 255, 255);
+  --dark-mode-font-color-darker: rgb(109, 109, 109);
 
   --font-size-small: .8rem;
 
@@ -43,11 +46,17 @@
   color: var(--dark-mode-font-color);
 }
 
+html {
+  height: 100%;
+}
+
 body {
   margin: 0;
   color: var(--light-gray);
   font-family: 'Roboto', Verdana, Geneva, Tahoma, sans-serif;
   min-height: 100vh;
+  position: relative;
+  transition: all .3s ease;
 }
 
 * {
@@ -86,6 +95,7 @@ a {
   display: flex;
   flex-direction: column;
   /* height: 75%; */
+  max-height: 75vh;
   flex: 1 0 70%;
 }
 
@@ -222,6 +232,7 @@ a.menu-item li {
   align-items: center;
   margin-bottom: 40px;
   width: 100%;
+  color: inherit;
 }
 
 .search-bar-wrapper {
@@ -559,8 +570,8 @@ input[type="text"]:focus {
   justify-content: center;
   cursor: pointer;
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: var(--padding-main);
+  right: var(--padding-main);
   transition: all 0.25s ease;
 }
 
@@ -601,7 +612,7 @@ input[type="text"]:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   background-color: rgba(0,0,0,.75);
 }
 
@@ -612,6 +623,7 @@ input[type="text"]:focus {
 .new-task-modal {
   max-width: 500px;
   width: 90%;
+  margin-top: var(--padding-big);
   background-color: var(--light-mode-bg-color-darker);
   padding: var(--padding-main);
   box-shadow: 2px 2px 10px rgba(0,0,0,.08);
@@ -787,13 +799,126 @@ input[type="text"]:focus {
   }
 }
 
-/* MEDIA QUERIES */
+/* DARK MODE */
+.dark-mode {
+  background-color: var(--dark-mode-bg-color);
+  color: var(--dark-mode-font-color);
+}
 
+.dark-mode .menu-left {
+  background-color: var(--dark-mode-bg-color);
+}
+
+.dark-mode .brand {
+  color: var(--dark-mode-font-color);
+}
+
+.dark-mode .tasks-amount {
+  color: var(--dark-mode-font-color-darker);
+}
+
+.dark-mode .content-right {
+  background-color: var(--dark-mode-bg-color-darker);
+  color: var(--dark-mode-font-color);
+}
+
+.dark-mode .account-controls {
+  color: var(--dark-mode-font-color);
+}
+
+.dark-mode .container {
+  color: var(--dark-mode-font-color);
+}
+
+.dark-mode .user-profile-picture {
+  border-color: var(--dark-mode-bg-color-dark);
+}
+
+.dark-mode .task {
+  background-color: var(--dark-mode-bg-color);
+}
+
+.dark-mode .checkbox::after {
+  background-color: var(--dark-mode-bg-color);
+}
+
+.dark-mode .priority.bg-light{
+  background-color: var(--dark-mode-bg-color-darker);
+}
+
+.dark-mode .task-text .due-date .date {
+  color: var(--dark-mode-font-color);
+}
+
+.dark-mode .task-menu .more-menu {
+  background-color: var(--dark-mode-bg-color);
+  color: var(--dark-mode-font-color);
+}
+
+.dark-mode .task-menu .more-menu::after {
+  background-color: var(--dark-mode-bg-color);
+}
+
+.dark-mode .new-task-btn {
+  background-color: var(--dark-mode-bg-color);
+  color: var(--dark-mode-font-color);
+}
+
+.dark-mode .new-task-btn:hover {
+  background-color: var(--dark-mode-bg-color-dark);
+  color: var(--dark-mode-font-color);
+} 
+
+.dark-mode .new-task-modal  {
+  background-color: var(--dark-mode-bg-color-darker);
+  color: var(--dark-mode-font-color);
+}
+
+.dark-mode input[type="text"] {
+  background-color: var(--dark-mode-bg-color);
+  color: var(--dark-mode-font-color);
+}
+
+.dark-mode input[type="date"] {
+  background-color: var(--dark-mode-bg-color);
+  color: var(--dark-mode-font-color);
+}
+
+.dark-mode .new-task-modal .bg-white {
+  background-color: var(--dark-mode-bg-color);
+}
+
+.dark-mode .new-task-modal .radio-container.bg-white {
+  color: var(--dark-mode-font-color);
+}
+
+.dark-mode .new-task-modal .close-btn {
+  color: var(--dark-mode-font-color-darker);
+}
+
+/* MEDIA QUERIES */
 @media screen and (max-width: 900px) {
   
   .menu-left {
     min-width: 150px;
     font-size: 0.7rem;
+  }
+
+}
+
+@media screen and (max-width: 630px) {
+  
+  .wrapper {
+    flex-direction: column;
+  }
+
+  .menu ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .menu ul .menu-item {
+    margin: .5rem;
   }
 
 }
