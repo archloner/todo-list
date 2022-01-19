@@ -695,7 +695,7 @@ input[type="text"]:focus {
 .new-task-modal {
   max-width: 500px;
   width: 90%;
-  margin-top: var(--padding-big);
+  margin-top: calc(2 * var(--padding-big));
   background-color: var(--light-mode-bg-color-darker);
   padding: var(--padding-main);
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.08);
@@ -966,6 +966,10 @@ input[type="text"]:focus {
 
 .dark-mode .new-task-modal .close-btn {
   color: var(--dark-mode-font-color-darker);
+}
+
+.dark-mode .checkbox-wrapper .checkbox::before {
+  background-color: var(--dark-mode-bg-color);
 }
 
 /* MEDIA QUERIES */
