@@ -16,15 +16,27 @@ export const sampleData = {
           PriorityType.DEFAULT
         ),
         new Task(
+          "Fix bug in deployment script",
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          new Date(2022, 0, 19),
+          PriorityType.MEDIUM
+        ),
+        new Task(
+        "Update about page header",
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          new Date(2022, 1, 20),
+          PriorityType.DEFAULT
+        ),
+        new Task(
           "About page wording",
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-          new Date(2022, 1, 22),
+          new Date(2022, 0, 22),
           PriorityType.HIGH
         ),
         new Task(
           "New landing page layout",
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-          new Date(2022, 1, 17),
+          new Date(2022, 0, 17),
           PriorityType.MEDIUM
         ),
         new Task(
@@ -36,15 +48,24 @@ export const sampleData = {
         new Task(
           "New case study thumbnails",
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-          new Date(2022, 1, 28),
+          new Date(2022, 0, 28),
           PriorityType.DEFAULT
         ),
       ],
+      done: [],
+      todoCount: 0 // ? update on every isComplete change
     },
     {
       id: 2,
       title: 'Groceries',
-      tasks: [],
+      tasks: [
+        new Task(
+          "Buy Pizza",
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          new Date(2022, 0, 30),
+          PriorityType.HIGH
+        ),
+      ],
     }
   ],
 };
