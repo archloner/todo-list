@@ -1,7 +1,6 @@
 import { PriorityType } from "../entity/PriorityType";
 import { Utils } from "../util/Utils";
-import { format } from "date-fns";
-
+import { format, formatDistance, isAfter } from "date-fns";
 
 export class SingleProjectView {
   container;
@@ -112,6 +111,8 @@ export class SingleProjectView {
   }
 
   getTaskDOMElement(task) {
+    const DATE_FNS_FORMAT_STRING = "EEEE d LLLL y";
+
     let backgroundColorClass;
     let borderColorClass;
 
@@ -147,7 +148,7 @@ export class SingleProjectView {
     const checkboxInput = document.createElement("input");
     checkboxInput.setAttribute("type", "checkbox");
     if (task.isComplete) {
-      checkboxInput.setAttribute('checked', '')
+      checkboxInput.setAttribute("checked", "");
     }
     checkboxInput.id = `task-${task.id}`;
 
@@ -191,44 +192,55 @@ export class SingleProjectView {
     priority.classList.add("priority", backgroundColorClass, "font-sm");
     priority.textContent = Utils.capitalize(task.priority);
 
-    const dueDate = document.createElement('div');
-    dueDate.classList.add('due-date', 'font-sm');
-    // console.log(format(task.dueDate, 'EEEE d LLLL y'));
-    dueDate.innerHTML = `Due date <span class='date'>${format(task.dueDate, 'EEEE d LLLL y')}</span>`
+    const dueDate = document.createElement("div");
+    dueDate.classList.add("due-date", "font-sm");
+
+    const dueDateString = format(task.dueDate, DATE_FNS_FORMAT_STRING);
+
+    let dueIn;
+    const distance = formatDistance(task.dueDate, new Date());
+    if (isAfter(new Date(), task.dueDate)) {
+      // Overdue
+      dueIn = `Overdue ${distance}`;
+    } else {
+      dueIn = `Due in ${distance}`;
+    }
+
+    dueDate.innerHTML = `${dueIn} <span class='date'>(${dueDateString})</span>`;
 
     taskDetails.appendChild(taskDescription);
 
     flexRow1.appendChild(priority);
     flexRow1.appendChild(dueDate);
     taskDetails.appendChild(flexRow1);
-    
+
     taskText.appendChild(taskDetails);
 
     taskContent.appendChild(taskText);
     taskElement.appendChild(taskContent);
 
-    const taskMenu = document.createElement('div');
-    taskMenu.classList.add('task-menu')
+    const taskMenu = document.createElement("div");
+    taskMenu.classList.add("task-menu");
 
-    const chevronIcon = document.createElement('i');
-    chevronIcon.classList.add('fas', 'fa-chevron-down', 'icon', 'chevron');
+    const chevronIcon = document.createElement("i");
+    chevronIcon.classList.add("fas", "fa-chevron-down", "icon", "chevron");
     taskMenu.appendChild(chevronIcon);
 
-    const moreIcon = document.createElement('i');
-    moreIcon.classList.add('fas', 'fa-ellipsis-v', 'icon', 'more');
+    const moreIcon = document.createElement("i");
+    moreIcon.classList.add("fas", "fa-ellipsis-v", "icon", "more");
     taskMenu.appendChild(moreIcon);
 
-    const moreMenu = document.createElement('more-menu');
-    moreMenu.classList.add('more-menu', 'hide');
+    const moreMenu = document.createElement("more-menu");
+    moreMenu.classList.add("more-menu", "hide");
 
-    const list = document.createElement('ul');
+    const list = document.createElement("ul");
 
-    const editListItem = document.createElement('li');
-    editListItem.classList.add('more-menu-option', 'edit');
+    const editListItem = document.createElement("li");
+    editListItem.classList.add("more-menu-option", "edit");
     editListItem.innerHTML = "<i class='far fa-edit icon'></i> Edit";
 
-    const deleteListItem = document.createElement('li');
-    deleteListItem.classList.add('more-menu-option', 'delete');
+    const deleteListItem = document.createElement("li");
+    deleteListItem.classList.add("more-menu-option", "delete");
     deleteListItem.innerHTML = "<i class='far fa-trash-alt icon'></i> Delete";
 
     list.appendChild(editListItem);
