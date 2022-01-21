@@ -507,7 +507,9 @@ input[type="text"]:focus {
 }
 
 .task-text .description {
-  margin-top: 0.5rem;
+  margin: 0.5rem 0;
+  line-height: 1.2rem;
+  max-width: 550px;
   /* font-size: 0.9rem; */
   color: var(--light-mode-font-color-lighter);
 }
@@ -579,7 +581,7 @@ input[type="text"]:focus {
 
 .icon {
   cursor: pointer;
-  padding: 0.2rem;
+  padding: 0.2rem 0.5rem;
 }
 
 .more-menu-option {
@@ -973,6 +975,13 @@ input[type="text"]:focus {
 }
 
 /* MEDIA QUERIES */
+
+@media screen and (min-width: 1450px) {
+  .container {
+    max-width: 60%;
+  }
+}
+
 @media screen and (max-width: 900px) {
   .menu-left {
     min-width: 150px;
@@ -992,5 +1001,63 @@ input[type="text"]:focus {
 
   .menu ul .menu-item {
     margin: 0.5rem;
+  }
+
+  .menu-item li {
+    margin: 10px 0;
+  }
+
+  .active.menu-item li::after {
+    width: 100%;
+    height: 3px;
+    top: 35px;
+    left: 0;
+  }
+
+  .line {
+    display: none;
+  }
+
+  .menu {
+    flex: 1 1 auto;
+  }
+
+  .menu-left {
+    flex: 1 1 auto;
+    padding: 15px;
+  }
+
+  .menu-left footer {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 10px;
+  }
+
+  .content-right {
+    padding: 15px;
+  } 
+
+  .container {
+    max-width: 90%;
+    margin-bottom: 20px;
+  }
+
+  .top-bar {
+    flex-direction: column-reverse;
+  }
+
+  .account-controls.push-right {
+    margin: 15px auto;
+  }
+
+  .task-menu .more-menu {
+    left: -5px;
+    top: -70px;
+  }
+
+  .task-menu .more-menu::after {
+    left: 48%;
+    top: 90%;
   }
 }
