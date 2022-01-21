@@ -9,8 +9,9 @@ export class App {
 
   constructor() {
     this.model = new Model();
-    this.controller = new DisplayController();
     this.view = new SingleProjectView();
+    this.controller = new DisplayController({ view: this.view, model: this.model });
+    this.view.setController(this.controller);
   }
 
   init() {

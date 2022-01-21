@@ -3,16 +3,30 @@ import { TaskController } from "./TaskController";
 export class DisplayController {
   content;
   taskController;
+  view;
+  model;
 
-  constructor() {
+  constructor(dependencies) {
     this.content = document.querySelector(".wrapper");
-    this.taskController = new TaskController();
+    // this.taskController = new TaskController();
+    if (dependencies.view) {
+      this.view = dependencies.view;
+    }
+    if (dependencies.model) {
+      this.model = dependencies.model;
+    }
   }
 
   init() {
+    // let project = this.model.getCurrentProject();
+    // this.view.setProject(project);
+    this.view.render()
+    
     this.attachEventListeners();
-    console.log(this.taskController.getProjectTasks(1));
-    // view.render(project)
+  }
+
+  getCurrentProject() {
+    return this.model.getCurrentProject();
   }
 
   attachEventListeners() {
