@@ -27,7 +27,11 @@ export class Model {
     return this.currentProject;
   }
 
-  getData() {
+  getCurrentProjectId() {
+    return this.currentProject.id;
+  }
+
+  getProjects() {
     return this.data.projects;
   }
 

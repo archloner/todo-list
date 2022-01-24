@@ -6,9 +6,15 @@ export class SingleProjectView {
   container;
   project;
   controller;
+  model;
+  menuView;
 
-  constructor() {
+  constructor(dependencies) {
     this.container = document.querySelector(".container");
+    if (dependencies.menuView) {
+      this.menuView = dependencies.menuView;
+    }
+
     this.init();
   }
 
@@ -30,20 +36,42 @@ export class SingleProjectView {
     this.project = project;
   }
 
-  render() {
-    this.clearContainer();
+  setModel(model) {
+    this.model = model;
+  }
 
+  updateProject() {
+    this.project = this.model.getCurrentProject();
+  }
+
+  render() {
+    this.updateProject();
+    this.renderMenu();
+    this.renderTasksList();
+  }
+
+  renderMenu() {
+    const menuLeft = document.querySelector('.menu-left')
+    const menu = document.querySelector('.menu');
+    menuLeft.replaceChild(this.createProjectMenu(), menu);
+  }
+
+  renderTasksList() {
+    this.clearContainer();
     this.container.appendChild(this.createProjectTitleAndMenu());
     this.container.appendChild(this.createProjectDescription());
-    this.container.appendChild(this.createTaskWrapper());
+    this.container.appendChild(this.createTasks());
   }
 
   clearContainer() {
     this.container.textContent = "";
   }
+  s;
+  createProjectMenu() {
+    return this.menuView.getMenuDOM();
+  }
 
   createProjectTitleAndMenu() {
-    console.log(this.project);
     const flexRow = document.createElement("div");
     flexRow.classList.add("flex-row");
 
@@ -73,7 +101,7 @@ export class SingleProjectView {
     return description;
   }
 
-  createTaskWrapper() {
+  createTasks() {
     const wrapper = document.createElement("div");
     wrapper.classList.add("tasks-wrapper");
 

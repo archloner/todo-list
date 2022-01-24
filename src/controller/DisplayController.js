@@ -29,6 +29,13 @@ export class DisplayController {
     return this.model.getCurrentProject();
   }
 
+  changeCurrentProject(projectId) {
+    console.log('changing project ' + projectId);
+    this.model.setCurrentProjectId(projectId);
+    this.view.render();
+    this.attachEventListeners();
+  }
+
   attachEventListeners() {
     // Showing and hiding task details
     this.addTaskDetailsToggleEventListeners();

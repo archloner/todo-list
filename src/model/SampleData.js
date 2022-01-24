@@ -5,6 +5,12 @@ import { PriorityType } from "../entity/PriorityType";
 export const sampleData = {
   projects: [
     {
+      id: 0,
+      title: 'Overview',
+      description: 'Look at all your projects and choose which one you want to check',
+      tasks: []
+    },
+    {
       id: 1,
       title: "Website development",
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
