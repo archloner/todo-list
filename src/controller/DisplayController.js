@@ -30,7 +30,6 @@ export class DisplayController {
   }
 
   changeCurrentProject(projectId) {
-    console.log('changing project ' + projectId);
     this.model.setCurrentProjectId(projectId);
     this.view.render();
     this.attachEventListeners();
