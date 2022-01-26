@@ -35,6 +35,10 @@ export class Model {
     return this.data.projects;
   }
 
+  getData() {
+    return this.data;
+  }
+
   getInitialProject() {
     return this.projects.filter(
       (project) => project.id === DEFAULT_PROJECT_ID
@@ -48,6 +52,10 @@ export class Model {
 
   setTaskAsComplete(task) {
     task.isComplete = true;    
+  }
+
+  addTask(task) {
+    this.currentProject.tasks.unshift(task);
   }
 
   // debug() {

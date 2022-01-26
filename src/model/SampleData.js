@@ -64,6 +64,7 @@ export const sampleData = {
     {
       id: 2,
       title: 'Groceries',
+      description: 'List of groceries to buy on the nearest trip to the shop. Lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       tasks: [
         new Task(
           "Buy Pizza",
@@ -71,6 +72,12 @@ export const sampleData = {
           new Date(2022, 0, 30),
           PriorityType.HIGH
         ),
+        new Task(
+          "Tomatoes",
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          new Date(2022, 0, 30),
+          PriorityType.DEFAULT
+        )
       ],
     }
   ],

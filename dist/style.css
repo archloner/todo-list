@@ -358,7 +358,7 @@ input[type="text"]:focus {
 }
 
 .tasks-wrapper {
-  margin-top: var(--padding-main);
+  margin-top: var(--padding-small);
 }
 
 .tasks-title {
@@ -727,6 +727,14 @@ input[type="text"]:focus {
 
 .wrapper-fade-in-animation {
   animation: fade-in 0.6s ease;
+}
+
+.fade-in-animation {
+  animation: fade-in 0.6s ease;
+}
+
+.fade-out-animation {
+  animation: fade-out 0.6s ease;
 }
 
 .new-task-modal .close-btn {

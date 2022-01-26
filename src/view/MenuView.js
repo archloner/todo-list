@@ -28,7 +28,7 @@ export class MenuView {
       let tasksAmount = this.calculateProjectTasksAmount(project);
       if (project.id === 0) {
         list.appendChild(
-          this.getMenuItem(project, DEFAULT_LIST_ITEM_ICON_CLASSES)
+          this.getMenuItem(project, ["fa", "fa-home"])
         );
       } else {
         list.appendChild(

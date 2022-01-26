@@ -1,5 +1,4 @@
 import { NewTaskModalValidationController } from "./NewTaskModalValidationController";
-import { TaskController } from "./TaskController";
 
 export class DisplayController {
   content;
@@ -10,9 +9,7 @@ export class DisplayController {
 
   constructor(dependencies) {
     this.content = document.querySelector(".wrapper");
-    // this.taskController = new TaskController();
     this.formValidation = new NewTaskModalValidationController();
-
 
     if (dependencies.view) {
       this.view = dependencies.view;
@@ -20,14 +17,15 @@ export class DisplayController {
     if (dependencies.model) {
       this.model = dependencies.model;
     }
+
+    this.attachEventListeners();
   }
 
   init() {
     // let project = this.model.getCurrentProject();
     // this.view.setProject(project);
-    this.view.render()
+    this.view.render();
     
-    this.attachEventListeners();
   }
 
   getCurrentProject() {
@@ -37,10 +35,21 @@ export class DisplayController {
   changeCurrentProject(projectId) {
     this.model.setCurrentProjectId(projectId);
     this.view.render();
-    this.attachEventListeners();
+    this.addEventListenersToNewListElements();
   }
 
   attachEventListeners() {
+    // New task list element
+    this.addEventListenersToNewListElements();
+    // New Task modal show button and close
+    this.addShowNewTaskModalEventListener();
+    this.addHideNewTaskModalEventListener();
+    this.addNewTaskSubmitListener();
+    // Dark-mode/light-mode switch
+    this.addToggleDarkModeClickListener();
+  }
+
+  addEventListenersToNewListElements() {
     // Showing and hiding task details
     this.addTaskDetailsToggleEventListeners();
     this.addExpandHideAllEventListener();
@@ -48,12 +57,6 @@ export class DisplayController {
     this.addToggleMoreMenuListener();
     this.addDeleteTaskClickListener();
     this.addEditTaskClickListener();
-    // New Task modal show button and close
-    this.addShowNewTaskModalEventListener();
-    this.addHideNewTaskModalEventListener();
-    this.addNewTaskSubmitListener();
-    // Dark-mode/light-mode switch
-    this.addToggleDarkModeClickListener();
   }
 
   addTaskDetailsToggleEventListeners() {
@@ -126,7 +129,7 @@ export class DisplayController {
 
   showNewTaskModal(modalWrapper) {
     this.resetModalForm();
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     modalWrapper.classList.remove("hide");
   }
 
@@ -151,7 +154,7 @@ export class DisplayController {
   }
 
   animateModalClosing() {
-    const ANIMATION_DURATION_TIME = 600;
+    const MODAL_CLOSING_ANIMATION_DURATION = 600;
 
     const wrapper = document.querySelector("#new-task-modal-wrapper");
     const modal = wrapper.querySelector(".new-task-modal");
@@ -164,7 +167,7 @@ export class DisplayController {
       modal.classList.remove("modal-dissmis-animation");
       wrapper.classList.remove("wrapper-fade-out-animation");
       wrapper.classList.add("wrapper-fade-in-animation");
-    }, ANIMATION_DURATION_TIME);
+    }, MODAL_CLOSING_ANIMATION_DURATION);
   }
 
   addNewTaskSubmitListener() {
@@ -175,6 +178,7 @@ export class DisplayController {
       this.formValidation.init();
       if (this.formValidation.isValid()) {
         const task = this.formValidation.getTask();
+        console.log(task);
         this.submitNewTaskModal(task);
         this.animateModalClosing();
       }
@@ -182,9 +186,13 @@ export class DisplayController {
   }
 
   submitNewTaskModal(task) {
-    console.log(task)
-    console.log("New task submited!");
+    console.log("New task submited! ");
     // store data in a model
+    this.model.addTask(task);
+    // rerender view
+    this.view.render();
+    this.addEventListenersToNewListElements();
+    console.log(this.model.getCurrentProject().tasks.length);
   }
 
   addToggleMoreMenuListener() {
@@ -247,15 +255,14 @@ export class DisplayController {
   }
 
   addToggleDarkModeClickListener() {
-    const btn = document.querySelector('.dark-mode-icon');
+    const btn = document.querySelector(".dark-mode-icon");
     if (btn) {
-      btn.addEventListener('click', (e) => {
-        const body = document.querySelector('body');
-        body.classList.toggle('dark-mode');
+      btn.addEventListener("click", (e) => {
+        const body = document.querySelector("body");
+        body.classList.toggle("dark-mode");
       });
     } else {
-      console.log('Dark-mode switch button not found')
+      console.log("Dark-mode switch button not found");
     }
   }
-
 }

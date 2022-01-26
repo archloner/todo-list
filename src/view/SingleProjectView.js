@@ -10,7 +10,10 @@ export class SingleProjectView {
   menuView;
 
   constructor(dependencies) {
-    this.container = document.querySelector(".container");
+    this.wrapper = document.querySelector('.content-right')
+    this.container = document.createElement("div");
+    this.container.classList.add('container');
+
     if (dependencies.menuView) {
       this.menuView = dependencies.menuView;
     }
@@ -26,6 +29,7 @@ export class SingleProjectView {
 
     // set first task complete for debugging purpose
     this.project.tasks[0].isComplete = true;
+    this.project.tasks[2].isComplete = true;
   }
 
   setCurrentProject() {
@@ -53,22 +57,22 @@ export class SingleProjectView {
   renderMenu() {
     const menuLeft = document.querySelector('.menu-left')
     const menu = document.querySelector('.menu');
-    menuLeft.replaceChild(this.createProjectMenu(), menu);
+    menuLeft.replaceChild(this.menuView.getMenuDOM(), menu);
   }
 
   renderTasksList() {
     this.clearContainer();
+    this.container.classList.add('fade-in-animation');
     this.container.appendChild(this.createProjectTitleAndMenu());
     this.container.appendChild(this.createProjectDescription());
     this.container.appendChild(this.createTasks());
+
+    this.wrapper.removeChild(document.querySelector('.container'));
+    this.wrapper.appendChild(this.container)
   }
 
   clearContainer() {
     this.container.textContent = "";
-  }
-  s;
-  createProjectMenu() {
-    return this.menuView.getMenuDOM();
   }
 
   createProjectTitleAndMenu() {
