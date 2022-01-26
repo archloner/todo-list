@@ -29,10 +29,7 @@ export class NewTaskModalValidationController {
 
   isValid() {
     this.validateInputs();
-    // if (this.isFormEmpty) {
-    //   return false;
-    // }
-
+    
     for (let msg in this.validationMessages) {
       if (this.validationMessages[msg].length !== 0) {
         return false;
