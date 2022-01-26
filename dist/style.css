@@ -802,6 +802,11 @@ input[type="text"]:focus {
   border: var(--input-border) solid var(--accent-color);
 }
 
+.validation-msg {
+  color: crimson;
+  margin-left: .5rem;
+}
+
 .form-controls {
   flex-direction: row;
   margin-top: var(--padding-main);

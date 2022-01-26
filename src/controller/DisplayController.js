@@ -1,3 +1,4 @@
+import { NewTaskModalValidationController } from "./NewTaskModalValidationController";
 import { TaskController } from "./TaskController";
 
 export class DisplayController {
@@ -5,10 +6,14 @@ export class DisplayController {
   taskController;
   view;
   model;
+  formValidation;
 
   constructor(dependencies) {
     this.content = document.querySelector(".wrapper");
     // this.taskController = new TaskController();
+    this.formValidation = new NewTaskModalValidationController();
+
+
     if (dependencies.view) {
       this.view = dependencies.view;
     }
@@ -126,7 +131,7 @@ export class DisplayController {
   }
 
   resetModalForm() {
-    const form = document.querySelector(".new-task-modal .form-row form");
+    const form = document.querySelector("#new-task-form");
     form.reset();
   }
 
@@ -165,13 +170,21 @@ export class DisplayController {
   addNewTaskSubmitListener() {
     const btn = document.querySelector("#new-task-submit");
     btn.addEventListener("click", (e) => {
-      this.submitNewTaskModal();
-      this.animateModalClosing();
+      e.preventDefault();
+      // validate form
+      this.formValidation.init();
+      if (this.formValidation.isValid()) {
+        const task = this.formValidation.getTask();
+        this.submitNewTaskModal(task);
+        this.animateModalClosing();
+      }
     });
   }
 
-  submitNewTaskModal() {
+  submitNewTaskModal(task) {
+    console.log(task)
     console.log("New task submited!");
+    // store data in a model
   }
 
   addToggleMoreMenuListener() {
