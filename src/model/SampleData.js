@@ -6,14 +6,16 @@ export const sampleData = {
   projects: [
     {
       id: 0,
-      title: 'Overview',
-      description: 'Look at all your projects and choose which one you want to check',
-      tasks: []
+      title: "Overview",
+      description:
+        "Look at all your projects and choose which one you want to check",
+      tasks: [],
     },
     {
       id: 1,
       title: "Website development",
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
       tasks: [
         new Task(
           "Update about page header",
@@ -28,7 +30,7 @@ export const sampleData = {
           PriorityType.MEDIUM
         ),
         new Task(
-        "Update about page header",
+          "Update about page header",
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
           new Date(2022, 1, 20),
           PriorityType.DEFAULT
@@ -59,12 +61,13 @@ export const sampleData = {
         ),
       ],
       done: [],
-      todoCount: 0 // ? update on every isComplete change
+      todoCount: 0, // ? update on every isComplete change
     },
     {
       id: 2,
-      title: 'Groceries',
-      description: 'List of groceries to buy on the nearest trip to the shop. Lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      title: "Groceries",
+      description:
+        "List of groceries to buy on the nearest trip to the shop. Lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       tasks: [
         new Task(
           "Buy Pizza",
@@ -77,8 +80,48 @@ export const sampleData = {
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor sit amet, consectetur adipiscing elit",
           new Date(2022, 0, 30),
           PriorityType.DEFAULT
-        )
+        ),
       ],
-    }
+    },
+    {
+      id: 3,
+      title: "Workout",
+      description:
+        "Exercises to do to stay fit. Lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      tasks: [
+        new Task(
+          "50 Brzuszków",
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          new Date(2022, 0, 30),
+          PriorityType.DEFAULT
+        ),
+        new Task(
+          "50 Pompek",
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          new Date(2022, 0, 30),
+          PriorityType.DEFAULT
+        ),
+      ],
+    },
+    {
+      id: 4,
+      title: "Reading",
+      description:
+        "List of books to read. Lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      tasks: [
+        new Task(
+          "Lord of The Rings: The Fellowship of the Ring",
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          new Date(2022, 0, 30),
+          PriorityType.MEDIUM
+        ),
+        new Task(
+          "Do Androids Dream of Electric Sheep",
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          new Date(2022, 0, 30),
+          PriorityType.LOW
+        ),
+      ],
+    },
   ],
 };

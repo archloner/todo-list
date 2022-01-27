@@ -12,6 +12,12 @@ export class MenuView {
     this.controller = controller;
   }
 
+  render() {
+    const menuLeft = document.querySelector('.menu-left')
+    const menu = document.querySelector('.menu');
+    menuLeft.replaceChild(this.menuView.getMenuDOM(), menu);
+  }
+
   getMenuDOM() {
     const DEFAULT_LIST_ITEM_ICON_CLASSES = ["fas", "fa-tasks"];
 

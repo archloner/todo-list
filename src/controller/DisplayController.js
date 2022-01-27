@@ -22,10 +22,7 @@ export class DisplayController {
   }
 
   init() {
-    // let project = this.model.getCurrentProject();
-    // this.view.setProject(project);
     this.view.render();
-    
   }
 
   getCurrentProject() {
@@ -35,21 +32,26 @@ export class DisplayController {
   changeCurrentProject(projectId) {
     this.model.setCurrentProjectId(projectId);
     this.view.render();
-    this.addEventListenersToNewListElements();
+    this.addNewListElementsEventListeners();
   }
 
   attachEventListeners() {
-    // New task list element
-    this.addEventListenersToNewListElements();
     // New Task modal show button and close
     this.addShowNewTaskModalEventListener();
     this.addHideNewTaskModalEventListener();
     this.addNewTaskSubmitListener();
     // Dark-mode/light-mode switch
     this.addToggleDarkModeClickListener();
+
+    // New task list element
+    setTimeout(() => {
+      this.addNewListElementsEventListeners();
+    }, 500);
   }
 
-  addEventListenersToNewListElements() {
+  addNewListElementsEventListeners() {
+    // Toggle done/not done task
+    this.addToggleCompleteEventListener();
     // Showing and hiding task details
     this.addTaskDetailsToggleEventListeners();
     this.addExpandHideAllEventListener();
@@ -57,6 +59,21 @@ export class DisplayController {
     this.addToggleMoreMenuListener();
     this.addDeleteTaskClickListener();
     this.addEditTaskClickListener();
+  }
+
+  addToggleCompleteEventListener() {
+    // update menu counters on each toggle?
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    for (let checkbox of checkboxes) {
+      checkbox.addEventListener("change", (e) => {
+        const taskId = parseInt(e.target.id.split("-")[1]);
+        this.toggleTaskComplete(taskId, e.target.checked);
+      });
+    }
+  }
+
+  toggleTaskComplete(taskId, isComplete) {
+    this.model.setTaskIsComplete(taskId, isComplete);
   }
 
   addTaskDetailsToggleEventListeners() {
@@ -191,7 +208,7 @@ export class DisplayController {
     this.model.addTask(task);
     // rerender view
     this.view.render();
-    this.addEventListenersToNewListElements();
+    this.addNewListElementsEventListeners();
     console.log(this.model.getCurrentProject().tasks.length);
   }
 
