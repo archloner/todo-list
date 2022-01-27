@@ -1,12 +1,13 @@
+let startingIndex = 0;
+
 export class IndexSupplier {
-  static startingIndex = 0;
 
   static nextIndex() {
-    return ++this.startingIndex;
+    return startingIndex++;
   }
 
   static reset() {
-    this.startingIndex = 0;
+    startingIndex = 0;
   }
 
 }
