@@ -26,10 +26,6 @@ export class SingleProjectView {
   setController(controller) {
     this.controller = controller;
     this.setCurrentProject();
-
-    // set first task complete for debugging purpose
-    this.project.tasks[0].isComplete = true;
-    this.project.tasks[2].isComplete = true;
   }
 
   setCurrentProject() {
@@ -55,9 +51,7 @@ export class SingleProjectView {
   }
 
   renderMenu() {
-    const menuLeft = document.querySelector('.menu-left')
-    const menu = document.querySelector('.menu');
-    menuLeft.replaceChild(this.menuView.getMenuDOM(), menu);
+    this.menuView.render();
   }
 
   renderTasksList() {
@@ -172,6 +166,7 @@ export class SingleProjectView {
 
     const taskElement = document.createElement("div");
     taskElement.classList.add("task", borderColorClass);
+    console.log(task.id)
     taskElement.setAttribute("data-index", task.id);
 
     const taskContent = document.createElement("div");

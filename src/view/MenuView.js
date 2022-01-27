@@ -15,7 +15,7 @@ export class MenuView {
   render() {
     const menuLeft = document.querySelector('.menu-left')
     const menu = document.querySelector('.menu');
-    menuLeft.replaceChild(this.menuView.getMenuDOM(), menu);
+    menuLeft.replaceChild(this.getMenuDOM(), menu);
   }
 
   getMenuDOM() {
