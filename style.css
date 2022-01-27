@@ -75,7 +75,7 @@ a {
 }
 
 .menu-left {
-  flex: 0 1 300px;
+  flex: 0 0 300px;
   display: flex;
   flex-direction: column;
   min-width: 177px;
@@ -999,6 +999,7 @@ input[type="text"]:focus {
   .menu-left {
     min-width: 150px;
     font-size: 0.7rem;
+    flex: 0 1 300px;
   }
 }
 
