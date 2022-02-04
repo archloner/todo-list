@@ -13,7 +13,7 @@ export const sampleData = {
     },
     {
       id: 1,
-      title: "Website development",
+      title: "Website redesign",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
       tasks: [
