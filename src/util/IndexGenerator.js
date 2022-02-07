@@ -1,6 +1,6 @@
 let startingIndex = 0;
 
-export class IndexSupplier {
+export class IndexGenerator {
 
   static nextIndex() {
     return startingIndex++;

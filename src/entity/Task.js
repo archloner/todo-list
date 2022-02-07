@@ -1,4 +1,4 @@
-import { IndexSupplier } from "../util/IndexSupplier";
+import { IndexGenerator } from "../util/IndexGenerator";
 
 export class Task {
   createdDate;
@@ -13,13 +13,14 @@ export class Task {
   checklist;
 
   constructor(title, description, dueDate, priority) {
-    this.id = IndexSupplier.nextIndex();
+    this.id = IndexGenerator.nextIndex();
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
     this.createdDate = new Date();
     this.isComplete = false;
+
     this.notes = null;
     this.checklist = [];
     this.log = [];
@@ -73,7 +74,7 @@ export class Task {
     const checkboxInput = document.createElement("input");
     checkboxInput.setAttribute("type", "checkbox");
     if (this.isComplete) {
-      checkboxInput.setAttribute('checked', '')
+      checkboxInput.setAttribute("checked", "");
     }
     checkboxInput.id = `task-${this.id}`;
 
@@ -117,43 +118,43 @@ export class Task {
     priority.classList.add("priority", backgroundColorClass, "font-sm");
     priority.textContent = Utils.capitalize(this.priority);
 
-    const dueDate = document.createElement('div');
-    dueDate.classList.add('due-date', 'font-sm');
-    dueDate.innerHTML = `Due date <span class='date'>${this.dueDate}</span>`
+    const dueDate = document.createElement("div");
+    dueDate.classList.add("due-date", "font-sm");
+    dueDate.innerHTML = `Due date <span class='date'>${this.dueDate}</span>`;
 
     taskDetails.appendChild(taskDescription);
 
     flexRow1.appendChild(priority);
     flexRow1.appendChild(dueDate);
     taskDetails.appendChild(flexRow1);
-    
+
     taskText.appendChild(taskDetails);
 
     taskContent.appendChild(taskText);
     taskElement.appendChild(taskContent);
 
-    const taskMenu = document.createElement('div');
-    taskMenu.classList.add('task-menu')
+    const taskMenu = document.createElement("div");
+    taskMenu.classList.add("task-menu");
 
-    const chevronIcon = document.createElement('i');
-    chevronIcon.classList.add('fas', 'fa-chevron-down', 'icon', 'chevron');
+    const chevronIcon = document.createElement("i");
+    chevronIcon.classList.add("fas", "fa-chevron-down", "icon", "chevron");
     taskMenu.appendChild(chevronIcon);
 
-    const moreIcon = document.createElement('i');
-    moreIcon.classList.add('fas', 'fa-ellipsis-v', 'icon', 'more');
+    const moreIcon = document.createElement("i");
+    moreIcon.classList.add("fas", "fa-ellipsis-v", "icon", "more");
     taskMenu.appendChild(moreIcon);
 
-    const moreMenu = document.createElement('more-menu');
-    moreMenu.classList.add('more-menu', 'hide');
+    const moreMenu = document.createElement("more-menu");
+    moreMenu.classList.add("more-menu", "hide");
 
-    const list = document.createElement('ul');
+    const list = document.createElement("ul");
 
-    const editListItem = document.createElement('li');
-    editListItem.classList.add('more-menu-option', 'edit');
+    const editListItem = document.createElement("li");
+    editListItem.classList.add("more-menu-option", "edit");
     editListItem.innerHTML = "<i class='far fa-edit icon'></i> Edit";
 
-    const deleteListItem = document.createElement('li');
-    deleteListItem.classList.add('more-menu-option', 'delete');
+    const deleteListItem = document.createElement("li");
+    deleteListItem.classList.add("more-menu-option", "delete");
     deleteListItem.innerHTML = "<i class='far fa-trash-alt icon'></i> Delete";
 
     list.appendChild(editListItem);
@@ -166,5 +167,4 @@ export class Task {
 
     return taskElement;
   }
-
 }
