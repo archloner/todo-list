@@ -35,6 +35,11 @@ export class DisplayController {
     this.addNewListElementsEventListeners();
   }
 
+  render() {
+    this.view.render();
+    this.addNewListElementsEventListeners();
+  }
+
   attachEventListeners() {
     // New Task modal show button and close
     this.addShowNewTaskModalEventListener();
@@ -73,7 +78,9 @@ export class DisplayController {
   }
 
   toggleTaskComplete(taskId, isComplete) {
+    console.log('toggle task complete')
     this.model.setTaskIsComplete(taskId, isComplete);
+    this.render();
   }
 
   addTaskDetailsToggleEventListeners() {
@@ -207,8 +214,7 @@ export class DisplayController {
     // store data in a model
     this.model.addTask(task);
     // rerender view
-    this.view.render();
-    this.addNewListElementsEventListeners();
+    this.render();
     console.log(this.model.getCurrentProject().tasks.length);
   }
 

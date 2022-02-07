@@ -62,8 +62,26 @@ export class Model {
   }
 
   setTaskIsComplete(taskId, isComplete) {
-    this.currentProject.tasks
-      .filter((task) => task.id === taskId)
-      .map((task) => (task.isComplete = isComplete));
+    if (isComplete) {
+      const task = this.currentProject.tasks.filter(
+        (task) => task.id === taskId
+      )[0];
+      task.isComplete = isComplete;
+
+      const taskIndex = this.currentProject.tasks.indexOf(task);
+
+      this.currentProject.tasks.splice(taskIndex, 1);
+      this.currentProject.done.unshift(task);
+    } else {
+      const doneTask = this.currentProject.done.filter(
+        (task) => task.id === taskId
+      )[0];
+      doneTask.isComplete = false;
+
+      const taskIndex = this.currentProject.tasks.indexOf(doneTask);
+
+      this.currentProject.done.splice(taskIndex, 1);
+      this.currentProject.tasks.unshift(doneTask);
+    }
   }
 }

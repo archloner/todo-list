@@ -133,6 +133,21 @@ export class SingleProjectView {
 
     wrapper.appendChild(form);
 
+    if (this.project.done && this.project.done.length > 0) {
+      const headingDone = document.createElement('div');
+      headingDone.classList.add('tasks-title');
+      headingDone.textContent = "Done";
+
+      const doneForm = document.createElement('form');
+      for (let doneTask of this.project.done) {
+        doneForm.appendChild(this.getTaskDOMElement(doneTask));
+      }
+
+      wrapper.appendChild(headingDone);
+      wrapper.appendChild(doneForm);
+
+    }
+
     return wrapper;
   }
 
@@ -166,7 +181,6 @@ export class SingleProjectView {
 
     const taskElement = document.createElement("div");
     taskElement.classList.add("task", borderColorClass);
-    console.log(task.id)
     taskElement.setAttribute("data-index", task.id);
 
     const taskContent = document.createElement("div");

@@ -30,7 +30,7 @@ export const sampleData = {
           PriorityType.MEDIUM
         ),
         new Task(
-          "Update about page header",
+          "Update contact page header",
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
           new Date(2022, 1, 20),
           PriorityType.DEFAULT
@@ -82,6 +82,7 @@ export const sampleData = {
           PriorityType.DEFAULT
         ),
       ],
+      done: [],
     },
     {
       id: 3,
@@ -102,6 +103,7 @@ export const sampleData = {
           PriorityType.DEFAULT
         ),
       ],
+      done: [],
     },
     {
       id: 4,
@@ -122,6 +124,7 @@ export const sampleData = {
           PriorityType.LOW
         ),
       ],
+      done: [],
     },
   ],
 };
