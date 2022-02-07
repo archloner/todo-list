@@ -1,7 +1,6 @@
 import { Task } from "../entity/Task";
 import { PriorityType } from "../entity/PriorityType";
 
-// constructor(title, description, dueDate, priority)
 export const sampleData = {
   projects: [
     {
@@ -60,7 +59,6 @@ export const sampleData = {
         ),
       ],
       done: [],
-      todoCount: 0, // ? update on every isComplete change
     },
     {
       id: 2,
