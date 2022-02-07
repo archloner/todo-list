@@ -74,8 +74,13 @@ export class SingleProjectView {
     const title = document.createElement("h1");
     title.classList.add("list-title");
     title.textContent = "Overview";
-
     flexRow.appendChild(title);
+    this.container.appendChild(flexRow);
+
+    const text = document.createElement('p');
+    text.classList.add('list-description')
+    text.textContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+    this.container.appendChild(text);
 
     const projectGridWrapper = document.createElement("div");
     projectGridWrapper.classList.add("project-grid-wrapper");
@@ -91,7 +96,7 @@ export class SingleProjectView {
     projectGrid.appendChild(this.getNewProjectGridButton());
     projectGridWrapper.appendChild(projectGrid);
 
-    this.container.appendChild(flexRow);
+
     this.container.appendChild(projectGridWrapper);
     this.wrapper.appendChild(this.container);
   }
