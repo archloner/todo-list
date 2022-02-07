@@ -58,8 +58,7 @@ export class Model {
         });
       }
     });
-    // console.log(projects);
-    // console.trace();
+    
     return projects;
   }
 
@@ -93,26 +92,23 @@ export class Model {
   }
 
   setTaskIsComplete(taskId, isComplete) {
-    if (isComplete) {
-      const task = this.currentProject.tasks.filter(
-        (task) => task.id === taskId
-      )[0];
-      task.isComplete = isComplete;
-
-      const taskIndex = this.currentProject.tasks.indexOf(task);
-
-      this.currentProject.tasks.splice(taskIndex, 1);
-      this.currentProject.done.unshift(task);
+    let removeFrom;
+    let addTo;
+    if (isComplete === true) {
+      removeFrom = this.currentProject.tasks;
+      addTo = this.currentProject.done;
     } else {
-      const doneTask = this.currentProject.done.filter(
-        (task) => task.id === taskId
-      )[0];
-      doneTask.isComplete = false;
-
-      const taskIndex = this.currentProject.tasks.indexOf(doneTask);
-
-      this.currentProject.done.splice(taskIndex, 1);
-      this.currentProject.tasks.unshift(doneTask);
+      removeFrom = this.currentProject.done;
+      addTo = this.currentProject.tasks;
     }
+
+    const task = removeFrom.filter((task) => task.id === taskId)[0];
+    task.isComplete = isComplete;
+
+    const taskIndex = removeFrom.indexOf(task);
+
+    // Move task from one array to other
+    removeFrom.splice(taskIndex, 1);
+    addTo.unshift(task);
   }
 }
