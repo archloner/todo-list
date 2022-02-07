@@ -39,6 +39,7 @@ export class SingleProjectView {
   }
 
   setModel(model) {
+    console.log('model set')
     this.model = model;
   }
 
@@ -108,8 +109,7 @@ export class SingleProjectView {
 
     const taskCount = document.createElement("span");
     taskCount.classList.add("task-count");
-    taskCount.textContent =
-      project.tasks + (project.tasks === 1 ? "task" : "tasks");
+    taskCount.textContent = `${project.tasks} ${(project.tasks === 1 ? "task" : "tasks")}`;
     text.appendChild(taskCount);
 
     element.appendChild(text);
@@ -119,7 +119,7 @@ export class SingleProjectView {
 
   getNewProjectGridButton() {
     const element = document.createElement("div");
-    element.classList.add("project-grid-item", "add-btn");
+    element.classList.add("project-grid-item", "new-project-btn");
 
     const bg = document.createElement("div");
     bg.classList.add("bg");

@@ -18,11 +18,12 @@ export class DisplayController {
       this.model = dependencies.model;
     }
 
-    this.attachEventListeners();
+    this.init();
   }
 
   init() {
-    this.view.render();
+    this.render();
+    this.attachEventListeners();
   }
 
   getCurrentProject() {
@@ -30,15 +31,18 @@ export class DisplayController {
   }
 
   changeCurrentProject(projectId) {
+    console.log(projectId);
     this.model.setCurrentProjectId(projectId);
     this.render();
   }
 
   render() {
     this.view.render();
-    if (this.model.getCurrentProject().id !== 0) {
+    if (this.model.getCurrentProjectId() !== 0) {
+      // Single project list view
       this.addNewListElementsEventListeners();
     } else {
+      // Project overview page
       this.addOverviewPageEventListeners();
     }
   }
@@ -51,10 +55,12 @@ export class DisplayController {
     // Dark-mode/light-mode switch
     this.addToggleDarkModeClickListener();
 
-    // New task list element
-    setTimeout(() => {
-      this.addNewListElementsEventListeners();
-    }, 500);
+    if (this.model.getCurrentProjectId() !== 0) {
+      // New task list element
+      setTimeout(() => {
+        this.addNewListElementsEventListeners();
+      }, 500);
+    }
   }
 
   addNewListElementsEventListeners() {
@@ -81,7 +87,7 @@ export class DisplayController {
   }
 
   toggleTaskComplete(taskId, isComplete) {
-    console.log('toggle task complete')
+    console.log("toggle task complete");
     this.model.setTaskIsComplete(taskId, isComplete);
     this.render();
   }
@@ -298,10 +304,29 @@ export class DisplayController {
   }
 
   addProjectTileClickListener() {
-    
-  }  
+    const tiles = document.querySelectorAll(
+      ".project-grid-item:not(.new-project-btn)"
+    );
+    tiles.forEach((tile) => {
+      tile.addEventListener("click", (e) => {
+        const bg = e.target;
+        const projectId = bg.parentElement.getAttribute("data-project-index");
+        this.changeCurrentProject(projectId);
+      });
+    });
+  }
 
   addNewProjectButtonListener() {
+    const newProjectButtons = document.querySelectorAll(".new-project-btn");
 
+    newProjectButtons.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        this.openNewProjectModal();
+      });
+    });
+  }
+
+  openNewProjectModal() {
+    console.log("New project modal opened");
   }
 }

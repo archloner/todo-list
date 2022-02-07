@@ -9,7 +9,6 @@ export const sampleData = {
       title: "Overview",
       description:
         "Look at all your projects and choose which one you want to check",
-      tasks: [],
     },
     {
       id: 1,

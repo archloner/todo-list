@@ -845,7 +845,7 @@ input[type="text"]:focus {
 
 .project-grid-item {
   min-height: 200px;
-  background-color: var(--accent-color-light);
+  background-color: rgb(236, 236, 236);
   border-radius: 7px;
   color: var(--light-mode-font-color);
   display: flex;
@@ -879,7 +879,7 @@ input[type="text"]:focus {
 
 .project-grid-item .project-title {
   color: inherit;
-  font-size: 2rem;
+  font-size: 2.4rem;
   font-weight: 100;
   margin: 0;
 }
@@ -889,7 +889,7 @@ input[type="text"]:focus {
   color: var(--light-mode-font-color);
 }
 
-.project-grid-item.add-btn .text i {
+.project-grid-item.new-project-btn .text i {
   font-size: 2.5rem;
   font-weight: 100;
 }

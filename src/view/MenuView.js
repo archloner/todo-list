@@ -13,8 +13,8 @@ export class MenuView {
   }
 
   render() {
-    const menuLeft = document.querySelector('.menu-left')
-    const menu = document.querySelector('.menu');
+    const menuLeft = document.querySelector(".menu-left");
+    const menu = document.querySelector(".menu");
     menuLeft.replaceChild(this.getMenuDOM(), menu);
   }
 
@@ -31,11 +31,9 @@ export class MenuView {
 
     // Overview and projects
     for (let project of this.model.getProjects()) {
-      let tasksAmount = this.calculateProjectTasksAmount(project);
+      // let tasksAmount = this.calculateProjectTasksAmount(project);
       if (project.id === 0) {
-        list.appendChild(
-          this.getMenuItem(project, ["fa", "fa-home"])
-        );
+        list.appendChild(this.getOverviewMenuItem(project));
       } else {
         list.appendChild(
           this.getMenuItem(project, DEFAULT_LIST_ITEM_ICON_CLASSES)
@@ -85,6 +83,46 @@ export class MenuView {
     return project.tasks.reduce((accumulator, currentValue, index) => {
       return accumulator + (currentValue.isComplete ? 0 : 1);
     }, 0);
+  }
+
+  getOverviewMenuItem(project) {
+    const link = document.createElement("a");
+    link.href = "#";
+    link.setAttribute("data-menu-index", project.id);
+    link.classList.add("menu-item");
+    if (this.model.getCurrentProjectId() === project.id) {
+      link.classList.add("active");
+    }
+
+    const li = document.createElement("li");
+
+    const flexRow = document.createElement("div");
+    flexRow.classList.toggle("flex-row");
+
+    const icon = document.createElement("i");
+    icon.classList.add("fa", "fa-home");
+
+    const menuItemText = document.createElement("div");
+    menuItemText.classList.toggle("menu-item-text");
+
+    const projectsAmount = this.model.getProjectsCount();
+    menuItemText.innerHTML = `${
+      project.title
+    } <p class='tasks-amount'>${projectsAmount} 
+    ${projectsAmount === 1 ? "project" : "projects"}</p>`;
+
+    flexRow.appendChild(icon);
+    flexRow.appendChild(menuItemText);
+    li.appendChild(flexRow);
+    link.appendChild(li);
+
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      // change project
+      this.controller.changeCurrentProject(project.id);
+    });
+
+    return link;
   }
 
   getMenuItem(project, iconClassesArray) {

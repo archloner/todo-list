@@ -1,6 +1,6 @@
 import { sampleData } from "./SampleData";
 
-const DEFAULT_PROJECT_ID = 1;
+const DEFAULT_PROJECT_ID = 0;
 
 export class Model {
   currentProject;
@@ -23,7 +23,8 @@ export class Model {
     this.currentProject = this.projects.filter(
       (project) => project.id === projectId
     )[0];
-    this.currentProjectId = projectId;
+    this.currentProjectId = parseInt(projectId);
+    this.setCurrentProject(this.getProjectById(this.currentProjectId));
   }
 
   getCurrentProject() {
@@ -31,16 +32,23 @@ export class Model {
   }
 
   getCurrentProjectId() {
-    return this.currentProject.id;
+    return this.currentProjectId;
   }
 
   getProjects() {
     return this.data.projects;
   }
 
+  getProjectById(projectId) {
+    const project = this.data.projects.filter(
+      (project) => project.id === projectId
+    )[0];
+    console.log(project);
+    return project;
+  }
+
   getProjectOverview() {
     let projects = [];
-    console.log(this.data.projects);
     this.data.projects.map((project) => {
       if (project.id !== 0) {
         projects.push({
@@ -50,7 +58,13 @@ export class Model {
         });
       }
     });
+    console.log(projects);
+    console.trace();
     return projects;
+  }
+
+  getProjectsCount() {
+    return this.getProjectOverview().length;
   }
 
   calculateTasks(tasks) {
@@ -68,11 +82,6 @@ export class Model {
     return this.projects.filter(
       (project) => project.id === DEFAULT_PROJECT_ID
     )[0];
-  }
-
-  getTaskById(taskId) {
-    // get task by id,
-    // global tasks ids?
   }
 
   setTaskAsComplete(task) {

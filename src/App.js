@@ -11,15 +11,18 @@ export class App {
 
   constructor() {
     this.model = new Model();
+    
     this.menuView = new MenuView({ model: this.model });
+    
     this.view = new SingleProjectView({ menuView: this.menuView });
+    this.view.setModel(this.model);
+
     this.controller = new DisplayController({
       view: this.view,
       model: this.model,
     });
 
     this.view.setController(this.controller);
-    this.view.setModel(this.model);
 
     this.menuView.setController(this.controller);
   }
