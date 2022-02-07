@@ -95,8 +95,6 @@ a {
 .menu {
   display: flex;
   flex-direction: column;
-  /* height: 75%; */
-  max-height: 75vh;
   flex: 1 0 70%;
 }
 
