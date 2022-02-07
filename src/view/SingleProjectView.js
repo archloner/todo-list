@@ -96,7 +96,6 @@ export class SingleProjectView {
     projectGrid.appendChild(this.getNewProjectGridButton());
     projectGridWrapper.appendChild(projectGrid);
 
-
     this.container.appendChild(projectGridWrapper);
     this.wrapper.appendChild(this.container);
   }
