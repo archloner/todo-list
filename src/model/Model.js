@@ -38,6 +38,28 @@ export class Model {
     return this.data.projects;
   }
 
+  getProjectOverview() {
+    let projects = [];
+    console.log(this.data.projects);
+    this.data.projects.map((project) => {
+      if (project.id !== 0) {
+        projects.push({
+          name: project.title,
+          id: project.id,
+          tasks: this.calculateTasks(project.tasks),
+        });
+      }
+    });
+    return projects;
+  }
+
+  calculateTasks(tasks) {
+    return tasks.reduce(
+      (acc, current) => acc + (current.isComplete ? 0 : 1),
+      0
+    );
+  }
+
   getData() {
     return this.data;
   }

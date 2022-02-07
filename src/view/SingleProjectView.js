@@ -2,6 +2,8 @@ import { PriorityType } from "../entity/PriorityType";
 import { Utils } from "../util/Utils";
 import { format, formatDistance, isAfter } from "date-fns";
 
+const OVERVIEW_PAGE_ID = 0;
+
 export class SingleProjectView {
   container;
   project;
@@ -10,9 +12,9 @@ export class SingleProjectView {
   menuView;
 
   constructor(dependencies) {
-    this.wrapper = document.querySelector('.content-right')
+    this.wrapper = document.querySelector(".content-right");
     this.container = document.createElement("div");
-    this.container.classList.add('container');
+    this.container.classList.add("container");
 
     if (dependencies.menuView) {
       this.menuView = dependencies.menuView;
@@ -47,22 +49,109 @@ export class SingleProjectView {
   render() {
     this.updateProject();
     this.renderMenu();
-    this.renderTasksList();
+    if (this.project.id === OVERVIEW_PAGE_ID) {
+      this.renderOverview();
+    } else {
+      this.renderTasksList();
+    }
   }
 
   renderMenu() {
     this.menuView.render();
   }
 
+  renderOverview() {
+    this.clearContainer();
+
+    const flexRow = document.createElement("div");
+    flexRow.classList.add("flex-row");
+
+    const title = document.createElement("h1");
+    title.classList.add("list-title");
+    title.textContent = "Overview";
+
+    flexRow.appendChild(title);
+
+    const projectGridWrapper = document.createElement("div");
+    projectGridWrapper.classList.add("project-grid-wrapper");
+
+    const projectGrid = document.createElement("div");
+    projectGrid.classList.add("project-grid");
+
+    this.model.getProjectOverview().map((project) => {
+      projectGrid.appendChild(this.getProjectGridItem(project));
+    });
+
+    projectGrid.appendChild(this.getNewProjectGridButton());
+    projectGridWrapper.appendChild(projectGrid);
+
+    this.container.appendChild(flexRow);
+    this.container.appendChild(projectGridWrapper);
+  }
+
+  getProjectGridItem(project) {
+    const element = document.createElement("div");
+    element.classList.add("project-grid-item");
+    element.setAttribute("data-project-index", project.id);
+
+    const bg = document.createElement("div");
+    bg.classList.add("bg");
+    element.appendChild(bg);
+
+    const text = document.createElement("div");
+    text.classList.add("text");
+
+    const title = document.createElement("h2");
+    title.classList.add("project-title");
+    title.textContent = project.name;
+    text.appendChild(title);
+
+    const taskCount = document.createElement("span");
+    taskCount.classList.add("task-count");
+    taskCount.textContent =
+      project.tasks + (project.tasks === 1 ? "task" : "tasks");
+    text.appendChild(taskCount);
+
+    element.appendChild(text);
+
+    return element;
+  }
+
+  getNewProjectGridButton() {
+    const element = document.createElement("div");
+    element.classList.add("project-grid-item", "add-btn");
+
+    const bg = document.createElement("div");
+    bg.classList.add("bg");
+    element.appendChild(bg);
+
+    const text = document.createElement("div");
+    text.classList.add("text");
+
+    const title = document.createElement("h2");
+    title.classList.add("project-title");
+    title.innerHTML = "<i class='fa fa-plus'></i>";
+    text.appendChild(title);
+
+    const taskCount = document.createElement("span");
+    taskCount.classList.add("task-count");
+    taskCount.textContent = 'New project';
+    text.appendChild(taskCount);
+
+    element.appendChild(text);
+
+    return element;
+  }
+
   renderTasksList() {
     this.clearContainer();
-    this.container.classList.add('fade-in-animation');
+    this.container.classList.add("fade-in-animation");
     this.container.appendChild(this.createProjectTitleAndMenu());
     this.container.appendChild(this.createProjectDescription());
     this.container.appendChild(this.createTasks());
 
-    this.wrapper.removeChild(document.querySelector('.container'));
-    this.wrapper.appendChild(this.container)
+    this.wrapper.removeChild(document.querySelector(".container"));
+    this.wrapper.appendChild(this.container);
   }
 
   clearContainer() {
@@ -134,18 +223,17 @@ export class SingleProjectView {
     wrapper.appendChild(form);
 
     if (this.project.done && this.project.done.length > 0) {
-      const headingDone = document.createElement('div');
-      headingDone.classList.add('tasks-title');
+      const headingDone = document.createElement("div");
+      headingDone.classList.add("tasks-title");
       headingDone.textContent = "Done";
 
-      const doneForm = document.createElement('form');
+      const doneForm = document.createElement("form");
       for (let doneTask of this.project.done) {
         doneForm.appendChild(this.getTaskDOMElement(doneTask));
       }
 
       wrapper.appendChild(headingDone);
       wrapper.appendChild(doneForm);
-
     }
 
     return wrapper;

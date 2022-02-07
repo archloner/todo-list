@@ -31,13 +31,16 @@ export class DisplayController {
 
   changeCurrentProject(projectId) {
     this.model.setCurrentProjectId(projectId);
-    this.view.render();
-    this.addNewListElementsEventListeners();
+    this.render();
   }
 
   render() {
     this.view.render();
-    this.addNewListElementsEventListeners();
+    if (this.model.getCurrentProject().id !== 0) {
+      this.addNewListElementsEventListeners();
+    } else {
+      this.addOverviewPageEventListeners();
+    }
   }
 
   attachEventListeners() {
@@ -287,5 +290,18 @@ export class DisplayController {
     } else {
       console.log("Dark-mode switch button not found");
     }
+  }
+
+  addOverviewPageEventListeners() {
+    this.addProjectTileClickListener();
+    this.addNewProjectButtonListener();
+  }
+
+  addProjectTileClickListener() {
+    
+  }  
+
+  addNewProjectButtonListener() {
+
   }
 }
