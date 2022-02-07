@@ -23,7 +23,9 @@ export class SingleProjectView {
     this.init();
   }
 
-  init() {}
+  init() {
+    // this.render();
+  }
 
   setController(controller) {
     this.controller = controller;
@@ -48,6 +50,7 @@ export class SingleProjectView {
   }
 
   render() {
+    console.log('[SingleProjectView.render()]')
     this.updateProject();
     this.renderMenu();
     if (this.project.id === OVERVIEW_PAGE_ID) {
@@ -62,6 +65,7 @@ export class SingleProjectView {
   }
 
   renderOverview() {
+    console.log('SignleProjectView.renderOverview()')
     this.clearContainer();
 
     const flexRow = document.createElement("div");
@@ -80,6 +84,7 @@ export class SingleProjectView {
     projectGrid.classList.add("project-grid");
 
     this.model.getProjectOverview().map((project) => {
+      console.log(project);
       projectGrid.appendChild(this.getProjectGridItem(project));
     });
 
@@ -88,11 +93,13 @@ export class SingleProjectView {
 
     this.container.appendChild(flexRow);
     this.container.appendChild(projectGridWrapper);
+    this.wrapper.appendChild(this.container);
   }
 
   getProjectGridItem(project) {
     const element = document.createElement("div");
     element.classList.add("project-grid-item");
+    
     element.setAttribute("data-project-index", project.id);
 
     const bg = document.createElement("div");
@@ -113,7 +120,7 @@ export class SingleProjectView {
     text.appendChild(taskCount);
 
     element.appendChild(text);
-
+    console.log(element);
     return element;
   }
 

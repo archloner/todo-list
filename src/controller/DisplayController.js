@@ -17,13 +17,11 @@ export class DisplayController {
     if (dependencies.model) {
       this.model = dependencies.model;
     }
-
-    this.init();
   }
 
   init() {
-    this.render();
     this.attachEventListeners();
+    this.render();
   }
 
   getCurrentProject() {
@@ -38,13 +36,15 @@ export class DisplayController {
 
   render() {
     this.view.render();
-    if (this.model.getCurrentProjectId() !== 0) {
-      // Single project list view
-      this.addNewListElementsEventListeners();
-    } else {
-      // Project overview page
-      this.addOverviewPageEventListeners();
-    }
+    setTimeout(() => {
+      if (this.model.getCurrentProjectId() !== 0) {
+        // New task list element
+        this.addNewListElementsEventListeners();
+      } else {
+        // Overview page
+        this.addOverviewPageEventListeners();
+      }
+    }, 500);
   }
 
   attachEventListeners() {
@@ -54,13 +54,6 @@ export class DisplayController {
     this.addNewTaskSubmitListener();
     // Dark-mode/light-mode switch
     this.addToggleDarkModeClickListener();
-
-    if (this.model.getCurrentProjectId() !== 0) {
-      // New task list element
-      setTimeout(() => {
-        this.addNewListElementsEventListeners();
-      }, 500);
-    }
   }
 
   addNewListElementsEventListeners() {
@@ -287,10 +280,12 @@ export class DisplayController {
   }
 
   addToggleDarkModeClickListener() {
+    console.log("Darkmode toggle listener attached");
     const btn = document.querySelector(".dark-mode-icon");
     if (btn) {
       btn.addEventListener("click", (e) => {
         const body = document.querySelector("body");
+        console.log(body);
         body.classList.toggle("dark-mode");
       });
     } else {
@@ -309,7 +304,9 @@ export class DisplayController {
     );
     tiles.forEach((tile) => {
       tile.addEventListener("click", (e) => {
+        console.log(e.target);
         const bg = e.target;
+        console.log(bg.parentElement);
         const projectId = bg.parentElement.getAttribute("data-project-index");
         this.changeCurrentProject(projectId);
       });

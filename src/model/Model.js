@@ -58,8 +58,8 @@ export class Model {
         });
       }
     });
-    console.log(projects);
-    console.trace();
+    // console.log(projects);
+    // console.trace();
     return projects;
   }
 
