@@ -5,6 +5,7 @@
   /* COLORS */
   --accent-color: rgb(7, 126, 86);
   --accent-color-darker: rgb(7, 110, 76);
+  --accent-color-light: rgb(28, 196, 140);
 
   --color-primary: rgb(7, 126, 86);
   --color-secondary: rgb(0, 0, 0);
@@ -812,7 +813,7 @@ input[type="text"]:focus {
 
 .validation-msg {
   color: crimson;
-  margin-left: .5rem;
+  margin-left: 0.5rem;
 }
 
 .form-controls {
@@ -830,6 +831,68 @@ input[type="text"]:focus {
   font-size: 1rem;
 } */
 
+/* OVERVIEW PAGE */
+
+.project-grid-wrapper {
+  margin-top: var(--padding-main);
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.35rem;
+}
+
+.project-grid-item {
+  min-height: 200px;
+  background-color: var(--accent-color-light);
+  border-radius: 7px;
+  color: var(--light-mode-font-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  transition: all 0.45s ease-in;
+  cursor: pointer;
+}
+
+.project-grid-item .bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(15deg, rgba(0, 0, 0, 0.29), rgba(0, 0, 0, 0.08));
+  border-radius: 7px;
+  transition: all 0.45s;
+}
+
+.project-grid-item .text {
+  padding: 1.5rem;
+}
+
+.project-grid-item:hover .bg{
+  opacity: 0.3;
+}
+
+.project-grid-item:hover {
+  transform: translateX(0) translateY(-3px);
+}
+
+.project-grid-item .project-title {
+  color: inherit;
+  font-size: 2rem;
+  font-weight: 100;
+  margin: 0;
+}
+
+.project-grid-item .task-count {
+  font-size: var(--font-size-small);
+  color: var(--light-mode-font-color);
+}
+
+.project-grid-item.add-btn .text i {
+  font-size: 2.5rem;
+  font-weight: 100;
+}
 /* KEYFRAMES */
 @keyframes task-details-expand {
   0% {
@@ -1050,7 +1113,7 @@ input[type="text"]:focus {
 
   .content-right {
     padding: 15px;
-  } 
+  }
 
   .container {
     max-width: 90%;
