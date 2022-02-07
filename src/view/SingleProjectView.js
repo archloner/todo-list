@@ -12,7 +12,7 @@ export class SingleProjectView {
   menuView;
 
   constructor(dependencies) {
-    this.wrapper = document.querySelector(".content-right");
+    this.wrapper = document.querySelector(".content-wrapper");
     this.container = document.createElement("div");
     this.container.classList.add("container");
 
