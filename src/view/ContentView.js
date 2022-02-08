@@ -4,7 +4,7 @@ import { format, formatDistance, isAfter } from "date-fns";
 
 const OVERVIEW_PAGE_ID = 0;
 
-export class SingleProjectView {
+export class ContentView {
   container;
   project;
   controller;
