@@ -317,9 +317,15 @@ export class SingleProjectView {
     title.textContent = task.title;
 
     taskText.appendChild(title);
-
+    
     const taskDetails = document.createElement("div");
     taskDetails.classList.add("task-details", "hide");
+    // Bug fix idea (add property isCollapsed to Task)
+    // if (task.isCollapsed) {
+    //   taskDetails.classList.add("task-details", "hide");
+    // } else {
+    //   taskDetails.classList.add("task-details");
+    // }
 
     const taskDescription = document.createElement("div");
     taskDescription.classList.add("description", "font-sm");
