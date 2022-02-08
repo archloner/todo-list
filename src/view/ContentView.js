@@ -23,9 +23,7 @@ export class ContentView {
     this.init();
   }
 
-  init() {
-    // this.render();
-  }
+  init() {}
 
   setController(controller) {
     this.controller = controller;
@@ -41,7 +39,6 @@ export class ContentView {
   }
 
   setModel(model) {
-    console.log('model set')
     this.model = model;
   }
 
@@ -50,7 +47,6 @@ export class ContentView {
   }
 
   render() {
-    console.log('[SingleProjectView.render()]')
     this.updateProject();
     this.renderMenu();
     if (this.project.id === OVERVIEW_PAGE_ID) {
@@ -65,7 +61,6 @@ export class ContentView {
   }
 
   renderOverview() {
-    console.log('SignleProjectView.renderOverview()')
     this.clearContainer();
 
     const flexRow = document.createElement("div");
@@ -77,9 +72,10 @@ export class ContentView {
     flexRow.appendChild(title);
     this.container.appendChild(flexRow);
 
-    const text = document.createElement('p');
-    text.classList.add('list-description')
-    text.textContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+    const text = document.createElement("p");
+    text.classList.add("list-description");
+    text.textContent =
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
     this.container.appendChild(text);
 
     const projectGridWrapper = document.createElement("div");
@@ -89,7 +85,6 @@ export class ContentView {
     projectGrid.classList.add("project-grid");
 
     this.model.getProjectOverview().map((project) => {
-      console.log(project);
       projectGrid.appendChild(this.getProjectGridItem(project));
     });
 
@@ -103,7 +98,7 @@ export class ContentView {
   getProjectGridItem(project) {
     const element = document.createElement("div");
     element.classList.add("project-grid-item");
-    
+
     element.setAttribute("data-project-index", project.id);
 
     const bg = document.createElement("div");
@@ -120,11 +115,12 @@ export class ContentView {
 
     const taskCount = document.createElement("span");
     taskCount.classList.add("task-count");
-    taskCount.textContent = `${project.tasks} ${(project.tasks === 1 ? "task" : "tasks")}`;
+    taskCount.textContent = `${project.tasks} ${
+      project.tasks === 1 ? "task" : "tasks"
+    }`;
     text.appendChild(taskCount);
 
     element.appendChild(text);
-    console.log(element);
     return element;
   }
 
@@ -146,7 +142,7 @@ export class ContentView {
 
     const taskCount = document.createElement("span");
     taskCount.classList.add("task-count");
-    taskCount.textContent = 'New project';
+    taskCount.textContent = "New project";
     text.appendChild(taskCount);
 
     element.appendChild(text);
@@ -317,7 +313,7 @@ export class ContentView {
     title.textContent = task.title;
 
     taskText.appendChild(title);
-    
+
     const taskDetails = document.createElement("div");
     taskDetails.classList.add("task-details", "hide");
     // Bug fix idea (add property isCollapsed to Task)
