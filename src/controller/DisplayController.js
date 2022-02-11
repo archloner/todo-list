@@ -296,6 +296,7 @@ export class DisplayController {
   addOverviewPageEventListeners() {
     this.addProjectTileClickListener();
     this.addNewProjectButtonListener();
+    this.addHideNewProjectModalEventListener();
   }
 
   addProjectTileClickListener() {
@@ -324,6 +325,40 @@ export class DisplayController {
   }
 
   openNewProjectModal() {
-    console.log("New project modal opened");
+    const modal = document.querySelector('#new-project-modal-wrapper');
+    modal.classList.remove('hide');
   }
+
+  addHideNewProjectModalEventListener() {
+    const wrapper = document.querySelector("#new-project-modal-wrapper");
+    wrapper.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (e.target.classList.contains("modal-wrapper")) {
+        this.animateNewProjectModalClosing();
+      }
+    });
+
+    const closeBtn = document.querySelector("#new-project-modal-wrapper .close-btn");
+    closeBtn.addEventListener("click", (e) => {
+      this.animateNewProjectModalClosing();
+    });
+  }
+
+  animateNewProjectModalClosing() {
+    const MODAL_CLOSING_ANIMATION_DURATION = 600;
+
+    const wrapper = document.querySelector("#new-project-modal-wrapper");
+    const modal = wrapper.querySelector(".new-task-modal");
+
+    modal.classList.add("modal-dissmis-animation");
+    wrapper.classList.remove("wrapper-fade-in-animation");
+    wrapper.classList.add("wrapper-fade-out-animation");
+    setTimeout(() => {
+      wrapper.classList.add("hide");
+      modal.classList.remove("modal-dissmis-animation");
+      wrapper.classList.remove("wrapper-fade-out-animation");
+      wrapper.classList.add("wrapper-fade-in-animation");
+    }, MODAL_CLOSING_ANIMATION_DURATION);
+  }
+
 }
