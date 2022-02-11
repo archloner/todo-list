@@ -32,26 +32,25 @@ export class DisplayController {
   }
 
   changeCurrentProject(projectId) {
-    console.log(projectId);
     this.model.setCurrentProjectId(projectId);
     this.render();
   }
 
   render() {
     this.view.render();
-    const newTaskBtn = document.querySelector('.new-task-btn');
+    const newTaskBtn = document.querySelector(".new-task-btn");
 
     setTimeout(() => {
       if (this.model.getCurrentProjectId() !== 0) {
         // New task list element
         this.addNewListElementsEventListeners();
         // show new task button
-        newTaskBtn.classList.remove('hide');
+        newTaskBtn.classList.remove("hide");
       } else {
         // Overview page
         this.addOverviewPageEventListeners();
         // hide new task button
-        newTaskBtn.classList.add('hide');
+        newTaskBtn.classList.add("hide");
       }
     }, 500);
   }
@@ -334,8 +333,8 @@ export class DisplayController {
 
   openNewProjectModal() {
     this.resetNewProjectModalForm();
-    const modal = document.querySelector('#new-project-modal-wrapper');
-    modal.classList.remove('hide');
+    const modal = document.querySelector("#new-project-modal-wrapper");
+    modal.classList.remove("hide");
   }
 
   resetNewProjectModalForm() {
@@ -352,7 +351,9 @@ export class DisplayController {
       }
     });
 
-    const closeBtn = document.querySelector("#new-project-modal-wrapper .close-btn");
+    const closeBtn = document.querySelector(
+      "#new-project-modal-wrapper .close-btn"
+    );
     closeBtn.addEventListener("click", (e) => {
       this.animateNewProjectModalClosing();
     });
@@ -391,7 +392,8 @@ export class DisplayController {
   }
 
   submitNewProjectModal(project) {
-    console.log('Submitting new project')
+    console.log("Submitting new project");
+    this.model.addProject(project);
+    this.render();
   }
-
 }

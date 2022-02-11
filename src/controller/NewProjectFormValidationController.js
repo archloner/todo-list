@@ -104,6 +104,7 @@ export class NewProjectFormValidationController {
       title: this.validProject.title,
       description: this.validProject.description,
       tasks: [],
+      done: [],
     };
 
     return project;

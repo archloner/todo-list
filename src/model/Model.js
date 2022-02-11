@@ -1,3 +1,4 @@
+import { IDSupplier } from "../util/IDSupplier";
 import { sampleData } from "./SampleData";
 
 const DEFAULT_PROJECT_ID = 0;
@@ -7,12 +8,26 @@ export class Model {
   currentProjectId;
   projects;
   data;
+  projectIDSupplier;
 
   constructor() {
     this.data = sampleData;
     this.projects = this.data.projects;
-    this.currentProject = this.getInitialProject();
     this.currentProjectId = DEFAULT_PROJECT_ID;
+    this.projectIDSupplier = new IDSupplier();
+
+    this.init();
+  }
+
+  init() {
+    // Determine project ID starting value
+    if (this.projects && this.projects.length > 0) {
+      const startingIdentifier = this.projects.length;
+      this.projectIDSupplier.setStartingValue(startingIdentifier);
+    }
+
+    // set initial current project
+    this.currentProject = this.getInitialProject();
   }
 
   setCurrentProject(project) {
@@ -43,7 +58,6 @@ export class Model {
     const project = this.data.projects.filter(
       (project) => project.id === projectId
     )[0];
-    console.log(project);
     return project;
   }
 
@@ -114,5 +128,7 @@ export class Model {
 
   addProject(project) {
     // set new project ID !!
+    project.id = this.projectIDSupplier.getID();
+    this.projects.push(project);
   }
 }
