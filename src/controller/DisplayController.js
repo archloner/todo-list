@@ -1,4 +1,5 @@
 import { NewTaskModalValidationController } from "./NewTaskModalValidationController";
+import { NewProjectFormValidationController } from "./NewProjectFormValidationController";
 
 export class DisplayController {
   content;
@@ -10,6 +11,8 @@ export class DisplayController {
   constructor(dependencies) {
     this.content = document.querySelector(".wrapper");
     this.formValidation = new NewTaskModalValidationController();
+
+    this.projectFormValidation = new NewProjectFormValidationController();
 
     if (dependencies.view) {
       this.view = dependencies.view;
@@ -218,12 +221,10 @@ export class DisplayController {
   }
 
   submitNewTaskModal(task) {
-    console.log("New task submited! ");
     // store data in a model
     this.model.addTask(task);
     // rerender view
     this.render();
-    console.log(this.model.getCurrentProject().tasks.length);
   }
 
   addToggleMoreMenuListener() {
@@ -303,6 +304,7 @@ export class DisplayController {
     this.addProjectTileClickListener();
     this.addNewProjectButtonListener();
     this.addHideNewProjectModalEventListener();
+    this.addNewProjectSubmitListener();
   }
 
   addProjectTileClickListener() {
@@ -331,8 +333,14 @@ export class DisplayController {
   }
 
   openNewProjectModal() {
+    this.resetNewProjectModalForm();
     const modal = document.querySelector('#new-project-modal-wrapper');
     modal.classList.remove('hide');
+  }
+
+  resetNewProjectModalForm() {
+    const form = document.querySelector("#new-project-form");
+    form.reset();
   }
 
   addHideNewProjectModalEventListener() {
@@ -365,6 +373,25 @@ export class DisplayController {
       wrapper.classList.remove("wrapper-fade-out-animation");
       wrapper.classList.add("wrapper-fade-in-animation");
     }, MODAL_CLOSING_ANIMATION_DURATION);
+  }
+
+  addNewProjectSubmitListener() {
+    const btn = document.querySelector("#new-project-submit");
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      // validate form
+      this.projectFormValidation.init();
+      if (this.projectFormValidation.isValid()) {
+        const project = this.projectFormValidation.getProject();
+        console.log(project);
+        this.submitNewProjectModal(project);
+        this.animateNewProjectModalClosing();
+      }
+    });
+  }
+
+  submitNewProjectModal(project) {
+    console.log('Submitting new project')
   }
 
 }

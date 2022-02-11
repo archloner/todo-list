@@ -111,4 +111,8 @@ export class Model {
     removeFrom.splice(taskIndex, 1);
     addTo.unshift(task);
   }
+
+  addProject(project) {
+    // set new project ID !!
+  }
 }
