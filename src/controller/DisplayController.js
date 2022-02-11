@@ -36,13 +36,19 @@ export class DisplayController {
 
   render() {
     this.view.render();
+    const newTaskBtn = document.querySelector('.new-task-btn');
+
     setTimeout(() => {
       if (this.model.getCurrentProjectId() !== 0) {
         // New task list element
         this.addNewListElementsEventListeners();
+        // show new task button
+        newTaskBtn.classList.remove('hide');
       } else {
         // Overview page
         this.addOverviewPageEventListeners();
+        // hide new task button
+        newTaskBtn.classList.add('hide');
       }
     }, 500);
   }
