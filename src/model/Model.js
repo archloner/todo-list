@@ -54,6 +54,10 @@ export class Model {
     return this.data.projects;
   }
 
+  getData() {
+    return this.data;
+  }
+
   getProjectById(projectId) {
     const project = this.data.projects.filter(
       (project) => project.id === projectId
@@ -72,7 +76,7 @@ export class Model {
         });
       }
     });
-    
+
     return projects;
   }
 
@@ -87,14 +91,24 @@ export class Model {
     );
   }
 
-  getData() {
-    return this.data;
-  }
-
   getInitialProject() {
     return this.projects.filter(
       (project) => project.id === DEFAULT_PROJECT_ID
     )[0];
+  }
+
+  getTaskById(id) {
+    const task = this.currentProject.tasks.filter((task) => task.id === id)[0];
+    if (task) {
+      return task;
+    } else {
+      const doneTask = this.currentProject.done.filter((task) => task.id === id)[0];
+      if (doneTask) {
+        return doneTask;
+      } else {
+        console.error('Model.getTaskById(): Done task not found');
+      }
+    }
   }
 
   setTaskAsComplete(task) {
@@ -124,6 +138,23 @@ export class Model {
     // Move task from one array to other
     removeFrom.splice(taskIndex, 1);
     addTo.unshift(task);
+  }
+
+  deleteTaskById(id) {
+    const task = this.getTaskById(parseInt(id));
+    if (task) {
+      const index = this.currentProject.tasks.indexOf(task);
+      if (index !== -1) {
+        this.currentProject.tasks.splice(index, 1);
+        console.log('task deleted')
+      } else {
+        const doneIndex = this.currentProject.done.indexOf(task);
+        if (doneIndex != -1) {
+          this.currentProject.done.splice(doneIndex, 1);
+          console.log('done task deleted');
+        }
+      }
+    }
   }
 
   addProject(project) {

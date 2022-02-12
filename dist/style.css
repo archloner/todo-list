@@ -198,11 +198,28 @@ a.menu-item li {
   border-color: var(--accent-color);
   color: white;
   background-color: var(--accent-color);
+  opacity: 0.85;
 }
 
 .btn-primary:hover {
-  background-color: var(--accent-color-darker);
-  border-color: var(--accent-color-darker);
+  border-color: var(--accent-color);
+  color: white;
+  background-color: var(--accent-color);
+  opacity: 1;
+}
+
+.btn-danger {
+  border-color: var(--color-danger);
+  color: white;
+  background-color: var(--color-danger);
+  opacity: 0.85;
+}
+
+.btn-danger:hover {
+  border-color: var(--color-danger);
+  color: white;
+  background-color: var(--color-danger);
+  opacity: 1;
 }
 
 .flex-grow {
@@ -831,6 +848,7 @@ input[type="text"]:focus {
 
 .form-controls button {
   flex: 1 1 auto;
+  margin: 0.15rem;
 }
 
 /* .form-row input {
@@ -838,6 +856,11 @@ input[type="text"]:focus {
   font-family: 'Roboto', Verdana, Geneva, Tahoma, sans-serif;
   font-size: 1rem;
 } */
+
+/* CONFIRM DELETE MODAL */
+#confirm-task-delete-modal .task-title {
+  font-weight: bold;
+}
 
 /* OVERVIEW PAGE */
 
@@ -882,7 +905,7 @@ input[type="text"]:focus {
 }
 
 .project-grid-item:hover {
-  transform: translateX(0) translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .project-grid-item .project-title {

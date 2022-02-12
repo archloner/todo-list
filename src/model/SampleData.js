@@ -124,4 +124,5 @@ export const sampleData = {
       done: [],
     },
   ],
+  logs: []
 };

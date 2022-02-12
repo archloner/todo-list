@@ -372,7 +372,7 @@ export class ContentView {
     moreIcon.classList.add("fas", "fa-ellipsis-v", "icon", "more");
     taskMenu.appendChild(moreIcon);
 
-    const moreMenu = document.createElement("more-menu");
+    const moreMenu = document.createElement("div");
     moreMenu.classList.add("more-menu", "hide");
 
     const list = document.createElement("ul");

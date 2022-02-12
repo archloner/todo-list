@@ -74,6 +74,9 @@ export class DisplayController {
     this.addToggleMoreMenuListener();
     this.addDeleteTaskClickListener();
     this.addEditTaskClickListener();
+
+    this.addHideDeleteTaskModalEventListener();
+    this.addConfirmDeleteTaskButtonClickListener();
   }
 
   addToggleCompleteEventListener() {
@@ -256,7 +259,7 @@ export class DisplayController {
     const deleteBtns = document.querySelectorAll(".more-menu-option.delete");
     for (let btn of deleteBtns) {
       const index =
-        btn.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute(
+        btn.parentElement.parentElement.parentElement.parentElement.getAttribute(
           "data-index"
         );
       btn.addEventListener("click", this.handleDeleteTask.bind(this, index));
@@ -265,8 +268,78 @@ export class DisplayController {
 
   handleDeleteTask(index) {
     console.log("Deleting task with id " + index);
-    // this.confirmDeletingTask();
-    // model.deleteTask(taskId);
+    // Hide 'more' menu
+    const moreMenu = document.querySelectorAll(".task-menu .more-menu");
+    moreMenu.forEach((item) => {
+      item.classList.add("hide");
+    });
+
+    // Confirm task deletion
+    if (this.confirmDeletingTask(parseInt(index))) {
+      this.model.deleteTask(index);
+    }
+  }
+
+  confirmDeletingTask(id) {
+    this.showConfirmDeleteModal(id);
+    return false;
+  }
+
+  showConfirmDeleteModal(id) {
+    const task = this.model.getTaskById(id);
+    const modal = document.querySelector("#confirm-task-delete-modal");
+    modal.querySelector(".task-title").textContent = task.title;
+    modal.querySelector('#delete-confirm').setAttribute('data-id', id);
+    modal.classList.remove("hide");
+  }
+
+  addConfirmDeleteTaskButtonClickListener() {
+    const confirmButton = document.querySelector('#confirm-task-delete-modal #delete-confirm');
+    confirmButton.addEventListener('click', (e) => {
+      const id = confirmButton.getAttribute('data-id');
+      this.model.deleteTaskById(id);
+      this.animateDeleteTaskModalClosing();
+      this.render();
+    })
+  }
+
+  addHideDeleteTaskModalEventListener() {
+    const wrapper = document.querySelector("#confirm-task-delete-modal");
+    wrapper.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (e.target.classList.contains("modal-wrapper")) {
+        this.animateDeleteTaskModalClosing();
+      }
+    });
+
+    const closeBtn = document.querySelector(
+      "#confirm-task-delete-modal .close-btn"
+    );
+    closeBtn.addEventListener("click", (e) => {
+      this.animateDeleteTaskModalClosing();
+    });
+
+    const cancelButton = wrapper.querySelector("#delete-cancel");
+    cancelButton.addEventListener("click", (e) => {
+      this.animateDeleteTaskModalClosing();
+    });
+  }
+
+  animateDeleteTaskModalClosing() {
+    const MODAL_CLOSING_ANIMATION_DURATION = 600;
+
+    const wrapper = document.querySelector("#confirm-task-delete-modal");
+    const modal = wrapper.querySelector(".new-task-modal");
+
+    modal.classList.add("modal-dissmis-animation");
+    wrapper.classList.remove("wrapper-fade-in-animation");
+    wrapper.classList.add("wrapper-fade-out-animation");
+    setTimeout(() => {
+      wrapper.classList.add("hide");
+      modal.classList.remove("modal-dissmis-animation");
+      wrapper.classList.remove("wrapper-fade-out-animation");
+      wrapper.classList.add("wrapper-fade-in-animation");
+    }, MODAL_CLOSING_ANIMATION_DURATION);
   }
 
   addEditTaskClickListener() {
@@ -312,9 +385,7 @@ export class DisplayController {
     );
     tiles.forEach((tile) => {
       tile.addEventListener("click", (e) => {
-        console.log(e.target);
         const bg = e.target;
-        console.log(bg.parentElement);
         const projectId = bg.parentElement.getAttribute("data-project-index");
         this.changeCurrentProject(projectId);
       });
