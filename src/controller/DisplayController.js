@@ -255,6 +255,8 @@ export class DisplayController {
     });
   }
 
+  /* DELETING TASK */
+
   addDeleteTaskClickListener() {
     const deleteBtns = document.querySelectorAll(".more-menu-option.delete");
     for (let btn of deleteBtns) {
@@ -342,6 +344,8 @@ export class DisplayController {
     }, MODAL_CLOSING_ANIMATION_DURATION);
   }
 
+  /* EDIT MODAL */
+
   addEditTaskClickListener() {
     const editBtns = document.querySelectorAll(".more-menu-option.edit");
     for (let btn of editBtns) {
@@ -364,7 +368,6 @@ export class DisplayController {
     if (btn) {
       btn.addEventListener("click", (e) => {
         const body = document.querySelector("body");
-        console.log(body);
         body.classList.toggle("dark-mode");
       });
     } else {
