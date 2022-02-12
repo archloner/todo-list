@@ -7,6 +7,7 @@ export class Task {
   dueDate;
   priority;
   isComplete;
+  isCollapsed;
   log;
   // optional?
   notes;
@@ -20,6 +21,7 @@ export class Task {
     this.priority = priority;
     this.createdDate = new Date();
     this.isComplete = false;
+    this.isCollapsed = true;
 
     this.notes = null;
     this.checklist = [];
@@ -36,6 +38,18 @@ export class Task {
 
   markAsNotComplete() {
     this.isComplete = false;
+  }
+
+  toggleComplete() {
+    this.isComplete = !this.isComplete;
+  }
+
+  setIsCollapsed(value) {
+    this.isCollapsed = value;
+  }
+
+  toggleIsCollapsed() {
+    this.isCollapsed = !this.isCollapsed;
   }
 
   getDOMElement() {

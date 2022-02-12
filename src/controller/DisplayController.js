@@ -97,7 +97,7 @@ export class DisplayController {
   }
 
   addTaskDetailsToggleEventListeners() {
-    const buttons = document.querySelectorAll(".task-menu .fa-chevron-down");
+    const buttons = document.querySelectorAll(".task-menu .icon.chevron");
     for (let button of buttons) {
       button.addEventListener("click", (e) => {
         const icon = e.target;
@@ -115,6 +115,12 @@ export class DisplayController {
       const icon = taskElement.querySelector(".icon");
       icon.classList.toggle("fa-chevron-up");
       icon.classList.toggle("fa-chevron-down");
+
+      const task = this.model.getTaskById(
+        taskElement.getAttribute("data-index")
+      );
+      task.toggleIsCollapsed();
+      console.log(task.isCollapsed);
     }
   }
 
@@ -126,35 +132,40 @@ export class DisplayController {
       const tasks = document.querySelectorAll(".task");
       if (tasks) {
         if (new String(btn.innerText.trim()).includes(TEXT_CONTENT_TO_EXPAND)) {
+          this.view.allExpanded = true;
           for (let task of tasks) {
             this.showTaskDetails(task);
           }
-          btn.textContent = "Collapse all";
         } else {
+          this.view.allExpanded = false;
           for (let task of tasks) {
             this.hideTaskDetails(task);
           }
-          btn.textContent = TEXT_CONTENT_TO_EXPAND;
         }
+        this.render();
       }
     });
   }
 
-  showTaskDetails(task) {
-    const taskDetailsToShow = task.querySelector(".task-details");
-    taskDetailsToShow.classList.remove("hide");
-    const chevron = task.querySelector(".task-menu .icon");
+  showTaskDetails(taskEl) {
+    const task = this.model.getTaskById(taskEl.getAttribute("data-index"));
+    task.setIsCollapsed(false);
+
+    const chevron = taskEl.querySelector(".task-menu .icon");
     chevron.classList.remove("fa-chevron-down");
     chevron.classList.add("fa-chevron-up");
   }
 
-  hideTaskDetails(task) {
-    const taskDetailsToShow = task.querySelector(".task-details");
-    taskDetailsToShow.classList.add("hide");
-    const chevron = task.querySelector(".task-menu .icon");
+  hideTaskDetails(taskEl) {
+    const task = this.model.getTaskById(taskEl.getAttribute("data-index"));
+    task.setIsCollapsed(true);
+
+    const chevron = taskEl.querySelector(".task-menu .icon");
     chevron.classList.remove("fa-chevron-up");
     chevron.classList.add("fa-chevron-down");
   }
+
+  /* NEW TASK MODAL */
 
   addShowNewTaskModalEventListener() {
     const btn = document.querySelector(".new-task-btn");
@@ -291,18 +302,20 @@ export class DisplayController {
     const task = this.model.getTaskById(id);
     const modal = document.querySelector("#confirm-task-delete-modal");
     modal.querySelector(".task-title").textContent = task.title;
-    modal.querySelector('#delete-confirm').setAttribute('data-id', id);
+    modal.querySelector("#delete-confirm").setAttribute("data-id", id);
     modal.classList.remove("hide");
   }
 
   addConfirmDeleteTaskButtonClickListener() {
-    const confirmButton = document.querySelector('#confirm-task-delete-modal #delete-confirm');
-    confirmButton.addEventListener('click', (e) => {
-      const id = confirmButton.getAttribute('data-id');
+    const confirmButton = document.querySelector(
+      "#confirm-task-delete-modal #delete-confirm"
+    );
+    confirmButton.addEventListener("click", (e) => {
+      const id = confirmButton.getAttribute("data-id");
       this.model.deleteTaskById(id);
       this.animateDeleteTaskModalClosing();
       this.render();
-    })
+    });
   }
 
   addHideDeleteTaskModalEventListener() {

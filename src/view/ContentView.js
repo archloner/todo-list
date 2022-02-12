@@ -11,6 +11,8 @@ export class ContentView {
   model;
   menuView;
 
+  allExpanded;
+
   constructor(dependencies) {
     this.wrapper = document.querySelector(".content-wrapper");
     this.container = document.createElement("div");
@@ -19,6 +21,8 @@ export class ContentView {
     if (dependencies.menuView) {
       this.menuView = dependencies.menuView;
     }
+
+    this.allExpanded = false;
 
     this.init();
   }
@@ -214,7 +218,13 @@ export class ContentView {
     const expandAllSpan = document.createElement("span");
     expandAllSpan.classList.add("font-sm");
     expandAllSpan.id = "expand-all-hide-all-span";
-    expandAllSpan.textContent = "Expand all";
+    if (this.allExpanded) {
+      console.log('all expanded');
+      expandAllSpan.textContent = "Collapse all";
+    } else {
+      console.log('all collapsed')
+      expandAllSpan.textContent = "Expand all";
+    }
 
     expandAll.appendChild(expandAllSpan);
     sectionTodo.appendChild(expandAll);
@@ -315,13 +325,13 @@ export class ContentView {
     taskText.appendChild(title);
 
     const taskDetails = document.createElement("div");
-    taskDetails.classList.add("task-details", "hide");
+    taskDetails.classList.add("task-details");
     // Bug fix idea (add property isCollapsed to Task)
-    // if (task.isCollapsed) {
-    //   taskDetails.classList.add("task-details", "hide");
-    // } else {
-    //   taskDetails.classList.add("task-details");
-    // }
+    if (task.isCollapsed) {
+      taskDetails.classList.add("hide");
+    } else {
+      taskDetails.classList.remove('hide');
+    }
 
     const taskDescription = document.createElement("div");
     taskDescription.classList.add("description", "font-sm");
@@ -365,7 +375,12 @@ export class ContentView {
     taskMenu.classList.add("task-menu");
 
     const chevronIcon = document.createElement("i");
-    chevronIcon.classList.add("fas", "fa-chevron-down", "icon", "chevron");
+    chevronIcon.classList.add("icon", "chevron");
+    if (task.isCollapsed) {
+      chevronIcon.classList.add("fas", "fa-chevron-down");
+    } else {
+      chevronIcon.classList.add("fas", "fa-chevron-up");
+    }
     taskMenu.appendChild(chevronIcon);
 
     const moreIcon = document.createElement("i");

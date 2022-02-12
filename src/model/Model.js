@@ -98,6 +98,7 @@ export class Model {
   }
 
   getTaskById(id) {
+    id = parseInt(id);
     const task = this.currentProject.tasks.filter((task) => task.id === id)[0];
     if (task) {
       return task;
@@ -141,7 +142,7 @@ export class Model {
   }
 
   deleteTaskById(id) {
-    const task = this.getTaskById(parseInt(id));
+    const task = this.getTaskById(id);
     if (task) {
       const index = this.currentProject.tasks.indexOf(task);
       if (index !== -1) {
