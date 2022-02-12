@@ -230,14 +230,24 @@ export class ContentView {
     sectionTodo.appendChild(expandAll);
     wrapper.appendChild(sectionTodo);
 
-    const form = document.createElement("form");
-    for (let task of this.project.tasks) {
-      // form.appendChild(task.getDOMElement());
-      // or
-      form.appendChild(this.getTaskDOMElement(task));
+    if (this.project.tasks.length > 0) {
+      const form = document.createElement("form");
+      for (let task of this.project.tasks) {
+        // form.appendChild(task.getDOMElement());
+        // or
+        form.appendChild(this.getTaskDOMElement(task));
+      }
+  
+      wrapper.appendChild(form);
+    } else {
+      const noTasksMessage = document.createElement('h1');
+      noTasksMessage.classList.add('no-tasks-message');
+      noTasksMessage.textContent = 'No tasks to do, enjoy your brake 😄';
+
+      wrapper.appendChild(noTasksMessage);
     }
 
-    wrapper.appendChild(form);
+    // done
 
     if (this.project.done && this.project.done.length > 0) {
       const headingDone = document.createElement("div");
