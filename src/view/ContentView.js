@@ -247,8 +247,7 @@ export class ContentView {
       wrapper.appendChild(noTasksMessage);
     }
 
-    // done
-
+    // done section
     if (this.project.done && this.project.done.length > 0) {
       const headingDone = document.createElement("div");
       headingDone.classList.add("tasks-title");
