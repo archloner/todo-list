@@ -62,6 +62,9 @@ export class DisplayController {
     this.addNewTaskSubmitListener();
     // Dark-mode/light-mode switch
     this.addToggleDarkModeClickListener();
+    // new project modal
+    this.addHideNewProjectModalEventListener();
+    this.addNewProjectSubmitListener();
   }
 
   addNewListElementsEventListeners() {
@@ -391,8 +394,6 @@ export class DisplayController {
   addOverviewPageEventListeners() {
     this.addProjectTileClickListener();
     this.addNewProjectButtonListener();
-    this.addHideNewProjectModalEventListener();
-    this.addNewProjectSubmitListener();
   }
 
   addProjectTileClickListener() {
@@ -410,7 +411,6 @@ export class DisplayController {
 
   addNewProjectButtonListener() {
     const newProjectButtons = document.querySelectorAll(".new-project-btn");
-
     newProjectButtons.forEach((btn) => {
       btn.addEventListener("click", (e) => {
         this.openNewProjectModal();
@@ -471,7 +471,6 @@ export class DisplayController {
       this.projectFormValidation.init();
       if (this.projectFormValidation.isValid()) {
         const project = this.projectFormValidation.getProject();
-        console.log(project);
         this.submitNewProjectModal(project);
         this.animateNewProjectModalClosing();
       }
