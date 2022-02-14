@@ -109,6 +109,13 @@ export class ContentView {
     bg.classList.add("bg");
     element.appendChild(bg);
 
+    const controls = document.createElement("div");
+    controls.classList.add("controls", "project-delete-btn");
+    const trashIcon = document.createElement("i");
+    trashIcon.classList.add("far", "fa-trash-alt", "icon");
+    controls.appendChild(trashIcon);
+    element.appendChild(controls);
+
     const text = document.createElement("div");
     text.classList.add("text");
 
@@ -180,10 +187,16 @@ export class ContentView {
     const menu1 = document.createElement("div");
     menu1.classList.add("push-right", "align-center");
 
-    const icon = document.createElement("i");
-    icon.classList.add("fas", "fa-ellipsis-v");
+    const trashIcon = document.createElement("i");
+    trashIcon.classList.add(
+      "far",
+      "fa-trash-alt",
+      "icon",
+      "project-delete-btn"
+    );
+    trashIcon.setAttribute("data-project-id", this.model.getCurrentProjectId());
 
-    menu1.appendChild(icon);
+    menu1.appendChild(trashIcon);
 
     flexRow.appendChild(heading);
     flexRow.appendChild(menu1);
@@ -219,10 +232,10 @@ export class ContentView {
     expandAllSpan.classList.add("font-sm");
     expandAllSpan.id = "expand-all-hide-all-span";
     if (this.allExpanded) {
-      console.log('all expanded');
+      console.log("all expanded");
       expandAllSpan.textContent = "Collapse all";
     } else {
-      console.log('all collapsed')
+      console.log("all collapsed");
       expandAllSpan.textContent = "Expand all";
     }
 
@@ -237,12 +250,12 @@ export class ContentView {
         // or
         form.appendChild(this.getTaskDOMElement(task));
       }
-  
+
       wrapper.appendChild(form);
     } else {
-      const noTasksMessage = document.createElement('h1');
-      noTasksMessage.classList.add('no-tasks-message');
-      noTasksMessage.textContent = 'No tasks to do, enjoy your brake 😄';
+      const noTasksMessage = document.createElement("h1");
+      noTasksMessage.classList.add("no-tasks-message");
+      noTasksMessage.textContent = "No tasks to do, enjoy your brake 😄";
 
       wrapper.appendChild(noTasksMessage);
     }
@@ -339,7 +352,7 @@ export class ContentView {
     if (task.isCollapsed) {
       taskDetails.classList.add("hide");
     } else {
-      taskDetails.classList.remove('hide');
+      taskDetails.classList.remove("hide");
     }
 
     const taskDescription = document.createElement("div");

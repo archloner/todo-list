@@ -47,7 +47,7 @@ export class Model {
   }
 
   getCurrentProjectId() {
-    return this.currentProjectId;
+    return this.currentProject.id;
   }
 
   getProjects() {
@@ -59,10 +59,16 @@ export class Model {
   }
 
   getProjectById(projectId) {
+    projectId = parseInt(projectId);
+
     const project = this.data.projects.filter(
       (project) => project.id === projectId
     )[0];
-    return project;
+    if (project) {
+      return project;
+    } else {
+      return -1;
+    }
   }
 
   getProjectOverview() {
@@ -159,8 +165,25 @@ export class Model {
   }
 
   addProject(project) {
-    // set new project ID !!
     project.id = this.projectIDSupplier.getID();
     this.projects.push(project);
+  }
+
+  deleteProjectById(id) {
+    id = parseInt(id);
+    if (this.currentProject.id === id) {
+      this.setCurrentProject(this.getProjectById(DEFAULT_PROJECT_ID));
+    }
+    const project = this.getProjectById(id);
+    if (project !== -1) {
+      const projectIndex = this.projects.indexOf(project);
+      // delete project and return true
+      this.projects.splice(projectIndex, 1);
+      
+      return true;
+    } else {
+      console.error(`Project with id ${id} not found`);
+      return false;
+    }
   }
 }

@@ -52,7 +52,7 @@ export class DisplayController {
         // hide new task button
         newTaskBtn.classList.add("hide");
       }
-    }, 500);
+    }, 100);
   }
 
   attachEventListeners() {
@@ -65,6 +65,9 @@ export class DisplayController {
     // new project modal
     this.addHideNewProjectModalEventListener();
     this.addNewProjectSubmitListener();
+    // Delete task confirm modal
+    this.addHideDeleteTaskModalEventListener();
+    this.addConfirmDeleteTaskButtonClickListener();
   }
 
   addNewListElementsEventListeners() {
@@ -77,9 +80,17 @@ export class DisplayController {
     this.addToggleMoreMenuListener();
     this.addDeleteTaskClickListener();
     this.addEditTaskClickListener();
+    // Delete project confirm modal open
+    this.addDeleteProjectClickListener();
+  }
 
+  addOverviewPageEventListeners() {
+    // Project tile click listeners
+    this.addProjectTileClickListener();
+    this.addNewProjectButtonListener();
+    // Delete confirm modal
     this.addHideDeleteTaskModalEventListener();
-    this.addConfirmDeleteTaskButtonClickListener();
+    this.addConfirmDeleteProjectButtonClickListener();
   }
 
   addToggleCompleteEventListener() {
@@ -297,15 +308,23 @@ export class DisplayController {
   }
 
   confirmDeletingTask(id) {
-    this.showConfirmDeleteModal(id);
+    this.fillDeleteModalWithTaskData(id);
+    this.showConfirmDeleteModal();
     return false;
   }
 
-  showConfirmDeleteModal(id) {
+  fillDeleteModalWithTaskData(id) {
     const task = this.model.getTaskById(id);
     const modal = document.querySelector("#confirm-task-delete-modal");
     modal.querySelector(".task-title").textContent = task.title;
     modal.querySelector("#delete-confirm").setAttribute("data-id", id);
+    modal
+      .querySelector("#delete-confirm")
+      .setAttribute("data-delete-type", "task");
+  }
+
+  showConfirmDeleteModal() {
+    const modal = document.querySelector("#confirm-task-delete-modal");
     modal.classList.remove("hide");
   }
 
@@ -314,8 +333,12 @@ export class DisplayController {
       "#confirm-task-delete-modal #delete-confirm"
     );
     confirmButton.addEventListener("click", (e) => {
-      const id = confirmButton.getAttribute("data-id");
-      this.model.deleteTaskById(id);
+      const deleteType = confirmButton.getAttribute("data-delete-type");
+      if (deleteType.includes("project")) {
+      } else if (deleteType.includes("task")) {
+        const taskId = confirmButton.getAttribute("data-id");
+        this.model.deleteTaskById(taskId);
+      }
       this.animateDeleteTaskModalClosing();
       this.render();
     });
@@ -391,20 +414,27 @@ export class DisplayController {
     }
   }
 
-  addOverviewPageEventListeners() {
-    this.addProjectTileClickListener();
-    this.addNewProjectButtonListener();
-  }
-
   addProjectTileClickListener() {
     const tiles = document.querySelectorAll(
       ".project-grid-item:not(.new-project-btn)"
     );
     tiles.forEach((tile) => {
       tile.addEventListener("click", (e) => {
-        const bg = e.target;
-        const projectId = bg.parentElement.getAttribute("data-project-index");
-        this.changeCurrentProject(projectId);
+        e.stopPropagation();
+        const target = e.target;
+        console.log(e.target);
+        if (target.classList.contains("bg")) {
+          const projectId =
+            target.parentElement.getAttribute("data-project-index");
+          this.changeCurrentProject(projectId);
+        } else {
+          // delete project
+          const projectId =
+            target.parentElement.parentElement.getAttribute(
+              "data-project-index"
+            );
+          this.showConfirmDeleteProjectModal(projectId);
+        }
       });
     });
   }
@@ -481,5 +511,51 @@ export class DisplayController {
     console.log("Submitting new project");
     this.model.addProject(project);
     this.render();
+  }
+
+  showConfirmDeleteProjectModal(projectId) {
+    this.fillDeleteModalWithProjectData(projectId);
+    this.showConfirmDeleteModal();
+  }
+
+  fillDeleteModalWithProjectData(id) {
+    const modal = document.querySelector("#confirm-task-delete-modal");
+    const titleEl = modal.querySelector(".title");
+    titleEl.textContent = "Delete project?";
+
+    const projectTitle = this.model.getProjectById(id).title;
+
+    const paragraph = modal.querySelector("p");
+    paragraph.innerHTML = `Delete project <span class="task-title">${projectTitle}</span>?`;
+
+    const deleteConfirmBtn = modal.querySelector("#delete-confirm");
+    deleteConfirmBtn.setAttribute("data-id", id);
+    deleteConfirmBtn.setAttribute("data-delete-type", "project");
+  }
+
+  addConfirmDeleteProjectButtonClickListener() {
+    const btn = document.querySelector("#delete-confirm");
+    btn.addEventListener("click", (e) => {
+      if (e.target.getAttribute("data-delete-type").includes("project")) {
+        const projectId = e.target.getAttribute("data-id");
+        if (this.model.deleteProjectById(projectId)) {
+          this.animateDeleteTaskModalClosing();
+          this.render();
+        } else {
+          console.error("Error while deleting project");
+        }
+      } else {
+        console.error("Deleting project but task id given");
+      }
+    });
+  }
+
+  addDeleteProjectClickListener() {
+    const btn = document.querySelector(".project-delete-btn");
+    btn.addEventListener("click", (e) => {
+      console.log(e.target);
+      const projectId = e.target.getAttribute("data-project-id");
+      this.showConfirmDeleteProjectModal(projectId);
+    });
   }
 }
