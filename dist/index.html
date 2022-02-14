@@ -141,8 +141,8 @@
           </div>
         </div>
 
-        <div class="content-wrapper"></div>
-        <!--  
+        <div class="content-wrapper">
+          <!-- 
         <div class="container">
 
           <div class="flex-row">
@@ -155,6 +155,9 @@
              <a href="#">
                 <div class="project-grid-item" data-project-index="1">
                   <div class="bg"></div>
+                  <div class="controls">
+                    <i class="far fa-trash-alt icon"></i>
+                  </div>
                   <div class="text">
                     <h2 class="project-title">Website redesign</h2>
                     <span class="task-count">7 tasks</span>
@@ -165,6 +168,9 @@
               <a href="#">
                 <div class="project-grid-item">
                   <div class="bg"></div>
+                  <div class="controls">
+                    <i class="far fa-trash-alt icon"></i>
+                  </div>
                   <div class="text">
                     <h2 class="project-title">Groceries</h2>
                     <span class="task-count">7 tasks</span>
@@ -206,8 +212,8 @@
             </div>
           </div>
         </div>
-      -->
-        <!-- <div class="container">
+        -->
+          <!-- <div class="container">
           <div class="flex-row">
             <h1 class="list-title">Overview</h1>
             <div class="push-right align-center">
@@ -530,6 +536,7 @@
             </form>
           </div>
         </div> -->
+        </div>
       </div>
     </div>
     <div class="new-task-btn">
@@ -692,14 +699,10 @@
       <div class="new-task-modal modal-show-animation">
         <h1 class="title">Delete task?</h1>
         <p>Delete task <span class="task-title"></span>?</p>
-          <div class="form-row form-controls">
-            <button class="btn btn-danger" id="delete-confirm">
-              Delete
-            </button>
-            <button class="btn btn-primary" id="delete-cancel">
-              Cancel
-            </button>
-          </div>
+        <div class="form-row form-controls">
+          <button class="btn btn-danger" id="delete-confirm">Delete</button>
+          <button class="btn btn-primary" id="delete-cancel">Cancel</button>
+        </div>
         <div class="close-btn"><i class="fas fa-times"></i></div>
       </div>
     </div>
