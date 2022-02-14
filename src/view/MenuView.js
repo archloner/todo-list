@@ -25,7 +25,7 @@ export class MenuView {
     menu.classList.add("menu");
 
     const list = document.createElement("ul");
-    list.classList.add("flex-grow");
+    list.classList.add("flex-grow", "menu-items");
 
     let projects = this.model.getProjects();
 
