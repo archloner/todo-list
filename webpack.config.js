@@ -2,8 +2,8 @@ const path = require("path");
 
 module.exports = {
   entry: "./src/index.js",
+  devtool: "inline-source-map",
   devServer: {
-    devtool: "inline-source-map",
     static: {
       directory: path.join(__dirname, "dist"),
     },
