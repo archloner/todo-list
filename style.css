@@ -896,6 +896,15 @@ input[type="text"]:focus {
   transition: all 0.45s;
 }
 
+.project-grid-item .controls {
+  flex: 1 0 auto;
+  align-self: flex-end;
+  padding: var(--padding-small);
+  color: var(--light-mode-font-color-lighter);
+  font-size: var(--font-size-small);
+  z-index: 10;
+}
+
 .project-grid-item .text {
   padding: 1.5rem;
 }
@@ -1122,7 +1131,13 @@ input[type="text"]:focus {
   }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1160px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 980px) {
   .menu-left {
     min-width: 150px;
     font-size: 0.7rem;
@@ -1139,6 +1154,12 @@ input[type="text"]:focus {
 
   .project-grid-item.new-project-btn .text i {
     font-size: 1.5rem;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.55rem;
   }
 }
 
@@ -1195,6 +1216,10 @@ input[type="text"]:focus {
     padding: 15px;
   }
 
+  .search-bar-wrapper {
+    width: 90%;
+  }
+
   .container {
     max-width: 90%;
     margin-bottom: 20px;
@@ -1224,5 +1249,10 @@ input[type="text"]:focus {
 
   .content-right {
     max-height: none;
+  }
+
+  .project-grid {
+    display: flex;
+    flex-direction: column;
   }
 }
