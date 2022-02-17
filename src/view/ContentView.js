@@ -319,6 +319,7 @@ export class ContentView {
       checkboxInput.setAttribute("checked", "");
     }
     checkboxInput.id = `task-${task.id}`;
+    checkboxInput.setAttribute('data-id', task.id);
 
     taskContent.appendChild(checkboxInput);
 

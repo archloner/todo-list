@@ -109,11 +109,13 @@ export class Model {
     if (task) {
       return task;
     } else {
-      const doneTask = this.currentProject.done.filter((task) => task.id === id)[0];
+      const doneTask = this.currentProject.done.filter(
+        (task) => task.id === id
+      )[0];
       if (doneTask) {
         return doneTask;
       } else {
-        console.error('Model.getTaskById(): Done task not found');
+        console.error("Model.getTaskById(): Done task not found");
       }
     }
   }
@@ -153,13 +155,36 @@ export class Model {
       const index = this.currentProject.tasks.indexOf(task);
       if (index !== -1) {
         this.currentProject.tasks.splice(index, 1);
-        console.log('task deleted')
+        console.log("task deleted");
       } else {
         const doneIndex = this.currentProject.done.indexOf(task);
         if (doneIndex != -1) {
           this.currentProject.done.splice(doneIndex, 1);
-          console.log('done task deleted');
+          console.log("done task deleted");
         }
+      }
+    }
+  }
+
+  updateTask(task) {
+    const taskId = task.id;
+    if (taskId) {
+      let taskIndex = -1;
+      for (let i = 0; i < this.currentProject.tasks.length; i++) {
+        if (this.currentProject.tasks[i].id === taskId) {
+          taskIndex = i;
+        }
+      }
+      if (taskIndex !== -1) {
+        this.currentProject.tasks.splice(taskIndex, 1, task);
+      } else {
+        for (let i = 0; i < this.currentProject.done.length; i++) {
+          if (this.currentProject.done[i].id === taskId) {
+            taskIndex = i;
+            task.isComplete = true;
+          }
+        }
+        this.currentProject.done.splice(taskIndex, 1, task);
       }
     }
   }
@@ -179,7 +204,7 @@ export class Model {
       const projectIndex = this.projects.indexOf(project);
       // delete project and return true
       this.projects.splice(projectIndex, 1);
-      
+
       return true;
     } else {
       console.error(`Project with id ${id} not found`);

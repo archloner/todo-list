@@ -1,5 +1,7 @@
-import { NewTaskModalValidationController } from "./NewTaskModalValidationController";
+import { TaskFormValidationController } from "./TaskFormValidationController";
 import { NewProjectFormValidationController } from "./NewProjectFormValidationController";
+import { PriorityType } from "../entity/PriorityType";
+import { formatISO } from "date-fns";
 
 export class DisplayController {
   content;
@@ -10,7 +12,8 @@ export class DisplayController {
 
   constructor(dependencies) {
     this.content = document.querySelector(".wrapper");
-    this.formValidation = new NewTaskModalValidationController();
+    this.formValidation = new TaskFormValidationController();
+    this.formValidation.init();
 
     this.projectFormValidation = new NewProjectFormValidationController();
 
@@ -98,7 +101,8 @@ export class DisplayController {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     for (let checkbox of checkboxes) {
       checkbox.addEventListener("change", (e) => {
-        const taskId = parseInt(e.target.id.split("-")[1]);
+        const taskId = e.target.getAttribute('data-id');
+        console.log(taskId);
         this.toggleTaskComplete(taskId, e.target.checked);
       });
     }
@@ -106,7 +110,7 @@ export class DisplayController {
 
   toggleTaskComplete(taskId, isComplete) {
     console.log("toggle task complete");
-    this.model.setTaskIsComplete(taskId, isComplete);
+    this.model.setTaskIsComplete(parseInt(taskId), isComplete);
     this.render();
   }
 
@@ -191,11 +195,23 @@ export class DisplayController {
 
   showNewTaskModal(modalWrapper) {
     this.resetModalForm();
-    window.scrollTo(0, 0);
+    this.formValidation.reset();
     modalWrapper.classList.remove("hide");
   }
 
   resetModalForm() {
+    const modal = document.querySelector("#new-task-modal-wrapper");
+    const modalTitle = modal.querySelector(".title");
+    modalTitle.textContent = "Add new task";
+
+    const button = modal.querySelector("#new-task-submit");
+    button.textContent = "Create";
+    button.setAttribute("data-action", "create");
+    button.setAttribute("data-index", -1);
+
+    const datePicker = modal.querySelector("#task-due-date");
+    datePicker.value = "";
+
     const form = document.querySelector("#new-task-form");
     form.reset();
   }
@@ -236,13 +252,29 @@ export class DisplayController {
     const btn = document.querySelector("#new-task-submit");
     btn.addEventListener("click", (e) => {
       e.preventDefault();
-      // validate form
-      this.formValidation.init();
-      if (this.formValidation.isValid()) {
-        const task = this.formValidation.getTask();
-        console.log(task);
-        this.submitNewTaskModal(task);
-        this.animateModalClosing();
+
+      const action = e.target.getAttribute("data-action");
+      console.log(action);
+      if (action.includes("create")) {
+        // validate form
+        this.formValidation.action = action;
+        if (this.formValidation.isValid()) {
+          const task = this.formValidation.getTask();
+          console.log(task);
+          this.submitNewTaskModal(task);
+          this.animateModalClosing();
+          this.formValidation.reset();
+        }
+      } else if (action.includes("edit")) {
+        this.formValidation.action = action;
+        const taskId = e.target.getAttribute("data-index");
+        if (this.formValidation.isValidEdit()) {
+          const task = this.formValidation.getTask();
+          task.id = parseInt(taskId);
+          this.submitEditTask(task);
+          this.animateModalClosing();
+          this.formValidation.reset();
+        }
       }
     });
   }
@@ -251,6 +283,11 @@ export class DisplayController {
     // store data in a model
     this.model.addTask(task);
     // rerender view
+    this.render();
+  }
+
+  submitEditTask(task) {
+    this.model.updateTask(task);
     this.render();
   }
 
@@ -389,7 +426,7 @@ export class DisplayController {
     const editBtns = document.querySelectorAll(".more-menu-option.edit");
     for (let btn of editBtns) {
       const index =
-        btn.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute(
+        btn.parentElement.parentElement.parentElement.parentElement.getAttribute(
           "data-index"
         );
       btn.addEventListener("click", this.handleEditTask.bind(this, index));
@@ -397,8 +434,52 @@ export class DisplayController {
   }
 
   handleEditTask(index) {
-    console.log("Editing task with id " + index);
+    const modal = document.querySelector("#new-task-modal-wrapper");
+    this.formValidation.reset();
+    // Fill modal with task data
+    this.fillFormWithTaskData(index);
     // open edit modal
+    modal.classList.remove("hide");
+  }
+
+  fillFormWithTaskData(taskId) {
+    const task = this.model.getTaskById(taskId);
+
+    const modal = document.querySelector("#new-task-modal-wrapper");
+    const modalTitle = modal.querySelector(".title");
+    modalTitle.textContent = "Edit task";
+
+    const taskTitle = modal.querySelector("#task-title");
+    taskTitle.value = task.title;
+
+    const taskDescription = modal.querySelector("#task-description");
+    taskDescription.value = task.description;
+
+    const priorityRadios = modal.querySelectorAll('input[type="radio"]');
+
+    switch (task.priority) {
+      case PriorityType.DEFAULT:
+        priorityRadios[0].checked = true;
+        break;
+      case PriorityType.LOW:
+        priorityRadios[1].checked = true;
+        break;
+      case PriorityType.MEDIUM:
+        priorityRadios[2].checked = true;
+        break;
+      case PriorityType.HIGH:
+        priorityRadios[3].checked = true;
+        break;
+    }
+
+    const datePicker = modal.querySelector("#task-due-date");
+    const date = formatISO(task.dueDate, { representation: "date" });
+    datePicker.value = date;
+
+    const button = modal.querySelector("#new-task-submit");
+    button.textContent = "Edit";
+    button.setAttribute("data-action", "edit");
+    button.setAttribute("data-index", task.id);
   }
 
   addToggleDarkModeClickListener() {

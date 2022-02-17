@@ -1,21 +1,26 @@
 import { isAfter } from "date-fns";
 import { Task } from "../entity/Task";
 
-export class NewTaskModalValidationController {
+export class TaskFormValidationController {
   validationMessages;
   isFormEmpty;
   validTask;
   form = document.querySelector(".new-task-modal");
+  action;
 
   constructor() {
     this.validTask = {};
     this.isFormEmpty = true;
-    this.init();
+    this.action = "create";
   }
 
   init() {
-    this.resetValidationMessages();
     this.addBlurEventListeners();
+    this.resetValidationMessages();
+  }
+
+  reset() {
+    this.resetValidationMessages();
   }
 
   resetValidationMessages() {
@@ -29,7 +34,19 @@ export class NewTaskModalValidationController {
 
   isValid() {
     this.validateInputs();
-    
+
+    for (let msg in this.validationMessages) {
+      if (this.validationMessages[msg].length !== 0) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  isValidEdit() {
+    this.validateEdit();
+
     for (let msg in this.validationMessages) {
       if (this.validationMessages[msg].length !== 0) {
         return false;
@@ -43,6 +60,12 @@ export class NewTaskModalValidationController {
     this.validateTitleInput();
     this.validateDescriptionInput();
     this.validateDueDateInput();
+  }
+
+  validateEdit() {
+    this.validateTitleInput();
+    this.validateDescriptionInput();
+    this.validatePastDueDateInput();
   }
 
   validateTitleInput() {
@@ -102,6 +125,25 @@ export class NewTaskModalValidationController {
     }
   }
 
+  validatePastDueDateInput() {
+    const dueDate = this.form.querySelector("#task-due-date").value;
+    const validationMsgSpan = this.form.querySelector(
+      "#form-label-due-date .validation-msg"
+    );
+
+    validationMsgSpan.textContent = "";
+
+    if (dueDate) {
+      this.validTask.dueDate = new Date(dueDate);
+    } else {
+      const msg = "* Please enter task due date";
+      if (!this.validationMessages.dueDate.includes(msg)) {
+        this.validationMessages.dueDate.push(msg);
+      }
+      validationMsgSpan.textContent = msg;
+    }
+  }
+
   addBlurEventListeners() {
     const title = this.form.querySelector("#task-title");
     title.addEventListener("blur", (e) => {
@@ -115,7 +157,12 @@ export class NewTaskModalValidationController {
 
     const dueDate = this.form.querySelector("#task-due-date");
     dueDate.addEventListener("input", (e) => {
-      this.validateDueDateInput();
+      console.log(this.action);
+      if (this.action.includes("create")) {
+        this.validateDueDateInput();
+      } else if (this.action.includes("edit")) {
+        this.validatePastDueDateInput();
+      }
     });
   }
 
