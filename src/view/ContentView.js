@@ -187,6 +187,11 @@ export class ContentView {
     const menu1 = document.createElement("div");
     menu1.classList.add("push-right", "align-center");
 
+    const editIcon = document.createElement("i");
+    editIcon.classList.add("far", "fa-edit", "icon", "project-edit-btn");
+    editIcon.setAttribute("data-project-id", this.model.getCurrentProjectId());
+    menu1.appendChild(editIcon);
+
     const trashIcon = document.createElement("i");
     trashIcon.classList.add(
       "far",
@@ -195,7 +200,6 @@ export class ContentView {
       "project-delete-btn"
     );
     trashIcon.setAttribute("data-project-id", this.model.getCurrentProjectId());
-
     menu1.appendChild(trashIcon);
 
     flexRow.appendChild(heading);
@@ -319,7 +323,7 @@ export class ContentView {
       checkboxInput.setAttribute("checked", "");
     }
     checkboxInput.id = `task-${task.id}`;
-    checkboxInput.setAttribute('data-id', task.id);
+    checkboxInput.setAttribute("data-id", task.id);
 
     taskContent.appendChild(checkboxInput);
 
