@@ -211,4 +211,16 @@ export class Model {
       return false;
     }
   }
+
+  updateProject(updatedProject) {
+    console.log(updatedProject.id);
+    let project = this.getProjectById(updatedProject.id);
+    console.log(project);
+    if (project) {
+      project.title = updatedProject.title;
+      project.description = updatedProject.description;
+    } else {
+      console.error('Project not found');
+    }
+  }
 }

@@ -107,6 +107,11 @@ export class NewProjectFormValidationController {
       done: [],
     };
 
+    const btn = document.querySelector('#new-project-modal-wrapper #new-project-submit');
+    if (btn.getAttribute('data-action').includes('edit')) {
+      project.id = parseInt(btn.getAttribute('data-id'));
+    }
+
     return project;
   }
 }

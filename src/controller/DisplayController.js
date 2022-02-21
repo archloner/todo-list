@@ -85,6 +85,8 @@ export class DisplayController {
     this.addEditTaskClickListener();
     // Delete project confirm modal open
     this.addDeleteProjectClickListener();
+    // Edit project details
+    this.addEditProjectClickListener();
   }
 
   addOverviewPageEventListeners() {
@@ -97,12 +99,10 @@ export class DisplayController {
   }
 
   addToggleCompleteEventListener() {
-    // update menu counters on each toggle?
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     for (let checkbox of checkboxes) {
       checkbox.addEventListener("change", (e) => {
-        const taskId = e.target.getAttribute('data-id');
-        console.log(taskId);
+        const taskId = e.target.getAttribute("data-id");
         this.toggleTaskComplete(taskId, e.target.checked);
       });
     }
@@ -144,7 +144,7 @@ export class DisplayController {
 
   addExpandHideAllEventListener() {
     const TEXT_CONTENT_TO_EXPAND = "Expand all";
-    // Initial state is to expand
+    // Initial state is collapsed
     const btn = document.querySelector("#expand-all-hide-all-span");
     btn.addEventListener("click", (e) => {
       const tasks = document.querySelectorAll(".task");
@@ -420,8 +420,7 @@ export class DisplayController {
     }, MODAL_CLOSING_ANIMATION_DURATION);
   }
 
-  /* EDIT MODAL */
-
+  /* EDIT TASK MODAL */
   addEditTaskClickListener() {
     const editBtns = document.querySelectorAll(".more-menu-option.edit");
     for (let btn of editBtns) {
@@ -495,6 +494,7 @@ export class DisplayController {
     }
   }
 
+  /* NEW PROJECT MODAL */
   addProjectTileClickListener() {
     const tiles = document.querySelectorAll(
       ".project-grid-item:not(.new-project-btn)"
@@ -531,6 +531,10 @@ export class DisplayController {
 
   openNewProjectModal() {
     this.resetNewProjectModalForm();
+    this.showProjectModal();
+  }
+
+  showProjectModal() {
     const modal = document.querySelector("#new-project-modal-wrapper");
     modal.classList.remove("hide");
   }
@@ -538,6 +542,14 @@ export class DisplayController {
   resetNewProjectModalForm() {
     const form = document.querySelector("#new-project-form");
     form.reset();
+
+    const modal = document.querySelector("#new-project-modal-wrapper");
+    const title = modal.querySelector(".title");
+    title.textContent = "Add new project";
+
+    const btn = modal.querySelector("#new-project-submit");
+    btn.textContent = "Create";
+    btn.setAttribute("data-action", "create");
   }
 
   addHideNewProjectModalEventListener() {
@@ -582,7 +594,11 @@ export class DisplayController {
       this.projectFormValidation.init();
       if (this.projectFormValidation.isValid()) {
         const project = this.projectFormValidation.getProject();
-        this.submitNewProjectModal(project);
+        if (e.target.getAttribute("data-action").includes("create")) {
+          this.submitNewProjectModal(project);
+        } else if (e.target.getAttribute("data-action").includes("edit")) {
+          this.editProjectDetails(project);
+        }
         this.animateNewProjectModalClosing();
       }
     });
@@ -638,5 +654,42 @@ export class DisplayController {
       const projectId = e.target.getAttribute("data-project-id");
       this.showConfirmDeleteProjectModal(projectId);
     });
+  }
+
+  /* EDIT PROJECT MODAL */
+  addEditProjectClickListener() {
+    const btn = document.querySelector(".push-right .fa-edit");
+    btn.addEventListener("click", (e) => {
+      this.openEditProjectModal(e.target.getAttribute("data-project-id"));
+    });
+  }
+
+  openEditProjectModal(projectId) {
+    this.fillFormWithProjectData(projectId);
+    this.showProjectModal();
+  }
+
+  fillFormWithProjectData(projectId) {
+    const project = this.model.getProjectById(projectId);
+
+    const modal = document.querySelector("#new-project-modal-wrapper");
+    const modalTitle = modal.querySelector(".title");
+    modalTitle.textContent = "Edit project";
+
+    const projectTitle = modal.querySelector("#project-title");
+    projectTitle.value = project.title;
+
+    const projectDescription = modal.querySelector("#project-description");
+    projectDescription.value = project.description;
+
+    const btn = modal.querySelector("#new-project-submit");
+    btn.textContent = "Edit";
+    btn.setAttribute("data-action", "edit");
+    btn.setAttribute("data-id", project.id);
+  }
+
+  editProjectDetails(project) {
+    this.model.updateProject(project);
+    this.render();
   }
 }
