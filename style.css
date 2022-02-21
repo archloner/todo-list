@@ -537,7 +537,7 @@ input[type="text"]:focus {
 }
 
 .hide {
-  display: none !important; 
+  display: none !important;
 }
 
 .task-details {
@@ -1121,6 +1121,10 @@ input[type="text"]:focus {
 .dark-mode .search-bar-wrapper input {
   background-color: var(--dark-mode-bg-color);
   color: var(--dark-mode-font-color);
+}
+
+.dark-mode .more-menu-option:hover {
+  color: var(--color-white);
 }
 
 /* MEDIA QUERIES */
