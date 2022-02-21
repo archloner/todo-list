@@ -1,3 +1,4 @@
+import { isBefore } from "date-fns";
 import { IndexGenerator } from "../util/IndexGenerator";
 
 export class Task {
@@ -180,5 +181,9 @@ export class Task {
     taskElement.appendChild(taskMenu);
 
     return taskElement;
+  }
+
+  isOverdue() {
+    return isBefore(this.dueDate, new Date()) && !this.isComplete;
   }
 }

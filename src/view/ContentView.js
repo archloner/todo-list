@@ -1,6 +1,6 @@
 import { PriorityType } from "../entity/PriorityType";
 import { Utils } from "../util/Utils";
-import { format, formatDistance, isAfter } from "date-fns";
+import { format, formatDistance, isAfter, isBefore } from "date-fns";
 
 const OVERVIEW_PAGE_ID = 0;
 
@@ -350,6 +350,14 @@ export class ContentView {
     title.textContent = task.title;
 
     taskText.appendChild(title);
+
+    const overdueMarker = document.createElement('span');
+    overdueMarker.classList.add('overdue-marker');
+    overdueMarker.textContent = 'Overdue';
+
+    if (task.isOverdue()) {
+      title.appendChild(overdueMarker);
+    }
 
     const taskDetails = document.createElement("div");
     taskDetails.classList.add("task-details");
