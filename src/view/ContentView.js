@@ -1,6 +1,6 @@
 import { PriorityType } from "../entity/PriorityType";
 import { Utils } from "../util/Utils";
-import { format, formatDistance, isAfter, isBefore } from "date-fns";
+import { format, formatDistance, isAfter } from "date-fns";
 
 const OVERVIEW_PAGE_ID = 0;
 
@@ -236,10 +236,8 @@ export class ContentView {
     expandAllSpan.classList.add("font-sm");
     expandAllSpan.id = "expand-all-hide-all-span";
     if (this.allExpanded) {
-      console.log("all expanded");
       expandAllSpan.textContent = "Collapse all";
     } else {
-      console.log("all collapsed");
       expandAllSpan.textContent = "Expand all";
     }
 
@@ -381,6 +379,8 @@ export class ContentView {
 
     const dueDate = document.createElement("div");
     dueDate.classList.add("due-date", "font-sm");
+
+    task.dueDate = new Date(task.dueDate);
 
     const dueDateString = format(task.dueDate, DATE_FNS_FORMAT_STRING);
 

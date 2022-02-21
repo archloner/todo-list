@@ -2,6 +2,7 @@ import { TaskFormValidationController } from "./TaskFormValidationController";
 import { NewProjectFormValidationController } from "./NewProjectFormValidationController";
 import { PriorityType } from "../entity/PriorityType";
 import { formatISO } from "date-fns";
+import { AppConfig } from "../config/AppConfig";
 
 export class DisplayController {
   content;
@@ -27,6 +28,7 @@ export class DisplayController {
 
   init() {
     this.attachEventListeners();
+    this.chooseTheme();
     this.render();
   }
 
@@ -37,6 +39,15 @@ export class DisplayController {
   changeCurrentProject(projectId) {
     this.model.setCurrentProjectId(projectId);
     this.render();
+  }
+
+  chooseTheme() {
+    const body = document.querySelector("body");
+    if (AppConfig.DARK_MODE_DEFAULT) {
+      body.classList.add("dark-mode");
+    } else {
+      body.classList.remove("dark-mode");
+    }
   }
 
   render() {
@@ -109,7 +120,6 @@ export class DisplayController {
   }
 
   toggleTaskComplete(taskId, isComplete) {
-    console.log("toggle task complete");
     this.model.setTaskIsComplete(parseInt(taskId), isComplete);
     this.render();
   }
@@ -138,7 +148,6 @@ export class DisplayController {
         taskElement.getAttribute("data-index")
       );
       task.toggleIsCollapsed();
-      console.log(task.isCollapsed);
     }
   }
 
@@ -254,13 +263,11 @@ export class DisplayController {
       e.preventDefault();
 
       const action = e.target.getAttribute("data-action");
-      console.log(action);
       if (action.includes("create")) {
         // validate form
         this.formValidation.action = action;
         if (this.formValidation.isValid()) {
           const task = this.formValidation.getTask();
-          console.log(task);
           this.submitNewTaskModal(task);
           this.animateModalClosing();
           this.formValidation.reset();
@@ -331,7 +338,6 @@ export class DisplayController {
   }
 
   handleDeleteTask(index) {
-    console.log("Deleting task with id " + index);
     // Hide 'more' menu
     const moreMenu = document.querySelectorAll(".task-menu .more-menu");
     moreMenu.forEach((item) => {
@@ -482,7 +488,6 @@ export class DisplayController {
   }
 
   addToggleDarkModeClickListener() {
-    console.log("Darkmode toggle listener attached");
     const btn = document.querySelector(".dark-mode-icon");
     if (btn) {
       btn.addEventListener("click", (e) => {
@@ -490,7 +495,7 @@ export class DisplayController {
         body.classList.toggle("dark-mode");
       });
     } else {
-      console.log("Dark-mode switch button not found");
+      console.error("Dark-mode switch button not found");
     }
   }
 
@@ -503,7 +508,6 @@ export class DisplayController {
       tile.addEventListener("click", (e) => {
         e.stopPropagation();
         const target = e.target;
-        console.log(e.target);
         if (target.classList.contains("bg")) {
           const projectId =
             target.parentElement.getAttribute("data-project-index");
@@ -605,7 +609,6 @@ export class DisplayController {
   }
 
   submitNewProjectModal(project) {
-    console.log("Submitting new project");
     this.model.addProject(project);
     this.render();
   }
@@ -650,7 +653,6 @@ export class DisplayController {
   addDeleteProjectClickListener() {
     const btn = document.querySelector(".project-delete-btn");
     btn.addEventListener("click", (e) => {
-      console.log(e.target);
       const projectId = e.target.getAttribute("data-project-id");
       this.showConfirmDeleteProjectModal(projectId);
     });

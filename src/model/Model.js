@@ -1,7 +1,8 @@
 import { IDSupplier } from "../util/IDSupplier";
 import { sampleData } from "./SampleData";
-
-const DEFAULT_PROJECT_ID = 0;
+import { AppConfig } from "../config/AppConfig";
+import { emptyData } from "./EmptyData";
+import { Task } from "../entity/Task";
 
 export class Model {
   currentProject;
@@ -13,13 +14,27 @@ export class Model {
   constructor() {
     this.data = sampleData;
     this.projects = this.data.projects;
-    this.currentProjectId = DEFAULT_PROJECT_ID;
+    this.currentProjectId = AppConfig.DEFAULT_PROJECT_ID;
     this.projectIDSupplier = new IDSupplier();
 
     this.init();
   }
 
   init() {
+    // Attempt to load from LocalStorage
+    if (!this.retrieveFromLocalStorage()) {
+      // Load defaults (config deciding if there should be sample data or not)
+      console.log("LocalStorage empty!");
+      if (AppConfig.LOAD_WITH_SAMPLE_DATA) {
+        this.data = sampleData;
+        this.saveToLocalStorage();
+      } else {
+        this.data = emptyData;
+      }
+    } else {
+      console.log('Loaded data from LocalStorage')
+    }
+
     // Determine project ID starting value
     if (this.projects && this.projects.length > 0) {
       const startingIdentifier = this.projects.length;
@@ -57,6 +72,8 @@ export class Model {
   getData() {
     return this.data;
   }
+
+  /* PROJECT */
 
   getProjectById(projectId) {
     projectId = parseInt(projectId);
@@ -99,9 +116,49 @@ export class Model {
 
   getInitialProject() {
     return this.projects.filter(
-      (project) => project.id === DEFAULT_PROJECT_ID
+      (project) => project.id === AppConfig.DEFAULT_PROJECT_ID
     )[0];
   }
+
+  addProject(project) {
+    project.id = this.projectIDSupplier.getID();
+    this.projects.push(project);
+    // save to LocalStorage
+    this.saveToLocalStorage();
+  }
+
+  deleteProjectById(id) {
+    id = parseInt(id);
+    if (this.currentProject.id === id) {
+      this.setCurrentProject(this.getProjectById(AppConfig.DEFAULT_PROJECT_ID));
+    }
+    const project = this.getProjectById(id);
+    if (project !== -1) {
+      const projectIndex = this.projects.indexOf(project);
+      // delete project and return true
+      this.projects.splice(projectIndex, 1);
+      // save to LocalStorage
+      this.saveToLocalStorage();
+      return true;
+    } else {
+      console.error(`Project with id ${id} not found`);
+      return false;
+    }
+  }
+
+  updateProject(updatedProject) {
+    let project = this.getProjectById(updatedProject.id);
+    if (project) {
+      project.title = updatedProject.title;
+      project.description = updatedProject.description;
+      // save to LocalStorage
+      this.saveToLocalStorage();
+    } else {
+      console.error("Project not found");
+    }
+  }
+
+  /* TASK */
 
   getTaskById(id) {
     id = parseInt(id);
@@ -122,10 +179,14 @@ export class Model {
 
   setTaskAsComplete(task) {
     task.isComplete = true;
+    // save to LocalStorage
+    this.saveToLocalStorage();
   }
 
   addTask(task) {
     this.currentProject.tasks.unshift(task);
+    // save to LocalStorage
+    this.saveToLocalStorage();
   }
 
   setTaskIsComplete(taskId, isComplete) {
@@ -147,6 +208,9 @@ export class Model {
     // Move task from one array to other
     removeFrom.splice(taskIndex, 1);
     addTo.unshift(task);
+
+    // save to LocalStorage
+    this.saveToLocalStorage();
   }
 
   deleteTaskById(id) {
@@ -163,6 +227,8 @@ export class Model {
           console.log("done task deleted");
         }
       }
+      // save to LocalStorage
+      this.saveToLocalStorage();
     }
   }
 
@@ -186,39 +252,55 @@ export class Model {
         }
         this.currentProject.done.splice(taskIndex, 1, task);
       }
+      // save to LocalStorage
+      this.saveToLocalStorage();
     }
   }
 
-  addProject(project) {
-    project.id = this.projectIDSupplier.getID();
-    this.projects.push(project);
+  /* LOCALSTORAGE */
+
+  saveToLocalStorage() {
+    localStorage.setItem(
+      AppConfig.LOCAL_STORAGE_KEY,
+      JSON.stringify(this.data)
+    );
+    console.log('Saved to localStorage')
   }
 
-  deleteProjectById(id) {
-    id = parseInt(id);
-    if (this.currentProject.id === id) {
-      this.setCurrentProject(this.getProjectById(DEFAULT_PROJECT_ID));
-    }
-    const project = this.getProjectById(id);
-    if (project !== -1) {
-      const projectIndex = this.projects.indexOf(project);
-      // delete project and return true
-      this.projects.splice(projectIndex, 1);
-
+  retrieveFromLocalStorage() {
+    const retrieved = localStorage.getItem(AppConfig.LOCAL_STORAGE_KEY);
+    if (retrieved) {
+      const data = JSON.parse(retrieved);
+      // restore functions in Task objects
+      this.restoreTaskMethods(data);
+      this.data = data;
       return true;
-    } else {
-      console.error(`Project with id ${id} not found`);
-      return false;
     }
+    return false;
   }
 
-  updateProject(updatedProject) {
-    let project = this.getProjectById(updatedProject.id);
-    if (project) {
-      project.title = updatedProject.title;
-      project.description = updatedProject.description;
-    } else {
-      console.error('Project not found');
+  clearLocalStorage() {
+    localStorage.removeItem(AppConfig.LOCAL_STORAGE_KEY);
+  }
+
+  restoreTaskMethods(data) {
+    for (let project of data.projects) {
+      if (project.id === 0) {
+        continue;
+      }
+
+      // tasks
+      for (let task of project.tasks) {
+        task = Object.setPrototypeOf(task, Task.prototype);
+        task.dueDate = new Date(task.dueDate);
+        task.createdDate = new Date(task.createdDate);
+      }
+      // done
+      for (let task of project.done) {
+        task = Object.setPrototypeOf(task, Task.prototype);
+        task.dueDate = new Date(task.dueDate);
+        task.createdDate = new Date(task.createdDate);
+      }
     }
   }
 }
