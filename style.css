@@ -1366,4 +1366,9 @@ input[type="text"]:focus {
   .notification {
     max-width: 350px;
   }
+
+  .new-task-btn {
+    bottom: var(--padding-small);
+    right: var(--padding-small);
+  }
 }
