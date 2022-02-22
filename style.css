@@ -32,6 +32,7 @@
   --dark-mode-font-color-darker: rgb(109, 109, 109);
 
   --font-size-small: 0.8rem;
+  --font-size-large: 1.3rem;
 
   --padding-main: 35px;
   --padding-small: 15px;
@@ -445,11 +446,12 @@ input[type="text"]:focus {
 .checkbox-wrapper {
   margin-right: 0.5rem;
   display: flex;
+  align-items: flex-start;
 }
 
 .task-menu {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .checkbox-wrapper .checkbox {
@@ -617,6 +619,10 @@ input[type="text"]:focus {
 
 .bg-light {
   background-color: var(--light-mode-bg-color-darker);
+}
+
+.bg-default {
+  background-color: var(--accent-color-light);
 }
 
 .task-text .due-date {
@@ -880,6 +886,7 @@ input[type="text"]:focus {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.55rem;
+  max-width: 800px;
 }
 
 .project-grid-item {
@@ -959,6 +966,50 @@ input[type="text"]:focus {
   align-items: center;
 }
 
+/* NOTIFICATIONS */
+
+.notification-wrapper {
+  position: absolute;
+  top: 20px;
+  left: calc(50% - 200px);
+  width: 400px;
+}
+
+.notification {
+  position: relative;
+  margin-bottom: 10px;
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: var(--padding-small);
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.15);
+  border-radius: 10px;
+  animation: notification-show 0.5s ease-out;
+  z-index: 10;
+}
+
+.notification-animate-hide {
+  animation: notification-hide 0.5s ease-in;
+}
+
+.notification-body {
+  flex: 1 1 auto;
+}
+
+.notification-icon {
+  padding: 0.5rem 1rem;
+}
+
+.notification-icon .close {
+  cursor: pointer;
+}
+
+.notification-title {
+  font-size: var(--font-size-large);
+  font-weight: 800;
+}
+
 /* KEYFRAMES */
 @keyframes task-details-expand {
   0% {
@@ -1012,6 +1063,29 @@ input[type="text"]:focus {
 
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes notification-show {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes notification-hide {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-100px);
   }
 }
 
@@ -1154,7 +1228,7 @@ input[type="text"]:focus {
 
 @media screen and (min-width: 1450px) {
   .container {
-    max-width: 60%;
+    max-width: 70%;
   }
 }
 
