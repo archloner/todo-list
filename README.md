@@ -3,6 +3,9 @@ Simple todo list application written in JavaScript (ES6)
 
 [Live App](https://fbiernat.github.io/todo-list/)
 
+## Demo
+![App demo](./dist/assets/demo/demo-todo-list.gif)
+
 ## UI design
 User interface design is a composition of two designs found by me on the internet.
 
