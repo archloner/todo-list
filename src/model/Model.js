@@ -274,6 +274,7 @@ export class Model {
       // restore functions in Task objects
       this.restoreTaskMethods(data);
       this.data = data;
+      this.projects = this.data.projects;
       return true;
     }
     return false;

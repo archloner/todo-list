@@ -82,6 +82,8 @@ export class DisplayController {
     // Delete task confirm modal
     this.addHideDeleteTaskModalEventListener();
     this.addConfirmDeleteTaskButtonClickListener();
+    // Delete project
+    this.addConfirmDeleteProjectButtonClickListener();
   }
 
   addNewListElementsEventListeners() {
@@ -103,10 +105,7 @@ export class DisplayController {
   addOverviewPageEventListeners() {
     // Project tile click listeners
     this.addProjectTileClickListener();
-    this.addNewProjectButtonListener();
-    // Delete confirm modal
-    this.addHideDeleteTaskModalEventListener();
-    this.addConfirmDeleteProjectButtonClickListener();
+    this.addNewProjectButtonListener();   
   }
 
   addToggleCompleteEventListener() {

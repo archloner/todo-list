@@ -2,12 +2,14 @@ import { Model } from "./model/Model";
 import { DisplayController } from "./controller/DisplayController";
 import { ContentView } from "./view/ContentView";
 import { MenuView } from "./view/MenuView";
+import { NotificationsController } from "./controller/NotificationsController";
 
 export class App {
   model;
   controller;
   view;
   menuView;
+  notificationController;
 
   constructor() {
     this.model = new Model();
@@ -25,6 +27,8 @@ export class App {
     this.view.setController(this.controller);
 
     this.menuView.setController(this.controller);
+
+    this.notificationController = new NotificationsController();
   }
 
   init() {
