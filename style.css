@@ -1322,8 +1322,9 @@ input[type="text"]:focus {
   }
 
   .container {
-    max-width: 90%;
+    max-width: 100%;
     margin-bottom: 20px;
+    padding: var(--padding-small);
   }
 
   .top-bar {
@@ -1355,5 +1356,14 @@ input[type="text"]:focus {
   .project-grid {
     display: flex;
     flex-direction: column;
+  }
+
+  .notification-wrapper {
+    left: calc(50% - 175px);
+    width: 350px;
+  }
+  
+  .notification {
+    max-width: 350px;
   }
 }
