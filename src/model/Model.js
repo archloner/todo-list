@@ -27,10 +27,10 @@ export class Model {
       console.log("LocalStorage empty!");
       if (AppConfig.LOAD_WITH_SAMPLE_DATA) {
         this.data = sampleData;
-        this.saveToLocalStorage();
       } else {
         this.data = emptyData;
       }
+      this.saveToLocalStorage();
     } else {
       console.log('Loaded data from LocalStorage')
     }
@@ -123,7 +123,6 @@ export class Model {
   addProject(project) {
     project.id = this.projectIDSupplier.getID();
     this.projects.push(project);
-    // save to LocalStorage
     this.saveToLocalStorage();
   }
 
@@ -137,7 +136,6 @@ export class Model {
       const projectIndex = this.projects.indexOf(project);
       // delete project and return true
       this.projects.splice(projectIndex, 1);
-      // save to LocalStorage
       this.saveToLocalStorage();
       return true;
     } else {
@@ -151,7 +149,6 @@ export class Model {
     if (project) {
       project.title = updatedProject.title;
       project.description = updatedProject.description;
-      // save to LocalStorage
       this.saveToLocalStorage();
     } else {
       console.error("Project not found");
@@ -179,13 +176,11 @@ export class Model {
 
   setTaskAsComplete(task) {
     task.isComplete = true;
-    // save to LocalStorage
     this.saveToLocalStorage();
   }
 
   addTask(task) {
     this.currentProject.tasks.unshift(task);
-    // save to LocalStorage
     this.saveToLocalStorage();
   }
 
@@ -208,8 +203,6 @@ export class Model {
     // Move task from one array to other
     removeFrom.splice(taskIndex, 1);
     addTo.unshift(task);
-
-    // save to LocalStorage
     this.saveToLocalStorage();
   }
 
@@ -227,7 +220,6 @@ export class Model {
           console.log("done task deleted");
         }
       }
-      // save to LocalStorage
       this.saveToLocalStorage();
     }
   }
@@ -252,7 +244,6 @@ export class Model {
         }
         this.currentProject.done.splice(taskIndex, 1, task);
       }
-      // save to LocalStorage
       this.saveToLocalStorage();
     }
   }
