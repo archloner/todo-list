@@ -1,14 +1,18 @@
-import { IDSupplier } from "../util/IDSupplier";
-import { sampleData } from "./SampleData";
-import { AppConfig } from "../config/AppConfig";
-import { emptyData } from "./EmptyData";
-import { Task } from "../entity/Task";
+import { IDSupplier } from '../util/IDSupplier';
+import { sampleData } from './SampleData';
+import { AppConfig } from '../config/AppConfig';
+import { emptyData } from './EmptyData';
+import { Task } from '../entity/Task';
 
-export class Model {
+export default class Model {
   currentProject;
+
   currentProjectId;
+
   projects;
+
   data;
+
   projectIDSupplier;
 
   constructor() {
@@ -24,7 +28,7 @@ export class Model {
     // Attempt to load from LocalStorage
     if (!this.retrieveFromLocalStorage()) {
       // Load defaults (config deciding if there should be sample data or not)
-      console.log("LocalStorage empty!");
+      console.log('LocalStorage empty!');
       if (AppConfig.LOAD_WITH_SAMPLE_DATA) {
         this.data = sampleData;
       } else {
@@ -32,7 +36,7 @@ export class Model {
       }
       this.saveToLocalStorage();
     } else {
-      console.log('Loaded data from LocalStorage')
+      console.log('Loaded data from LocalStorage');
     }
 
     // Determine project ID starting value
@@ -51,7 +55,7 @@ export class Model {
 
   setCurrentProjectId(projectId) {
     this.currentProject = this.projects.filter(
-      (project) => project.id === projectId
+      (project) => project.id === projectId,
     )[0];
     this.currentProjectId = parseInt(projectId);
     this.setCurrentProject(this.getProjectById(this.currentProjectId));
@@ -79,17 +83,16 @@ export class Model {
     projectId = parseInt(projectId);
 
     const project = this.data.projects.filter(
-      (project) => project.id === projectId
+      (project) => project.id === projectId,
     )[0];
     if (project) {
       return project;
-    } else {
-      return -1;
     }
+    return -1;
   }
 
   getProjectOverview() {
-    let projects = [];
+    const projects = [];
     this.data.projects.map((project) => {
       if (project.id !== 0) {
         projects.push({
@@ -110,13 +113,13 @@ export class Model {
   calculateTasks(tasks) {
     return tasks.reduce(
       (acc, current) => acc + (current.isComplete ? 0 : 1),
-      0
+      0,
     );
   }
 
   getInitialProject() {
     return this.projects.filter(
-      (project) => project.id === AppConfig.DEFAULT_PROJECT_ID
+      (project) => project.id === AppConfig.DEFAULT_PROJECT_ID,
     )[0];
   }
 
@@ -138,20 +141,19 @@ export class Model {
       this.projects.splice(projectIndex, 1);
       this.saveToLocalStorage();
       return true;
-    } else {
-      console.error(`Project with id ${id} not found`);
-      return false;
     }
+    console.error(`Project with id ${id} not found`);
+    return false;
   }
 
   updateProject(updatedProject) {
-    let project = this.getProjectById(updatedProject.id);
+    const project = this.getProjectById(updatedProject.id);
     if (project) {
       project.title = updatedProject.title;
       project.description = updatedProject.description;
       this.saveToLocalStorage();
     } else {
-      console.error("Project not found");
+      console.error('Project not found');
     }
   }
 
@@ -162,16 +164,14 @@ export class Model {
     const task = this.currentProject.tasks.filter((task) => task.id === id)[0];
     if (task) {
       return task;
-    } else {
-      const doneTask = this.currentProject.done.filter(
-        (task) => task.id === id
-      )[0];
-      if (doneTask) {
-        return doneTask;
-      } else {
-        console.error("Model.getTaskById(): Done task not found");
-      }
     }
+    const doneTask = this.currentProject.done.filter(
+      (task) => task.id === id,
+    )[0];
+    if (doneTask) {
+      return doneTask;
+    }
+    console.error('Model.getTaskById(): Done task not found');
   }
 
   setTaskAsComplete(task) {
@@ -212,12 +212,12 @@ export class Model {
       const index = this.currentProject.tasks.indexOf(task);
       if (index !== -1) {
         this.currentProject.tasks.splice(index, 1);
-        console.log("task deleted");
+        console.log('task deleted');
       } else {
         const doneIndex = this.currentProject.done.indexOf(task);
         if (doneIndex != -1) {
           this.currentProject.done.splice(doneIndex, 1);
-          console.log("done task deleted");
+          console.log('done task deleted');
         }
       }
       this.saveToLocalStorage();
@@ -253,9 +253,9 @@ export class Model {
   saveToLocalStorage() {
     localStorage.setItem(
       AppConfig.LOCAL_STORAGE_KEY,
-      JSON.stringify(this.data)
+      JSON.stringify(this.data),
     );
-    console.log('Saved to localStorage')
+    console.log('Saved to localStorage');
   }
 
   retrieveFromLocalStorage() {
@@ -276,7 +276,7 @@ export class Model {
   }
 
   restoreTaskMethods(data) {
-    for (let project of data.projects) {
+    for (const project of data.projects) {
       if (project.id === 0) {
         continue;
       }
