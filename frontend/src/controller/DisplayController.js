@@ -1,5 +1,5 @@
 import { formatISO } from 'date-fns';
-import { TaskFormValidationController } from './TaskFormValidationController';
+import TaskFormValidationController from './TaskFormValidationController';
 import { NewProjectFormValidationController } from './NewProjectFormValidationController';
 import { PriorityType } from '../entity/PriorityType';
 import { AppConfig } from '../config/AppConfig';

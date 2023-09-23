@@ -1,18 +1,27 @@
-import { isBefore } from "date-fns";
-import { IndexGenerator } from "../util/IndexGenerator";
-import { ContentView } from "../view/ContentView";
+import { isBefore } from 'date-fns';
+import { IndexGenerator } from '../util/IndexGenerator';
+import ContentView from '../view/ContentView';
 
-export class Task {
+export default class Task {
   createdDate;
+
   title;
+
   description;
+
   dueDate;
+
   priority;
+
   isComplete;
+
   isCollapsed;
+
   log;
+
   // optional?
   notes;
+  
   checklist;
 
   constructor(title, description, dueDate, priority) {

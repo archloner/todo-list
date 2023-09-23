@@ -1,17 +1,21 @@
-import { isAfter } from "date-fns";
-import { Task } from "../entity/Task";
+import { isAfter } from 'date-fns';
+import Task from '../entity/Task';
 
-export class TaskFormValidationController {
+export default class TaskFormValidationController {
   validationMessages;
+
   isFormEmpty;
+
   validTask;
-  form = document.querySelector(".new-task-modal");
+
+  form = document.querySelector('.new-task-modal');
+
   action;
 
   constructor() {
     this.validTask = {};
     this.isFormEmpty = true;
-    this.action = "create";
+    this.action = 'create';
   }
 
   init() {

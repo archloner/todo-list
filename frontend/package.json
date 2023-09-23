@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack serve --open --mode=development",
     "build": "webpack --mode=production --progress",
-    "deploy": "webpack --mode=production --progress && git add dist/ && git commit -m 'New build' && git push && zsh -ic 'gitdeploy dist'"
+    "deploy": "webpack --mode=production --progress && git add dist/ && git commit -m 'New build' && git push && zsh -ic 'gitdeploy dist'",
+    "start": "webpack-dev-server --mode development --config webpack.config.js --host localhost --port 8080 --open"
   },
   "repository": {
     "type": "git",
@@ -19,12 +20,12 @@
     "todo",
     "application"
   ],
-  "author": "fbiernat",
+  "author": "archloner",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/fbiernat/todo-list/issues"
+    "url": "https://github.com/archloner/todo-list/issues"
   },
-  "homepage": "https://github.com/fbiernat/todo-list#readme",
+  "homepage": "https://github.com/archloner/todo-list#readme",
   "devDependencies": {
     "eslint": "^8.12.0",
     "eslint-config-airbnb-base": "^15.0.0",

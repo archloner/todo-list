@@ -2,7 +2,7 @@ import { IDSupplier } from '../util/IDSupplier';
 import { sampleData } from './SampleData';
 import { AppConfig } from '../config/AppConfig';
 import { emptyData } from './EmptyData';
-import { Task } from '../entity/Task';
+import Task from '../entity/Task';
 
 export default class Model {
   currentProject;

@@ -1,5 +1,5 @@
-import { Task } from "../entity/Task";
-import { PriorityType } from "../entity/PriorityType";
+import Task from '../entity/Task';
+import { PriorityType } from '../entity/PriorityType';
 
 export const sampleData = {
   projects: [
