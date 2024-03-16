@@ -2,7 +2,17 @@ spring:
   data:
     mongodb:
       uri: mongodb://127.0.0.1:27017/todolistDB
+  output:
+    ansi:
+      enabled: ALWAYS
+
+server:
+  port: 8088
 
 devtools:
   livereload:
     enabled: true
+
+todoism:
+  api:
+    url: http://localhost:${server.port}/api
