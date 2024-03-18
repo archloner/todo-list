@@ -32,6 +32,9 @@ public class Project {
 
     private List<Task> taskList;
 
+    private Integer numberOfTasks;
+    private Integer numberOfCompletedTasks;
+
     @CreatedDate
     private Date createdAt;
 
@@ -39,14 +42,22 @@ public class Project {
 
     public void addTask(Task task) {
         this.taskList.add(task);
+        this.calculateNumberOfTasks();
     }
 
     public boolean removeTask(Task task) {
-        return this.taskList.remove(task);
+        boolean removeStatus = this.taskList.remove(task);
+        this.calculateNumberOfTasks();
+        return removeStatus;
     }
 
     public void setUpdatedAtToNow() {
         this.updatedAt = new Date();
+    }
+
+    public void calculateNumberOfTasks() {
+        this.numberOfTasks = this.taskList.size();
+        this.numberOfCompletedTasks = (int) this.taskList.stream().filter(Task::isCompleted).count();
     }
 
 //    private TodoUser ownerUser;

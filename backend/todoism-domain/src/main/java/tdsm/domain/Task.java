@@ -50,4 +50,12 @@ public class Task {
         this.updatedAt = new Date();
     }
 
+    public boolean isCompleted() {
+        return this.completionState;
+    }
+
+    public void setCompleted(boolean b) {
+        this.completionState = b;
+    }
+
 }

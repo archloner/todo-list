@@ -11,6 +11,7 @@ import java.net.URI;
 
 @ComponentScan
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping(path = "/api", produces = "application/json")
 public class TaskController {
 
