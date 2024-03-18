@@ -10,22 +10,21 @@ import tdsm.domain.TaskPriority;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 @Configuration
 public class DevConfig {
 
     @Slf4j
-    public static class TodoismLogger {}
+    public static class Logger {}
 
     @Bean
     public CommandLineRunner dataLoader(TaskRepository taskRepo, ProjectRepository projectRepo) {
-        return (args) -> {
+        return args -> {
             Task taskOne = new Task("First test task", "This is first task persisted to Mongo Database",
                     TaskPriority.DEFAULT_PRIORITY, new Date(2024, Calendar.MAY, 20), 1L, 1L);
 
             Task taskTwo = new Task("Second test task", "This is SECOND task persisted to Mongo Database during application startup",
-                    TaskPriority.HIGHT_PRIORITY, new Date(2024, Calendar.MAY, 20),1L, 1L);
+                    TaskPriority.HIGH_PRIORITY, new Date(2024, Calendar.MAY, 20),1L, 1L);
 
             Task taskThree = new Task("Third task", "Third task persisted to MongoDB at application startup",
                     TaskPriority.LOW_PRIORITY, new Date(2024, Calendar.MAY, 19), 1L, 1L);
@@ -36,9 +35,9 @@ public class DevConfig {
             projectOne.addTask(taskTwo);
             projectOne.addTask(taskThree);
 
-//            TodoismLogger.log.info("Saving tasks to the database");
+//            Logger.log.info("Saving tasks to the database");
 //            taskRepo.saveAll(List.of(taskOne, taskTwo, taskThree));
-//            TodoismLogger.log.info("Saving project to the database");
+//            Logger.log.info("Saving project to the database");
 //            projectRepo.save(projectOne);
         };
     }

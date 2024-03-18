@@ -1,6 +1,9 @@
 package tdsm.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -19,8 +22,9 @@ public class Task {
         this.dueDate = dueDate;
         this.ownerUserId = ownerUserId;
         this.assignedToUserId = assignedToUserId;
-        this.createdAt = new Date();
         this.completionState = false;
+        this.setCreatedAtToNow();
+        this.setUpdatedAtToNow();
     }
 
     @Id
@@ -28,16 +32,30 @@ public class Task {
     private boolean completionState;
     private String title;
     private String description;
-
     private TaskPriority priority;
 
     private Date dueDate;
     private Date createdAt;
+    private Date updatedAt;
     private Long ownerUserId;
     private Long assignedToUserId;
 
-    private void setCreatedAtToNow() {
+    private String projectId;
+
+    public void setCreatedAtToNow() {
         this.createdAt = new Date();
+    }
+
+    public void setUpdatedAtToNow() {
+        this.updatedAt = new Date();
+    }
+
+    public boolean isCompleted() {
+        return this.completionState;
+    }
+
+    public void setCompleted(boolean b) {
+        this.completionState = b;
     }
 
 }
