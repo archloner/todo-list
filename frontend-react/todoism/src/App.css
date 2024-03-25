@@ -43,6 +43,8 @@
   --checkbox-size: 20px;
   --input-border: 3px;
   --search-icon-line-thickness: 2px;
+
+  --task-border-width: 13px;
 }
 
 :root body.dark-mode {
@@ -79,34 +81,42 @@ a {
 }
 
 .menu-left {
-  flex: 0 0 300px;
+  flex: 0 1 300px;
   display: flex;
   flex-direction: column;
   min-width: 177px;
   max-height: 100vh;
   border-right: 2px solid rgba(0, 0, 0, 0.08);
-  padding: var(--padding-main);
   background-color: var(--light-mode-bg-color);
 }
 
 .brand {
-  margin-top: 8px;
+  margin-top: var(--padding-main);
   margin-bottom: 20px;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
+  font-weight: 600;
   color: black;
 }
 
 .menu {
   display: flex;
   flex-direction: column;
-  flex: 1 0 70%;
-  max-height: 88%;
+  flex: 1 0 auto;
 }
 
 .menu ul {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.menu-padding {
+  padding-left: var(--padding-main);
+  padding-right: var(--padding-main);
+}
+
+.menu-footer {
+  margin-bottom: var(--padding-main);
 }
 
 .menu-left footer {
@@ -124,8 +134,11 @@ a {
 }
 
 .menu-items {
-  max-height: 84%;
-  overflow-y: auto;
+  overflow: hidden;
+}
+
+.menu-item.active li {
+  border-right: 4px solid var(--accent-color);
 }
 
 a.menu-item li {
@@ -152,7 +165,7 @@ a.menu-item li {
 
 .active.menu-item li::after {
   content: "";
-  /* position: absolute; */
+  /* position: absolute;  */
   /* dont' work with overflow: auto; on .menu-items */
   height: 110%;
   width: 3px;
@@ -348,7 +361,7 @@ input[type="text"]:focus {
 
 .user-profile-picture {
   width: 45px;
-  height: auto;
+  height: 45px;
   border-radius: 50%;
   float: left;
   cursor: pointer;
@@ -360,6 +373,10 @@ input[type="text"]:focus {
   overflow-y: auto;
   width: 100%;
   height: 100%;
+}
+
+.flex-1 {
+  flex: 1 0 auto;
 }
 
 .container {
@@ -429,6 +446,7 @@ input[type="text"]:focus {
   border-radius: 8px;
   background-color: var(--light-mode-bg-color);
   transition: all 0.25s;
+  border-left: var(--task-border-width) solid var(--light-mode-bg-color);
 }
 
 .task:hover {
@@ -596,7 +614,7 @@ input[type="text"]:focus {
 }
 
 .priority-high-border {
-  border-bottom: 5px solid var(--color-danger);
+  border-left: var(--task-border-width) solid var(--color-danger);
 }
 
 .bg-medium {
@@ -605,7 +623,7 @@ input[type="text"]:focus {
 }
 
 .priority-medium-border {
-  border-bottom: 5px solid var(--color-medium);
+  border-left: var(--task-border-width) solid var(--color-medium);
 }
 
 .bg-low {
@@ -614,7 +632,7 @@ input[type="text"]:focus {
 }
 
 .priority-low-border {
-  border-bottom: 5px solid var(--color-low);
+  border-left: var(--task-border-width) solid var(--color-low);
   /* border-right: 5px solid var(--color-low); */
 }
 

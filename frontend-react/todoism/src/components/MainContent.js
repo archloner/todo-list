@@ -1,6 +1,6 @@
 function MainContent() {
     return (
-        <div className="container">
+        <div className="container flex-1">
           <div className="flex-row">
             <h1 className="list-title">Overview</h1>
             <div className="push-right align-center">

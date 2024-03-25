@@ -1,18 +1,18 @@
 function SideMenu() {
   return (
     <div className="menu-left">
-      <div className="brand">.todo</div>
+      <div className="brand menu-padding">.todoism</div>
 
-      <div className="menu-controls">
+      <div className="menu-controls menu-padding">
         <button className="btn btn-outline-primary new-project-btn">
           <i className="fas fa-plus"></i> New list
         </button>
       </div>
 
-      <div className="menu">
-        <ul className="flex-grow menu-items">
+      <div className="menu flex-1">
+        <ul className="flex-1 menu-items">
           <a href="#" className="menu-item active">
-            <li>
+            <li class="menu-padding">
               <div className="flex-row">
                 <i className="fa fa-home"></i>
                 <div className="menu-item-text">
@@ -24,7 +24,7 @@ function SideMenu() {
           </a>
 
           <a href="#" className="menu-item">
-            <li>
+            <li class="menu-padding">
               <div className="flex-row">
                 <i className="fas fa-tasks"></i>
                 <div className="menu-item-text">
@@ -36,7 +36,7 @@ function SideMenu() {
           </a>
 
           <a href="#" className="menu-item">
-            <li>
+            <li class="menu-padding">
               <div className="flex-row">
                 <i className="fas fa-tasks"></i>
                 <div className="menu-item-text">
@@ -48,7 +48,7 @@ function SideMenu() {
           </a>
 
           <a href="#" className="menu-item">
-            <li>
+            <li class="menu-padding">
               <div className="flex-row">
                 <i className="fas fa-tasks"></i>
                 <div className="menu-item-text">
@@ -62,7 +62,7 @@ function SideMenu() {
           <div className="line"></div>
 
           <a href="#" className="menu-item">
-            <li>
+            <li class="menu-padding">
               <div className="flex-row">
                 <i className="far fa-calendar-check"></i>
                 <div className="menu-item-text">
@@ -75,22 +75,22 @@ function SideMenu() {
         </ul>
         <ul className="push-bottom">
           <a href="#" className="menu-item">
-            <li>
-              <i className="fa fa-cog"></i> Logs
+            <li class="menu-padding">
+              <i className="fa fa-cog"></i> Settings
             </li>
           </a>
 
           <a href="#" className="menu-item">
-            <li>
+            <li class="menu-padding">
               <i className="fa fa-sign-out-alt"></i> Log out
             </li>
           </a>
         </ul>
       </div>
-      <footer>
-        Created by 
-        <a href="https://github.com/archloner" className="author-link">
-          archloner
+      <footer className="menu-padding menu-footer">
+        &copy; Created by 
+        <a href="https://github.com/philbjern" className="author-link">
+          philbjern
         </a> 
         2022
       </footer>
