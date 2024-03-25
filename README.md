@@ -1,7 +1,7 @@
 # Todo List Application
 Simple todo list application written in JavaScript (ES6)
 
-[Live App](https://archloner.github.io/todo-list/)
+[Live App](https://philbjern.github.io/todo-list/)
 
 ## Demo
 ![App demo](./demo-assets/demo-todo-list.gif)
