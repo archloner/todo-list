@@ -27,7 +27,7 @@
 		<module>todoism-data</module>
 		<module>todoism-domain</module>
 		<module>todoism-api</module>
-		<module>src/main/java/archloner/todo/backend/todoism-security</module>
+		<module>todoism-security</module>
 	</modules>
 
 </project>
