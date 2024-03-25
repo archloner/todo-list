@@ -1,7 +1,14 @@
-# Todo List Application
+# todoism - task management application
 Simple todo list application written in JavaScript (ES6)
 
-[Live App](https://philbjern.github.io/todo-list/)
+You can check the app [here](https://philbjern.github.io/todo-list/)
+
+I'm currently working on:
+* developing backend API with Mongo database integration in Spring 
+* migrating existing frontend to React
+* integrating front with backend
+
+I will try to deploy the entire application on Netlify somewhere in the future
 
 ## Demo
 ![App demo](./demo-assets/demo-todo-list.gif)
