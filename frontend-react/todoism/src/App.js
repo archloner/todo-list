@@ -1,23 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
+import SideMenu from './components/SideMenu';
+import TopBar from './components/TopBar';
+import MainContent from './components/MainContent';
+import NewTaskBtn from './components/NewTaskBtn';
+import Modals from './components/Modals';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="wrapper">
+      <SideMenu/>
+      <div className="content-right">
+        <TopBar />
+        <MainContent />
+        <NewTaskBtn />
+      </div>
+      <Modals />
     </div>
   );
 }
