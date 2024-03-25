@@ -4,6 +4,7 @@ import TopBar from './components/TopBar';
 import MainContent from './components/MainContent';
 import NewTaskBtn from './components/NewTaskBtn';
 import Modals from './components/Modals';
+import Notifications from './components/Notifications';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <NewTaskBtn />
       </div>
       <Modals />
+      <Notifications />
     </div>
   );
 }
