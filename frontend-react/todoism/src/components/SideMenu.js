@@ -12,7 +12,7 @@ function SideMenu() {
       <div className="menu flex-1">
         <ul className="flex-1 menu-items">
           <a href="#" className="menu-item active">
-            <li class="menu-padding">
+            <li className="menu-padding">
               <div className="flex-row">
                 <i className="fa fa-home"></i>
                 <div className="menu-item-text">
@@ -24,7 +24,7 @@ function SideMenu() {
           </a>
 
           <a href="#" className="menu-item">
-            <li class="menu-padding">
+            <li className="menu-padding">
               <div className="flex-row">
                 <i className="fas fa-tasks"></i>
                 <div className="menu-item-text">
@@ -36,7 +36,7 @@ function SideMenu() {
           </a>
 
           <a href="#" className="menu-item">
-            <li class="menu-padding">
+            <li className="menu-padding">
               <div className="flex-row">
                 <i className="fas fa-tasks"></i>
                 <div className="menu-item-text">
@@ -48,7 +48,7 @@ function SideMenu() {
           </a>
 
           <a href="#" className="menu-item">
-            <li class="menu-padding">
+            <li className="menu-padding">
               <div className="flex-row">
                 <i className="fas fa-tasks"></i>
                 <div className="menu-item-text">
@@ -62,7 +62,7 @@ function SideMenu() {
           <div className="line"></div>
 
           <a href="#" className="menu-item">
-            <li class="menu-padding">
+            <li className="menu-padding">
               <div className="flex-row">
                 <i className="far fa-calendar-check"></i>
                 <div className="menu-item-text">
@@ -75,13 +75,13 @@ function SideMenu() {
         </ul>
         <ul className="push-bottom">
           <a href="#" className="menu-item">
-            <li class="menu-padding">
+            <li className="menu-padding">
               <i className="fa fa-cog"></i> Settings
             </li>
           </a>
 
           <a href="#" className="menu-item">
-            <li class="menu-padding">
+            <li className="menu-padding">
               <i className="fa fa-sign-out-alt"></i> Log out
             </li>
           </a>

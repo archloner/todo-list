@@ -1,7 +1,7 @@
 function NewTaskBtn() {
   return (
-    <div class="new-task-btn">
-      <i class="fas fa-plus"></i>
+    <div className="new-task-btn">
+      <i className="fas fa-plus"></i>
     </div>
   );
 }

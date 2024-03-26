@@ -1,3 +1,5 @@
+import userProfilePicture from '../assets/images/user-profile-picture.jpg'
+
 function TopBar() {
     return (
         <div className="top-bar">
@@ -15,9 +17,9 @@ function TopBar() {
             </div>
             <div>
               <img
-                src="./assets/user-profile-picture.jpg"
+                src={userProfilePicture}
                 className="user-profile-picture"
-                alt="User profile picture"
+                alt="User profile"
               />
             </div>
             <div className="icon dark-mode-icon">

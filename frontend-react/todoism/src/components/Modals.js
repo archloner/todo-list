@@ -9,7 +9,7 @@ function Modals() {
           <h1 className="title">Add new task</h1>
           <form id="new-task-form">
             <div className="form-row">
-              <label for="task-title" className="form-label" id="form-label-title">
+              <label htmlFor="task-title" className="form-label" id="form-label-title">
                 Task title <span className="validation-msg"></span>
               </label>
               <input
@@ -22,7 +22,7 @@ function Modals() {
 
             <div className="form-row">
               <label
-                for="task-description"
+                htmlFor="task-description"
                 className="form-label"
                 id="form-label-description"
               >
@@ -38,7 +38,7 @@ function Modals() {
 
             <div className="form-row">
               <label
-                for="task-priority"
+                htmlFor="task-priority"
                 className="form-label"
                 id="form-label-priority"
               >
@@ -54,7 +54,7 @@ function Modals() {
                       value="default"
                       checked
                     />
-                    <label for="priority-default">Default</label>
+                    <label htmlFor="priority-default">Default</label>
                   </div>
                   <div className="radio-container bg-low">
                     <input
@@ -63,7 +63,7 @@ function Modals() {
                       id="priority-low"
                       value="low"
                     />
-                    <label for="priority-low">Low</label>
+                    <label htmlFor="priority-low">Low</label>
                   </div>
                   <div className="radio-container bg-medium">
                     <input
@@ -72,7 +72,7 @@ function Modals() {
                       id="priority-medium"
                       value="medium"
                     />
-                    <label for="priority-medium">Medium</label>
+                    <label htmlFor="priority-medium">Medium</label>
                   </div>
                   <div className="radio-container bg-danger">
                     <input
@@ -81,7 +81,7 @@ function Modals() {
                       id="priority-high"
                       value="high"
                     />
-                    <label for="priority-high">High</label>
+                    <label htmlFor="priority-high">High</label>
                   </div>
                 </div>
               </form>
@@ -89,7 +89,7 @@ function Modals() {
 
             <div className="form-row">
               <label
-                for="task-due-date"
+                 htmlFor="task-due-date"
                 className="form-label"
                 id="form-label-due-date"
               >
@@ -119,7 +119,7 @@ function Modals() {
           <form id="new-project-form">
             <div className="form-row">
               <label
-                for="project-title"
+                htmlFor="project-title"
                 className="form-label"
                 id="form-label-project-title"
               >
@@ -135,7 +135,7 @@ function Modals() {
 
             <div className="form-row">
               <label
-                for="project-description"
+                htmlFor="project-description"
                 className="form-label"
                 id="form-label-project-description"
               >
