@@ -15,7 +15,7 @@ import java.net.URI;
 
 @RestController
 @ComponentScan
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(path = "/api", produces = "application/json")
 public class ProjectController {
 
@@ -27,7 +27,7 @@ public class ProjectController {
     }
 
     @Value("${todoism.api.url")
-    private static String API_URL;
+    private String API_URL;
 
     @Slf4j
     private static class Logger {}
@@ -66,14 +66,15 @@ public class ProjectController {
     }
 
     @PostMapping("/project")
-    public ResponseEntity<String> createProject(@RequestBody Project project) {
+    public ResponseEntity<String> createProject(@RequestBody Project projectBody) {
+        Project project = new Project(projectBody.getName(), projectBody.getDescription());
         project.setUpdatedAtToNow();
         Project savedProject = projectRepo.save(project);
         return ResponseEntity.created(URI.create(API_URL + "/project/" + savedProject.getProjectId())).build();
     }
 
     @PutMapping("/project/{id}")
-    public ResponseEntity<String> updateProject(@PathVariable String id, @RequestBody Project projectPatch) {
+    public ResponseEntity<Project> updateProject(@PathVariable String id, @RequestBody Project projectPatch) {
         Project existingProject = projectRepo.findById(id).orElse(null);
         if (existingProject == null) {
             return ResponseEntity.notFound().build();
@@ -89,7 +90,7 @@ public class ProjectController {
         }
         existingProject.setUpdatedAtToNow();
         projectRepo.save(existingProject);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(existingProject);
     }
 
     @PostMapping("/project/{id}/task")
@@ -99,7 +100,7 @@ public class ProjectController {
             return ResponseEntity.notFound().build();
         }
         project.addTask(new Task(task.getTitle(), task.getDescription(), task.getPriority(), task.getDueDate(),
-                task.getOwnerUserId(), task.getAssignedToUserId()));
+               task.getAssignedToUserId()));
         project.setUpdatedAtToNow();
         projectRepo.save(project);
         URI createdResourceURI = URI.create(API_URL + "/task/" + task.getTaskId());
@@ -107,7 +108,7 @@ public class ProjectController {
     }
 
     @PutMapping("/project/{projectId}/task/{taskId}")
-    public ResponseEntity<String> updateTask(@PathVariable String projectId,
+    public ResponseEntity<Project> updateTask(@PathVariable String projectId,
                                              @PathVariable String taskId,
                                              @RequestBody TaskDTO taskPatch) {
 
@@ -136,9 +137,6 @@ public class ProjectController {
         if (taskPatch.getDueDate() != null) {
             existingTask.setDueDate(taskPatch.getDueDate());
         }
-        if (taskPatch.getOwnerUserId() != null) {
-            existingTask.setOwnerUserId(taskPatch.getOwnerUserId());
-        }
         if (taskPatch.getAssignedToUserId() != null) {
             existingTask.setAssignedToUserId(taskPatch.getAssignedToUserId());
         }
@@ -147,7 +145,7 @@ public class ProjectController {
         project.setUpdatedAtToNow();
 
         projectRepo.save(project);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(project);
     }
 
     @DeleteMapping("/project/{id}")

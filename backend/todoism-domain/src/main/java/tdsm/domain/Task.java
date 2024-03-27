@@ -15,12 +15,11 @@ import java.util.Date;
 @Document
 public class Task {
 
-    public Task(String title, String description, TaskPriority priority, Date dueDate, Long ownerUserId, Long assignedToUserId) {
+    public Task(String title, String description, TaskPriority priority, Date dueDate, String assignedToUserId) {
         this.title = title;
         this.description = description;
         this.priority = priority;
         this.dueDate = dueDate;
-        this.ownerUserId = ownerUserId;
         this.assignedToUserId = assignedToUserId;
         this.completionState = false;
         this.setCreatedAtToNow();
@@ -37,10 +36,7 @@ public class Task {
     private Date dueDate;
     private Date createdAt;
     private Date updatedAt;
-    private Long ownerUserId;
-    private Long assignedToUserId;
-
-    private String projectId;
+    private String assignedToUserId;
 
     public void setCreatedAtToNow() {
         this.createdAt = new Date();

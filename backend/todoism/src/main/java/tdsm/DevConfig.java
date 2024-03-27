@@ -21,13 +21,13 @@ public class DevConfig {
     public CommandLineRunner dataLoader(TaskRepository taskRepo, ProjectRepository projectRepo) {
         return args -> {
             Task taskOne = new Task("First test task", "This is first task persisted to Mongo Database",
-                    TaskPriority.DEFAULT_PRIORITY, new Date(2024, Calendar.MAY, 20), 1L, 1L);
+                    TaskPriority.DEFAULT_PRIORITY, new Date(2024, Calendar.MAY, 20), "1");
 
             Task taskTwo = new Task("Second test task", "This is SECOND task persisted to Mongo Database during application startup",
-                    TaskPriority.HIGH_PRIORITY, new Date(2024, Calendar.MAY, 20),1L, 1L);
+                    TaskPriority.HIGH_PRIORITY, new Date(2024, Calendar.MAY, 20), "1");
 
             Task taskThree = new Task("Third task", "Third task persisted to MongoDB at application startup",
-                    TaskPriority.LOW_PRIORITY, new Date(2024, Calendar.MAY, 19), 1L, 1L);
+                    TaskPriority.LOW_PRIORITY, new Date(2024, Calendar.MAY, 19), "1");
 
             Project projectOne = new Project("Test Project", "This is first test project");
 

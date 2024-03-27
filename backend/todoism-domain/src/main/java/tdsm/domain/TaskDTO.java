@@ -18,8 +18,5 @@ public class TaskDTO {
     private TaskPriority priority;
 
     private Date dueDate;
-    private Long ownerUserId;
-    private Long assignedToUserId;
-
-    private String projectId;
+    private String assignedToUserId;
 }

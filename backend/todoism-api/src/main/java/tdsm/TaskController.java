@@ -11,7 +11,7 @@ import java.net.URI;
 
 @ComponentScan
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(path = "/api", produces = "application/json")
 public class TaskController {
 
@@ -23,7 +23,7 @@ public class TaskController {
     }
 
     @Value("${todoism.api.url}")
-    private static String API_URL;
+    private String API_URL;
 
     private TaskRepository taskRepo;
 
@@ -87,10 +87,6 @@ public class TaskController {
             existingTask.setAssignedToUserId(taskPatch.getAssignedToUserId());
         }
 
-        if (taskPatch.getOwnerUserId() != null) {
-            Logger.log.info("Updating task ownerUserId (id={}, newOwnerUserId={})", taskId, taskPatch.getOwnerUserId());
-            existingTask.setOwnerUserId(taskPatch.getOwnerUserId());
-        }
 
         existingTask.setUpdatedAtToNow();
 
