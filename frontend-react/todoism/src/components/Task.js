@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 
 function Task({index, task: { taskTitle, taskDescription, priority, dueDate, isComplete}}) {
 
@@ -7,7 +7,32 @@ function Task({index, task: { taskTitle, taskDescription, priority, dueDate, isC
   const taskWrapperRef = useRef()
   const moreMenuRef = useRef()
 
-  const priorityClassName = 'priority-high'
+  function getPriorityClasses(priority) {
+    let wrapper = ''
+    let label = ''
+
+    if (priority === 'Default') {
+      wrapper = 'priority-default-border'
+      label = 'bg-light'
+    } else if (priority === 'High') {
+      wrapper = 'priority-high-border'
+      label = 'bg-danger'
+    } else if (priority === 'Low') {
+      wrapper = 'priority-low-border'
+      label = 'bg-low'
+    } else if (priority === 'Medium') {
+      wrapper = 'priority-medium-border'
+      label = 'bg-medium'
+    }
+
+    return { wrapperClassName: wrapper, labelBackgroundClassName: label }
+  }
+
+  useEffect(() => {
+    let { wrapperClassName, labelBackgroundClassName } = getPriorityClasses(priority)
+    taskWrapperRef.current.classList.add(wrapperClassName)
+    priorityLabelRef.current.classList.add(labelBackgroundClassName)
+  }, [])
 
   function handleShowTaskClick(e) {
     console.log(index)
@@ -15,6 +40,10 @@ function Task({index, task: { taskTitle, taskDescription, priority, dueDate, isC
     button.classList.toggle('fa-chevron-down')
     button.classList.toggle('fa-chevron-up')
     taskDetailsRef.current.classList.toggle('hide')
+  }
+
+  function showTaskDetails() {
+    taskDetailsRef.current.classList.remove('hide')
   }
 
   function handleCheckboxClick(e) {
@@ -43,7 +72,7 @@ function Task({index, task: { taskTitle, taskDescription, priority, dueDate, isC
               {taskDescription}
             </div>
             <div className="flex-row">
-              <div className="priority bg-light font-sm" ref={priorityLabelRef}>{priority}</div>
+              <div className="priority font-sm" ref={priorityLabelRef}>{priority}</div>
               <div className="due-date font-sm">
                 Due date
                 <span className="date"> {dueDate} </span>

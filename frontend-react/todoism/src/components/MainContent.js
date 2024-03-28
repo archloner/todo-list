@@ -1,5 +1,5 @@
-import Task from "./Task";
-import { v4 as uuid } from 'uuid'
+import { useRef } from "react";
+import TaskList from "./TaskList";
 
 function MainContent() {
   const tasks = [
@@ -37,6 +37,12 @@ function MainContent() {
     },
   ];
 
+  const taskListRef = useRef()
+
+  function handleExpandAll() {
+    console.log(taskListRef.current)
+  }
+
   return (
     <div className="container flex-1">
       <div className="flex-row">
@@ -54,12 +60,14 @@ function MainContent() {
         <div className="flex-row">
           <div className="tasks-title">Todo</div>
           <div className="push-right">
-            <span id="expand-all-hide-all-span" className="font-sm">
+            <span id="expand-all-hide-all-span" className="font-sm" onClick={handleExpandAll}>
               Expand all
             </span>
           </div>
         </div>
-          {tasks.map((task, index) => <Task key={uuid()} task={task} index={index}/>)}
+        <div>
+          <TaskList tasks={tasks} ref={taskListRef}/>
+        </div>
       </div>
     </div>
   );
