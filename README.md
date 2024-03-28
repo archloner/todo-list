@@ -13,9 +13,7 @@ I will try to deploy the entire application on Netlify somewhere in the future
 ## Demo
 ![App demo](./demo-assets/demo-todo-list.gif)
 
-## UI design
-User interface design is a composition of two designs found by me on the internet.
-
+## UI
 ![User interface demo 1](./demo-assets/screenshot01.png)
 Overview page
 
