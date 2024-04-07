@@ -1,40 +1,33 @@
 <script>
-	import { page } from '$app/stores';
-	import logo from '$lib/images/svelte-logo.svg';
-	import github from '$lib/images/github.svg';
+	import userProfilePicture from '$lib/images/user-profile-picture.jpg';
 </script>
 
 <header>
-	<div class="corner">
-		<a href="https://kit.svelte.dev">
-			<img src={logo} alt="SvelteKit" />
-		</a>
-	</div>
-
-	<nav>
-		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
-		</svg>
-		<ul>
-			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">Home</a>
-			</li>
-			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-				<a href="/about">About</a>
-			</li>
-			<li aria-current={$page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
-				<a href="/sverdle">Sverdle</a>
-			</li>
-		</ul>
-		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
-		</svg>
-	</nav>
-
-	<div class="corner">
-		<a href="https://github.com/sveltejs/kit">
-			<img src={github} alt="GitHub" />
-		</a>
+	<div class="top-bar">
+		<div class="brand menu-padding">.todoism</div>
+		<div class="search-bar-wrapper">
+			<i class="fas fa-search search-icon"></i>
+			<input type="text" id="search-input" placeholder="Search" />
+		</div>
+		<div class="push-right account-controls flex-row">
+			<div class="notifications-icon">
+				<i class="far fa-bell"></i>
+			</div>
+			<div class="username-container">
+				<span id="user-name">Zuzanna Jurczak</span>
+				<i class="fas fa-chevron-down chevron"></i>
+			</div>
+			<div>
+				<img
+					src={userProfilePicture}
+					class="user-profile-picture"
+					alt="User profile"
+				/>
+			</div>
+			<div class="icon dark-mode-icon">
+				<i class="fas fa-adjust"></i>
+			</div>
+		</div>
 	</div>
 </header>
 
