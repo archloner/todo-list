@@ -21,14 +21,14 @@ public class Task {
         this.priority = priority;
         this.dueDate = dueDate;
         this.assignedToUserId = assignedToUserId;
-        this.completionState = false;
+        this.completed = false;
         this.setCreatedAtToNow();
         this.setUpdatedAtToNow();
     }
 
     @Id
     private String taskId;
-    private boolean completionState;
+    private boolean completed;
     private String title;
     private String description;
     private TaskPriority priority;
@@ -44,14 +44,6 @@ public class Task {
 
     public void setUpdatedAtToNow() {
         this.updatedAt = new Date();
-    }
-
-    public boolean isCompleted() {
-        return this.completionState;
-    }
-
-    public void setCompleted(boolean b) {
-        this.completionState = b;
     }
 
 }

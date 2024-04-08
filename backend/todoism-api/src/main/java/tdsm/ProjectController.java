@@ -15,7 +15,7 @@ import java.net.URI;
 
 @RestController
 @ComponentScan
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping(path = "/api", produces = "application/json")
 public class ProjectController {
 
@@ -26,7 +26,7 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @Value("${todoism.api.url")
+    @Value("${todoism.api.url}")
     private String API_URL;
 
     @Slf4j
