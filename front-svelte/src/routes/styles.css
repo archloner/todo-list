@@ -201,8 +201,8 @@ a {
 .brand {
   margin-top: var(--padding-main);
   margin-bottom: 20px;
-  font-size: 1.8rem;
-  font-weight: 600;
+  font-size: 2.5rem;
+  font-weight: 100;
   color: black;
 }
 

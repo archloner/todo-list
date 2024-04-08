@@ -24,6 +24,7 @@
 	.wrapper {
 		display: flex;
 		flex: 1 0 auto;
+		margin-bottom: 0.5rem;
 	}
 
 	main {

@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from "svelte";
-
+  import AppConfig from "../AppConfig";
 
   export let Notifications;
 
@@ -35,11 +35,12 @@
     
   }
 
-  function makeMenuItemActive(newActive) {
-    menuItems.forEach(item => {
-      item.isActive = item === newActive;
+  function makeMenuItemActive(newActiveItem) {
+    let itemsCopy = [...menuItems]
+    itemsCopy.forEach(item => {
+      item.isActive = item === newActiveItem;
     })
-    console.log(menuItems)
+    menuItems = itemsCopy
   }
 
   onMount(() => {
@@ -60,7 +61,7 @@
     <ul class="flex-1 menu-items">
 
       {#each menuItems as menuItem, index (menuItem)}
-        <a href="#" class="menu-item" class:active={menuItem.isActive} on:click={() => makeMenuItemActive(menuItem)}>
+        <a href="/project" class="menu-item" class:active={menuItem.isActive} on:click={() => makeMenuItemActive(menuItem)}>
           <li class="menu-padding">
             <div class="flex-row">
               <i class="fa {menuItem.isHome ? 'fa-home' : 'fa-tasks'}"></i>
@@ -104,8 +105,8 @@
   </div>
   <footer class="menu-padding menu-footer">
     &copy; Created by 
-    <a href="https://github.com/philbjern" class="author-link">
-      philbjern
+    <a href={AppConfig.SITE_FOOTER_AUTHOR_URL} class="author-link">
+      {AppConfig.SITE_FOOTER_AUTHOR}
     </a> 
     2022
   </footer>
