@@ -1,64 +1,78 @@
 <script>
+	import { onMount } from "svelte";
+
+
+  export let Notifications;
+
+  let menuItems = [
+    {
+      name: 'Overview',
+      tasksAmount: 6,
+      isHome: true,
+      isActive: true
+    },
+    {
+      name: 'Groceries',
+      tasksAmount: 10,
+      isHome: false,
+      isActive: false
+    },
+    {
+      name: 'Workout',
+      tasksAmount: 4,
+      isHome: false,
+      isActive: false
+    },
+    {
+      name: 'Reading',
+      tasksAmount: 5,
+      isHome: false,
+      isActive: false
+    }
+  ]
+
+  function showNewTask() {
+    
+  }
+
+  function makeMenuItemActive(newActive) {
+    menuItems.forEach(item => {
+      item.isActive = item === newActive;
+    })
+    console.log(menuItems)
+  }
+
+  onMount(() => {
+    console.log('Component mounted')
+  })
 
 </script>
 
 <div class="menu-left padding-top">
   
   <div class="menu-controls menu-padding">
-    <button class="btn btn-outline-primary new-project-btn">
+    <button class="btn btn-outline-primary new-project-btn" on:click={showNewTask}>
       <i class="fas fa-plus"></i> New list
     </button>
   </div>
 
   <div class="menu flex-1">
     <ul class="flex-1 menu-items">
-      <a href="#" class="menu-item active">
-        <li class="menu-padding">
-          <div class="flex-row">
-            <i class="fa fa-home"></i>
-            <div class="menu-item-text">
-              Overview
-              <p class="tasks-amount">6 Tasks</p>
-            </div>
-          </div>
-        </li>
-      </a>
 
-      <a href="#" class="menu-item">
-        <li class="menu-padding">
-          <div class="flex-row">
-            <i class="fas fa-tasks"></i>
-            <div class="menu-item-text">
-              Groceries
-              <p class="tasks-amount">10 Tasks</p>
+      {#each menuItems as menuItem, index (menuItem)}
+        <a href="#" class="menu-item" class:active={menuItem.isActive} on:click={() => makeMenuItemActive(menuItem)}>
+          <li class="menu-padding">
+            <div class="flex-row">
+              <i class="fa {menuItem.isHome ? 'fa-home' : 'fa-tasks'}"></i>
+              <div class="menu-item-text">
+                {menuItem.name}
+                <p class="tasks-amount">{menuItem.tasksAmount} {menuItem.tasksAmount !== 1 ? 'Tasks' : 'Task'}</p>
+              </div>
             </div>
-          </div>
-        </li>
-      </a>
-
-      <a href="#" class="menu-item">
-        <li class="menu-padding">
-          <div class="flex-row">
-            <i class="fas fa-tasks"></i>
-            <div class="menu-item-text">
-              Workout
-              <p class="tasks-amount">4 Tasks</p>
-            </div>
-          </div>
-        </li>
-      </a>
-
-      <a href="#" class="menu-item">
-        <li class="menu-padding">
-          <div class="flex-row">
-            <i class="fas fa-tasks"></i>
-            <div class="menu-item-text">
-              Reading
-              <p class="tasks-amount">5 Tasks</p>
-            </div>
-          </div>
-        </li>
-      </a>
+          </li>
+        </a>
+      {/each}
+      
 
       <div class="line"></div>
 
@@ -96,3 +110,10 @@
     2022
   </footer>
 </div>
+
+<style>
+  .menu-left {
+    border-radius: 15px;
+    margin-left: 0.5em;
+  }
+</style>
