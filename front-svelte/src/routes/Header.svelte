@@ -1,10 +1,34 @@
 <script>
 	import userProfilePicture from '$lib/images/user-profile-picture.jpg';
+
+	let darkMode = false;
+	export let toggleDarkMode;
+
+	function handleDarkModeToggle() {
+		toggleDarkMode();
+	}
 </script>
 
 <header>
 	<div class="top-bar">
 		<div class="brand menu-padding">.todoism</div>
+		<nav class="top-bar-nav-wrapper">
+			<a href="/task">
+				<div class="nav-item active">
+					Home
+				</div>
+			</a>
+			<a href="/about">
+				<div class="nav-item">
+					About
+				</div>
+			</a>
+			<a href="/contact">
+				<div class="nav-item">
+					Contact
+				</div>
+			</a>
+		</nav>
 		<div class="search-bar-wrapper">
 			<i class="fas fa-search search-icon"></i>
 			<input type="text" id="search-input" placeholder="Search" />
@@ -24,7 +48,7 @@
 					alt="User profile"
 				/>
 			</div>
-			<div class="icon dark-mode-icon">
+			<div class="icon dark-mode-icon" on:click={handleDarkModeToggle}>
 				<i class="fas fa-adjust"></i>
 			</div>
 		</div>
@@ -37,86 +61,19 @@
 		justify-content: space-between;
 	}
 
-	.corner {
-		width: 3em;
-		height: 3em;
-	}
-
-	.corner a {
+	.top-bar-nav-wrapper {
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		height: 100%;
+		margin-right: 3rem;
 	}
 
-	.corner img {
-		width: 2em;
-		height: 2em;
-		object-fit: contain;
+	.nav-item {
+		padding: 0.5rem;
+		margin: 0.5rem;
+		cursor: pointer;
 	}
 
-	nav {
-		display: flex;
-		justify-content: center;
-		--background: rgba(255, 255, 255, 0.7);
-	}
-
-	svg {
-		width: 2em;
-		height: 3em;
-		display: block;
-	}
-
-	path {
-		fill: var(--background);
-	}
-
-	ul {
-		position: relative;
-		padding: 0;
-		margin: 0;
-		height: 3em;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		list-style: none;
-		background: var(--background);
-		background-size: contain;
-	}
-
-	li {
-		position: relative;
-		height: 100%;
-	}
-
-	li[aria-current='page']::before {
-		--size: 6px;
-		content: '';
-		width: 0;
-		height: 0;
-		position: absolute;
-		top: 0;
-		left: calc(50% - var(--size));
-		border: var(--size) solid transparent;
-		border-top: var(--size) solid var(--color-theme-1);
-	}
-
-	nav a {
-		display: flex;
-		height: 100%;
-		align-items: center;
-		padding: 0 0.5rem;
-		color: var(--color-text);
-		font-weight: 700;
-		font-size: 0.8rem;
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		text-decoration: none;
-		transition: color 0.2s linear;
-	}
-
-	a:hover {
-		color: var(--color-theme-1);
+	.nav-item.active {
+		color: black;
+		border-bottom: 2px solid black;
 	}
 </style>

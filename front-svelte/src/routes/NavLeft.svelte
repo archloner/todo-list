@@ -61,7 +61,7 @@
     <ul class="flex-1 menu-items">
 
       {#each menuItems as menuItem, index (menuItem)}
-        <a href="/project" class="menu-item" class:active={menuItem.isActive} on:click={() => makeMenuItemActive(menuItem)}>
+        <a href="/task" class="menu-item" class:active={menuItem.isActive} on:click={() => makeMenuItemActive(menuItem)}>
           <li class="menu-padding">
             <div class="flex-row">
               <i class="fa {menuItem.isHome ? 'fa-home' : 'fa-tasks'}"></i>

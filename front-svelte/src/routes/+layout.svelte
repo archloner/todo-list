@@ -2,10 +2,16 @@
 	import Header from './Header.svelte';
 	import NavLeft from './NavLeft.svelte';
 	import './styles.css';
+
+	let appContainer;
+
+	function toggleDarkMode() {
+		appContainer.classList.toggle('dark-mode')
+	}
 </script>
 
-<div class="app">
-	<Header/>
+<div class="app" bind:this={appContainer}>
+	<Header {toggleDarkMode}/>
 	<div class="wrapper">
 		<NavLeft Notifications/>
 		<main class="content-right">
@@ -31,7 +37,7 @@
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		padding: 1rem;
+		padding: 2rem;
 		width: 100%;
 		margin: 0 auto;
 		box-sizing: border-box;
