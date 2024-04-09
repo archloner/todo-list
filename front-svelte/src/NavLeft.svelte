@@ -29,10 +29,6 @@
     }
   ]
 
-  function showNewTask() {
-    
-  }
-
   function makeMenuItemActive(newActiveItem) {
     let itemsCopy = [...menuItems]
     itemsCopy.forEach(item => {

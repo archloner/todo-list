@@ -1,5 +1,6 @@
 <script>
 	import userProfilePicture from '$lib/images/user-profile-picture.jpg';
+	import AppConfig from './AppConfig';
 
 	let darkMode = false;
 	export let toggleDarkMode;
@@ -38,7 +39,7 @@
 				<i class="far fa-bell"></i>
 			</div>
 			<div class="username-container">
-				<span id="user-name">Zuzanna Jurczak</span>
+				<span id="user-name">{AppConfig.DUMMY_USER_NAME}</span>
 				<i class="fas fa-chevron-down chevron"></i>
 			</div>
 			<div>
@@ -81,5 +82,4 @@
 		border-bottom: 2px solid black;
 	}
 
-	
 </style>
