@@ -682,7 +682,8 @@ input[type="text"]:focus {
 }
 
 .task-details {
-  animation: task-details-expand 0.3s;
+  /* animation: task-details-expand 0.3s; */
+  animation: fade-in 0.8s;
 }
 
 .task-text div {
