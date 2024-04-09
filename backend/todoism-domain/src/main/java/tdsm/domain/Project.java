@@ -22,6 +22,7 @@ public class Project {
         this.taskList = new ArrayList<>();
         this.createdAt = new Date();
         this.setUpdatedAtToNow();
+        this.calculateNumberOfTasks();
     }
 
     @Id
@@ -37,8 +38,9 @@ public class Project {
 
     @CreatedDate
     private Date createdAt;
-
     private Date updatedAt;
+
+    private String ownerUserId;
 
     public void addTask(Task task) {
         this.taskList.add(task);

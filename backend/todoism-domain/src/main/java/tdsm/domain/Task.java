@@ -15,21 +15,20 @@ import java.util.Date;
 @Document
 public class Task {
 
-    public Task(String title, String description, TaskPriority priority, Date dueDate, Long ownerUserId, Long assignedToUserId) {
+    public Task(String title, String description, TaskPriority priority, Date dueDate, String assignedToUserId) {
         this.title = title;
         this.description = description;
         this.priority = priority;
         this.dueDate = dueDate;
-        this.ownerUserId = ownerUserId;
         this.assignedToUserId = assignedToUserId;
-        this.completionState = false;
+        this.completed = false;
         this.setCreatedAtToNow();
         this.setUpdatedAtToNow();
     }
 
     @Id
     private String taskId;
-    private boolean completionState;
+    private boolean completed;
     private String title;
     private String description;
     private TaskPriority priority;
@@ -37,10 +36,7 @@ public class Task {
     private Date dueDate;
     private Date createdAt;
     private Date updatedAt;
-    private Long ownerUserId;
-    private Long assignedToUserId;
-
-    private String projectId;
+    private String assignedToUserId;
 
     public void setCreatedAtToNow() {
         this.createdAt = new Date();
@@ -48,14 +44,6 @@ public class Task {
 
     public void setUpdatedAtToNow() {
         this.updatedAt = new Date();
-    }
-
-    public boolean isCompleted() {
-        return this.completionState;
-    }
-
-    public void setCompleted(boolean b) {
-        this.completionState = b;
     }
 
 }
