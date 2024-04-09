@@ -12,7 +12,7 @@
 
 <header>
 	<div class="top-bar">
-		<div class="brand menu-padding">.todoism</div>
+		<div class="brand menu-padding"><i class="fa fa-clipboard-check"></i> .todo<span class="brand-small">ism</span></div>
 		<nav class="top-bar-nav-wrapper">
 			<a href="/task">
 				<div class="nav-item active">
@@ -80,6 +80,11 @@
 	.nav-item.active {
 		color: black;
 		border-bottom: 2px solid black;
+	}
+
+	.brand-small {
+		font-size: 1.6rem;
+		opacity: 0.4;
 	}
 
 </style>
