@@ -72,8 +72,14 @@
 		cursor: pointer;
 	}
 
+	a:hover {
+		text-decoration: none;
+	}
+
 	.nav-item.active {
 		color: black;
 		border-bottom: 2px solid black;
 	}
+
+	
 </style>

@@ -1,9 +1,7 @@
 <script>
 	import { onMount } from "svelte";
-  import AppConfig from "../AppConfig";
-
-  export let Notifications;
-
+  import AppConfig from "./AppConfig.js";
+  
   let menuItems = [
     {
       name: 'Overview',
@@ -44,7 +42,7 @@
   }
 
   onMount(() => {
-    console.log('Component mounted')
+    // console.log('Component mounted')
   })
 
 </script>
@@ -116,5 +114,9 @@
   .menu-left {
     border-radius: 15px;
     margin-left: 0.5em;
+  }
+
+  .menu-item:hover {
+    text-decoration: none;
   }
 </style>
