@@ -2,14 +2,14 @@
 	import { onMount } from 'svelte';
 	import AppConfig from './AppConfig';
 	import Spinner from './Spinner.svelte';
-  import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
 	import NotificationType from './NotificationType';
 
-  let dispatch = createEventDispatcher();
+	let dispatch = createEventDispatcher();
 
-  function notify(title, text, type) {
-    dispatch('notify', { title, text, type })
-  }
+	function notify(title, text, type) {
+		dispatch('notify', { title, text, type });
+	}
 
 	let pageContent;
 	let projectData = {};
@@ -48,19 +48,20 @@
 				throw new Error(`API request failed with status ${res.status}`);
 			}
 			let data = await res.json();
+			notify('Data loaded', 'Data successfully fetched from the API', NotificationType.SUCCESS);
 			return data;
 		} catch (error) {
 			console.log('Error fetching data: ', error);
+			notify('Error', 'Error while loading data from the service', NotificationType.ERROR);
+			showError();
 			return null;
 		}
 	}
 
 	async function loadData() {
-		console.log('Getting data...')
+		console.log('Getting data...');
 		let data = await fetchData();
-		console.log('Received data OK!')
-    
-    notify('Data loaded', 'Data successfully fetched from the API', NotificationType.SUCCESS)
+		console.log('Received data OK!');
 
 		projectData = data[0];
 		taskList = data[0].taskList;
@@ -72,16 +73,24 @@
 		// Show content and hide spinner
 		pageContent.classList.remove('hide');
 		isSpinnerHidden = true;
-		console.log(taskList)
+		console.log(taskList);
 	}
+	let completedTasks = [1];
 
 	let isSpinnerHidden;
 
 	onMount(() => {
-		console.log('Component mounted...')
+		console.log('Component mounted...');
 		isSpinnerHidden = false;
 		loadData();
 	});
+
+	let errorPage;
+
+	function showError() {
+		isSpinnerHidden = false;
+		errorPage.classList.toggle('hide');
+	}
 
 	let Priority = {
 		DEFALUT_PRIORITY: 'DEFAULT_PRIORITY',
@@ -130,68 +139,67 @@
 		return new Date(timestamp);
 	}
 
-	let escapePressedEventListener 
+	let escapePressedEventListener;
 
 	function handleClickNewTaskButton() {
-		createTaskModalWrapper.classList.remove('hide')
+		createTaskModalWrapper.classList.remove('hide');
 		window.addEventListener('keydown', (e) => {
-			if(e.key === 'Escape') {
+			if (e.key === 'Escape') {
 				closeCreateTaskModal();
-				window.removeEventListener('keydown', this)
+				window.removeEventListener('keydown', this);
 			}
-		})
+		});
 	}
 
 	function closeCreateTaskModal() {
 		// createTaskModalWrapper.classList.remove('wrapper-fade-in-animation')
-		createTaskModal.classList.add('modal-dissmis-animation')
+		createTaskModal.classList.add('modal-dissmis-animation');
 		setTimeout(() => {
-			createTaskModal.classList.remove('modal-dissmis-animation')
-			createTaskModalWrapper.classList.add('hide')
-		}, 500)
+			createTaskModal.classList.remove('modal-dissmis-animation');
+			createTaskModalWrapper.classList.add('hide');
+		}, 500);
 	}
 
 	function handleExpandTaskClick(taskToExpand) {
-		let taskListCpy = [...taskList]
-		taskListCpy.forEach(task => {
+		let taskListCpy = [...taskList];
+		taskListCpy.forEach((task) => {
 			if (task === taskToExpand) {
 				task.isExpanded = !task.isExpanded;
 			}
-		})
-		taskList = taskListCpy
+		});
+		taskList = taskListCpy;
 	}
 
 	function handleShowTaskMenu(clickedTask) {
-		let taskListCopy = [...taskList]
-		taskListCopy.forEach(task => {
+		let taskListCopy = [...taskList];
+		taskListCopy.forEach((task) => {
 			if (task === clickedTask) {
 				task.showMenu = !task.showMenu;
 			}
-		})
-		taskList = taskListCopy
+		});
+		taskList = taskListCopy;
 	}
 
-	let expandAllLabels = ['Expand all', 'Collapse all']
-	let expandAllToggleLabel = expandAllLabels[0]
+	let expandAllLabels = ['Expand all', 'Collapse all'];
+	let expandAllToggleLabel = expandAllLabels[0];
 
 	function handleExpandAll() {
-		let taskListCopy = [...taskList]
-		if(expandAllToggleLabel === expandAllLabels[0]) {
+		let taskListCopy = [...taskList];
+		if (expandAllToggleLabel === expandAllLabels[0]) {
 			// expand all
-			taskListCopy.forEach(task => {
+			taskListCopy.forEach((task) => {
 				task.isExpanded = true;
-			})
+			});
 			expandAllToggleLabel = expandAllLabels[1];
 		} else {
 			// collapse all
-			taskListCopy.forEach(task => {
+			taskListCopy.forEach((task) => {
 				task.isExpanded = false;
-			})
+			});
 			expandAllToggleLabel = expandAllLabels[0];
 		}
-		taskList = taskListCopy
+		taskList = taskListCopy;
 	}
-
 </script>
 
 <div id="page-content" class="hide" bind:this={pageContent}>
@@ -210,7 +218,9 @@
 			<div class="flex-row">
 				<div class="tasks-title">Todo</div>
 				<div class="push-right">
-					<span id="expand-all-hide-all-span" class="font-sm" on:click={handleExpandAll}> {expandAllToggleLabel} </span>
+					<span id="expand-all-hide-all-span" class="font-sm" on:click={handleExpandAll}>
+						{expandAllToggleLabel}
+					</span>
 				</div>
 			</div>
 
@@ -246,7 +256,10 @@
 						</div>
 
 						<div class="task-menu">
-							<i class="fas {task.isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'} icon chevron" on:click={handleExpandTaskClick(task)}></i>
+							<i
+								class="fas {task.isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'} icon chevron"
+								on:click={handleExpandTaskClick(task)}
+							></i>
 							<i class="fas fa-ellipsis-v icon more" on:click={handleShowTaskMenu(task)}></i>
 							<div class="more-menu {task.showMenu ? '' : 'hide'}">
 								<ul>
@@ -261,13 +274,24 @@
 						</div>
 					</div>
 				{/each}
-				<div class="tasks-title">Done</div>
+				{#if completedTasks.length > 0}
+					<div class="tasks-title">Done</div>
+					<div>
+						<button class="btn btn-outline-primary"
+							><i class="fa fa-trash-can"></i> Clear completed tasks</button
+						>
+					</div>
+				{/if}
 			</form>
 		</div>
 	</div>
 
-	<div class="modal-wrapper wrapper-fade-in-animation hide" id="new-task-modal-wrapper" bind:this={createTaskModalWrapper}>
-		<div class="new-task-modal modal-show-animation"  bind:this={createTaskModal}>
+	<div
+		class="modal-wrapper wrapper-fade-in-animation hide"
+		id="new-task-modal-wrapper"
+		bind:this={createTaskModalWrapper}
+	>
+		<div class="new-task-modal modal-show-animation" bind:this={createTaskModal}>
 			<h1 class="title">Add new task</h1>
 			<form id="new-task-form">
 				<div class="form-row">
@@ -332,7 +356,11 @@
 		</div>
 	</div>
 
-	<div class="modal-wrapper wrapper-fade-in-animation hide" id="confirm-task-delete-modal" bind:this={deleteTaskModal}>
+	<div
+		class="modal-wrapper wrapper-fade-in-animation hide"
+		id="confirm-task-delete-modal"
+		bind:this={deleteTaskModal}
+	>
 		<div class="new-task-modal modal-show-animation">
 			<h1 class="title">Delete task?</h1>
 			<p>
@@ -353,7 +381,12 @@
 	</div>
 </div>
 
-<Spinner hidden={isSpinnerHidden}/>
+<div class="hide" bind:this={errorPage}>
+	<h1>Something went wrong</h1>
+	<p>Uh oh, uwu, sometwing went wong, please twy agwain lawter :(</p>
+</div>
+
+<Spinner hidden={isSpinnerHidden} />
 
 <style>
 	.tasks-wrapper {

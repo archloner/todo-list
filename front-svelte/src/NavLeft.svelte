@@ -71,7 +71,6 @@
           </li>
         </a>
       {/each}
-      
 
       <div class="line"></div>
 
@@ -101,12 +100,13 @@
       </a>
     </ul>
   </div>
+
   <footer class="menu-padding menu-footer">
     &copy; Created by 
     <a href={AppConfig.SITE_FOOTER_AUTHOR_URL} class="author-link">
       {AppConfig.SITE_FOOTER_AUTHOR}
     </a> 
-    2022
+    {new Date().getFullYear()}
   </footer>
 </div>
 
@@ -118,5 +118,14 @@
 
   .menu-item:hover {
     text-decoration: none;
+  }
+
+  .new-project-btn {
+    width: 100%;
+    margin: auto;
+  }
+
+  .menu-controls {
+    text-align: center;
   }
 </style>
