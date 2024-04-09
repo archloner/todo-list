@@ -37,6 +37,8 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
+		max-width: 1650px;
+		margin: auto;
 	}
 
 	.wrapper {
