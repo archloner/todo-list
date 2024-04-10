@@ -10,6 +10,8 @@ import tdsm.domain.TaskPriority;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Configuration
 public class DevConfig {
@@ -34,6 +36,17 @@ public class DevConfig {
             projectOne.addTask(taskOne);
             projectOne.addTask(taskTwo);
             projectOne.addTask(taskThree);
+
+//            Logger.log.info(UUID.randomUUID().toString().substring(0, 8));
+//
+//            Project proj = projectRepo.findById("66142b5182663e741c8dfec2").orElse(null);
+//            proj.addTask(taskOne);
+//            proj.addTask(taskTwo);
+//            proj.addTask(taskThree);
+//            for (Task task : proj.getTaskList()) {
+//                task.regenerateId();
+//            }
+//            projectRepo.save(proj);
 
 //            Logger.log.info("Saving tasks to the database");
 //            taskRepo.saveAll(List.of(taskOne, taskTwo, taskThree));
