@@ -88,7 +88,7 @@
 	let errorPage;
 
 	function showError() {
-		isSpinnerHidden = false;
+		isSpinnerHidden = true;
 		errorPage.classList.toggle('hide');
 	}
 
@@ -203,7 +203,7 @@
 </script>
 
 <div id="page-content" class="hide" bind:this={pageContent}>
-	<div class="flex-1">
+	<div class="flex-1 overflow-scroll">
 		<div class="flex-row">
 			<h1 class="list-title">{projectData.name}</h1>
 			<div class="push-right align-center">
@@ -391,5 +391,15 @@
 <style>
 	.tasks-wrapper {
 		max-width: 950px;
+	}
+
+	.overflow-scroll {
+		overflow: scroll;
+	}
+
+	.page-content {
+		flex: 1 0 80vh;
+    overflow: scroll;
+		padding: 2rem;
 	}
 </style>
