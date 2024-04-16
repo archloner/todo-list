@@ -71,7 +71,7 @@
 	}
 
 	.content-right {
-		overflow: scroll;
+		overflow: auto;
 	}
 
 	main {

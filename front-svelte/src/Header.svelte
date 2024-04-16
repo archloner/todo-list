@@ -2,7 +2,6 @@
 	import userProfilePicture from '$lib/images/user-profile-picture.jpg';
 	import AppConfig from './AppConfig';
 
-	let darkMode = false;
 	export let toggleDarkMode;
 
 	function handleDarkModeToggle() {
