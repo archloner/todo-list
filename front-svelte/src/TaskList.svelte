@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import AppConfig from './AppConfig';
 	import Spinner from './Spinner.svelte';
+	import NewTaskModal from './NewTaskModal.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import NotificationType from './NotificationType';
 
@@ -141,24 +142,20 @@
 
 	let escapePressedEventListener;
 
+	let newTaskModal;
+
 	function handleClickNewTaskButton() {
-		createTaskModalWrapper.classList.remove('hide');
-		window.addEventListener('keydown', (e) => {
-			if (e.key === 'Escape') {
-				closeCreateTaskModal();
-				window.removeEventListener('keydown', this);
-			}
-		});
+		newTaskModal.showModal();
 	}
 
-	function closeCreateTaskModal() {
-		// createTaskModalWrapper.classList.remove('wrapper-fade-in-animation')
-		createTaskModal.classList.add('modal-dissmis-animation');
-		setTimeout(() => {
-			createTaskModal.classList.remove('modal-dissmis-animation');
-			createTaskModalWrapper.classList.add('hide');
-		}, 500);
-	}
+	// function closeCreateTaskModal() {
+	// 	// createTaskModalWrapper.classList.remove('wrapper-fade-in-animation')
+	// 	createTaskModal.classList.add('modal-dissmis-animation');
+	// 	setTimeout(() => {
+	// 		createTaskModal.classList.remove('modal-dissmis-animation');
+	// 		createTaskModalWrapper.classList.add('hide');
+	// 	}, 500);
+	// }
 
 	function handleExpandTaskClick(taskToExpand) {
 		let taskListCpy = [...taskList];
@@ -203,7 +200,7 @@
 </script>
 
 <div id="page-content" class="hide" bind:this={pageContent}>
-	<div class="flex-1 overflow-scroll">
+	<div class="flex-1">
 		<div class="flex-row">
 			<h1 class="list-title">{projectData.name}</h1>
 			<div class="push-right align-center">
@@ -286,75 +283,7 @@
 		</div>
 	</div>
 
-	<div
-		class="modal-wrapper wrapper-fade-in-animation hide"
-		id="new-task-modal-wrapper"
-		bind:this={createTaskModalWrapper}
-	>
-		<div class="new-task-modal modal-show-animation" bind:this={createTaskModal}>
-			<h1 class="title">Add new task</h1>
-			<form id="new-task-form">
-				<div class="form-row">
-					<label htmlFor="task-title" class="form-label" id="form-label-title">
-						Task title <span class="validation-msg"></span>
-					</label>
-					<input type="text" name="task-title" id="task-title" placeholder="Title" />
-				</div>
-
-				<div class="form-row">
-					<label htmlFor="task-description" class="form-label" id="form-label-description">
-						Task description <span class="validation-msg"></span>
-					</label>
-					<input
-						type="text"
-						name="task-description"
-						id="task-description"
-						placeholder="Description"
-					/>
-				</div>
-
-				<div class="form-row">
-					<label htmlFor="task-priority" class="form-label" id="form-label-priority">
-						Priority
-					</label>
-					<form id="priority-form">
-						<div class="flex-row radio-wrapper">
-							<div class="radio-container bg-white">
-								<input type="radio" name="priority" id="priority-default" value="default" checked />
-								<label htmlFor="priority-default">Default</label>
-							</div>
-							<div class="radio-container bg-low">
-								<input type="radio" name="priority" id="priority-low" value="low" />
-								<label htmlFor="priority-low">Low</label>
-							</div>
-							<div class="radio-container bg-medium">
-								<input type="radio" name="priority" id="priority-medium" value="medium" />
-								<label htmlFor="priority-medium">Medium</label>
-							</div>
-							<div class="radio-container bg-danger">
-								<input type="radio" name="priority" id="priority-high" value="high" />
-								<label htmlFor="priority-high">High</label>
-							</div>
-						</div>
-					</form>
-				</div>
-
-				<div class="form-row">
-					<label htmlFor="task-due-date" class="form-label" id="form-label-due-date">
-						Due date <span class="validation-msg">test</span>
-					</label>
-					<input type="date" name="task-due-date" id="task-due-date" />
-				</div>
-
-				<div class="form-row form-controls">
-					<button class="btn btn-primary" id="new-task-submit"> Create </button>
-				</div>
-				<div class="close-btn" on:click={closeCreateTaskModal}>
-					<i class="fas fa-times"></i>
-				</div>
-			</form>
-		</div>
-	</div>
+	<NewTaskModal bind:this={newTaskModal}/>
 
 	<div
 		class="modal-wrapper wrapper-fade-in-animation hide"
@@ -394,12 +323,12 @@
 	}
 
 	.overflow-scroll {
-		overflow: scroll;
+		overflow-y: scroll;
 	}
 
 	.page-content {
 		flex: 1 0 80vh;
-    overflow: scroll;
+    	overflow: auto;
 		padding: 2rem;
 	}
 </style>
