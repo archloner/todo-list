@@ -222,55 +222,59 @@
 			</div>
 
 			<form class="task-list">
-				{#each taskList as task, index}
-					<div class="task {getPriorityClassForWrapper(task.priority)}" data-index={index}>
-						<div class="task-content">
-							<input type="checkbox" id="task-{index}" checked={task.completed} />
-							<div class="checkbox-wrapper">
-								<label for="task-{index}">
-									<span class="checkbox">
-										<span class="check"></span>
-									</span>
-								</label>
-							</div>
-							<div class="task-text">
-								<div class="title">{task.title}</div>
-								<div class="task-details {task.isExpanded ? '' : 'hide'}" bind:this={taskDetails}>
-									<div class="description font-sm">
-										{task.description}
-									</div>
-									<div class="flex-row">
-										<div class="priority {getPriorityClassForLabel(task.priority)} font-sm">
-											{getPriorityPrettyName(task.priority)}
+				{#if taskList.length > 0}
+					{#each taskList as task, index}
+						<div class="task {getPriorityClassForWrapper(task.priority)}" data-index={index}>
+							<div class="task-content">
+								<input type="checkbox" id="task-{index}" checked={task.completed} />
+								<div class="checkbox-wrapper">
+									<label for="task-{index}">
+										<span class="checkbox">
+											<span class="check"></span>
+										</span>
+									</label>
+								</div>
+								<div class="task-text">
+									<div class="title">{task.title}</div>
+									<div class="task-details {task.isExpanded ? '' : 'hide'}" bind:this={taskDetails}>
+										<div class="description font-sm">
+											{task.description}
 										</div>
-										<div class="due-date font-sm">
-											Due date
-											<span class="date"> {getPrettyDate(task.dueDate)} </span>
+										<div class="flex-row">
+											<div class="priority {getPriorityClassForLabel(task.priority)} font-sm">
+												{getPriorityPrettyName(task.priority)}
+											</div>
+											<div class="due-date font-sm">
+												Due date
+												<span class="date"> {getPrettyDate(task.dueDate)} </span>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
 
-						<div class="task-menu">
-							<i
-								class="fas {task.isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'} icon chevron"
-								on:click={handleExpandTaskClick(task)}
-							></i>
-							<i class="fas fa-ellipsis-v icon more" on:click={handleShowTaskMenu(task)}></i>
-							<div class="more-menu {task.showMenu ? '' : 'hide'}">
-								<ul>
-									<li class="more-menu-option edit">
-										<i class="far fa-edit icon"></i>Edit
-									</li>
-									<li class="more-menu-option delete">
-										<i class="far fa-trash-alt icon"></i> Delete
-									</li>
-								</ul>
+							<div class="task-menu">
+								<i
+									class="fas {task.isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'} icon chevron"
+									on:click={handleExpandTaskClick(task)}
+								></i>
+								<i class="fas fa-ellipsis-v icon more" on:click={handleShowTaskMenu(task)}></i>
+								<div class="more-menu {task.showMenu ? '' : 'hide'}">
+									<ul>
+										<li class="more-menu-option edit">
+											<i class="far fa-edit icon"></i>Edit
+										</li>
+										<li class="more-menu-option delete">
+											<i class="far fa-trash-alt icon"></i> Delete
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
-					</div>
-				{/each}
+					{/each}
+				{:else}
+					<h1>Nothing to do, enjoy your free time</h1>
+				{/if}
 				{#if completedTasks.length > 0}
 					<div class="tasks-title">Done</div>
 					<div>
@@ -283,7 +287,7 @@
 		</div>
 	</div>
 
-	<NewTaskModal bind:this={newTaskModal}/>
+	<NewTaskModal bind:this={newTaskModal} />
 
 	<div
 		class="modal-wrapper wrapper-fade-in-animation hide"
@@ -328,7 +332,7 @@
 
 	.page-content {
 		flex: 1 0 80vh;
-    	overflow: auto;
+		overflow: auto;
 		padding: 2rem;
 	}
 </style>
