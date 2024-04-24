@@ -74,16 +74,24 @@
 		// Show content and hide spinner
 		pageContent.classList.remove('hide');
 		isSpinnerHidden = true;
-		console.log(taskList);
 	}
 	let completedTasks = [1];
+
+	export function updateTaskList(newTaskData) {
+		console.log('In TaskListView, project changed, new tasks: ' + newTaskData.projectId);
+		console.log(newTaskData);
+		projectData = newTaskData;
+		taskList = projectData.taskList;
+		pageContent.classList.remove('hide');
+		isSpinnerHidden = true;
+	}
 
 	let isSpinnerHidden;
 
 	onMount(() => {
 		console.log('Component mounted...');
 		isSpinnerHidden = false;
-		loadData();
+		// loadData();
 	});
 
 	let errorPage;
