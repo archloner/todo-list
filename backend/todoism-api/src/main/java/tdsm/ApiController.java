@@ -18,4 +18,9 @@ public class ApiController {
         return ResponseEntity.ok(LocalDateTime.now().toString());
     }
 
+    @GetMapping("/status")
+    public ResponseEntity<String> isAPIUp() {
+        return ResponseEntity.ok().build();
+    }
+
 }
