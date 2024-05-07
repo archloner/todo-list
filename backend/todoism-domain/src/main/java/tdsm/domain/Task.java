@@ -51,5 +51,12 @@ public class Task {
 
     public void regenerateId() {
         this.taskId = UUID.randomUUID().toString().substring(0, 8);
+        this.setUpdatedAtToNow();
+    }
+
+    public boolean toggleCompleted() {
+        this.completed = !this.completed;
+        this.setUpdatedAtToNow();
+        return this.completed;
     }
 }
