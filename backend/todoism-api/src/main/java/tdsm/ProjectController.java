@@ -65,6 +65,22 @@ public class ProjectController {
         return ResponseEntity.ok(tasks);
     }
 
+    @PostMapping("/project/{projId}/task/{taskId}/togglecomplete")
+    public ResponseEntity<Project> toggleTaskComplite(@PathVariable String projId, @PathVariable String taskId,
+                                               @RequestBody String taskIdToToggle) {
+        Project projFromRepo = projectRepo.findById(projId).orElse(null);
+        if (projFromRepo == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Iterable<Task> taskList = projFromRepo.getTaskList();
+        taskList.forEach(task -> {
+            boolean isComplete = task.toggleCompleted();
+        });
+        projFromRepo.calculateNumberOfTasks();
+        projectRepo.save(projFromRepo);
+        return ResponseEntity.ok(projFromRepo);
+    }
+
     @PostMapping("/project")
     public ResponseEntity<String> createProject(@RequestBody Project projectBody) {
         Project project = new Project(projectBody.getName(), projectBody.getDescription());
