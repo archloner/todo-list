@@ -5,7 +5,8 @@
 	import NewTaskModal from './NewTaskModal.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import NotificationType from './NotificationType';
-	import { postRequest } from './Utils';
+	import { postRequest, deleteRequest } from './HttpUtils';
+	import Task from './Task.svelte';
 
 	let dispatch = createEventDispatcher();
 
@@ -19,7 +20,8 @@
 
 	let createTaskModalWrapper;
 	let createTaskModal;
-	let deleteTaskModal;
+
+	let deleteTaskModalWrapper;
 	let newTaskButton;
 	let taskDetails;
 
@@ -50,7 +52,7 @@
 				throw new Error(`API request failed with status ${res.status}`);
 			}
 			let data = await res.json();
-			notify('Data loaded', 'Data successfully fetched from the API', NotificationType.SUCCESS);
+			// notify('Data loaded', 'Data successfully fetched from the API', NotificationType.SUCCESS);
 			return data;
 		} catch (error) {
 			console.log('Error fetching data: ', error);
@@ -76,6 +78,7 @@
 		pageContent.classList.remove('hide');
 		isSpinnerHidden = true;
 	}
+
 	let completedTasks = [1];
 
 	export function updateTaskList(newTaskData) {
@@ -92,7 +95,7 @@
 	onMount(() => {
 		console.log('Component mounted...');
 		isSpinnerHidden = false;
-		// loadData();
+		loadData();
 	});
 
 	let errorPage;
@@ -100,53 +103,6 @@
 	function showError() {
 		isSpinnerHidden = true;
 		errorPage.classList.toggle('hide');
-	}
-
-	let Priority = {
-		DEFALUT_PRIORITY: 'DEFAULT_PRIORITY',
-		LOW_PRIORITY: 'LOW_PRIORITY',
-		MEDIUM_PRIORITY: 'MEDIUM_PRIORITY',
-		HIGH_PRIORITY: 'HIGH_PRIORITY'
-	};
-
-	function getPriorityPrettyName(priority) {
-		if (priority === Priority.DEFALUT_PRIORITY) {
-			return 'Default';
-		} else if (priority === Priority.LOW_PRIORITY) {
-			return 'Low';
-		} else if (priority === Priority.MEDIUM_PRIORITY) {
-			return 'Medium';
-		} else if (priority === Priority.HIGH_PRIORITY) {
-			return 'High';
-		}
-	}
-
-	function getPriorityClassForWrapper(priorityFromDB) {
-		if (priorityFromDB === Priority.DEFALUT_PRIORITY) {
-			return '';
-		} else if (priorityFromDB === Priority.LOW_PRIORITY) {
-			return 'priority-low-border';
-		} else if (priorityFromDB === Priority.MEDIUM_PRIORITY) {
-			return 'priority-medium-border';
-		} else if (priorityFromDB === Priority.HIGH_PRIORITY) {
-			return 'priority-high-border';
-		}
-	}
-
-	function getPriorityClassForLabel(priority) {
-		if (priority === Priority.DEFALUT_PRIORITY) {
-			return 'bg-default';
-		} else if (priority === Priority.LOW_PRIORITY) {
-			return 'bg-low';
-		} else if (priority === Priority.MEDIUM_PRIORITY) {
-			return 'bg-medium';
-		} else if (priority === Priority.HIGH_PRIORITY) {
-			return 'bg-danger';
-		}
-	}
-
-	function getPrettyDate(timestamp) {
-		return new Date(timestamp);
 	}
 
 	let escapePressedEventListener;
@@ -206,23 +162,62 @@
 		}
 		taskList = taskListCopy;
 	}
-	
+
 	function handleCheckTask(taskId) {
-		let taskListCpy = [...taskList]
+		let taskListCpy = [...taskList];
 
-		let url = `${AppConfig.API_URL}/project/${projectData.projectId}/task/${taskId}/togglecomplete`;
-		console.log(url)
-		postRequest(url, taskId);
-
-		taskListCpy.forEach(task => {
+		taskListCpy.forEach((task) => {
 			if (task.taskId === taskId) {
 				task.completed = !task.completed;
 			}
-		})
+		});
 
 		taskList = taskListCpy;
 	}
 
+	function handleTaskUpdate(event) {
+		console.log('update task list... ' + event.detail.id);
+		handleCheckTask(event.detail.id);
+	}
+
+	let taskTitleToDelete = '';
+	let taskIdToDelete = null;
+
+	function handleDeleteTask(event) {
+		let taskId = event.detail.id;
+		taskIdToDelete = taskId;
+		let taskTitle = taskList.filter((task) => task.taskId === taskId)[0].title;
+		taskTitleToDelete = taskTitle;
+		deleteTaskModalWrapper.classList.remove('hide');
+	}
+
+	let deleteTaskModal;
+
+	async function confirmTaskDelete() {
+		console.log(`Delete task ${taskIdToDelete}`);
+		let url = `${AppConfig.API_URL}/project/${projectData.projectId}/task/${taskIdToDelete}`;
+		let resp = await deleteRequest(url);
+
+		notify(
+			'Task deleted',
+			`Task ${taskTitleToDelete} was successfully deleted`,
+			NotificationType.ERROR
+		);
+		taskIdToDelete = null;
+		taskTitleToDelete = '';
+
+		await loadData();
+		hideDeleteModal();
+	}
+
+	function hideDeleteModal() {
+		taskIdToDelete = null;
+		deleteTaskModal.classList.toggle('modal-dissmis-animation');
+		setTimeout(() => {
+			deleteTaskModalWrapper.classList.toggle('hide');
+			deleteTaskModal.classList.toggle('modal-dissmis-animation');
+		}, 550);
+	}
 </script>
 
 <div id="page-content" bind:this={pageContent}>
@@ -251,114 +246,34 @@
 				{#if taskList.length > 0}
 					{#each taskList as task, index}
 						{#if !task.completed}
-						<div class="task {getPriorityClassForWrapper(task.priority)}" data-index={index}>
-							<div class="task-content">
-								<input type="checkbox" id="task-{index}" checked={task.completed} on:click={handleCheckTask(task.taskId)}/>
-								<div class="checkbox-wrapper">
-									<label for="task-{index}">
-										<span class="checkbox">
-											<span class="check"></span>
-										</span>
-									</label>
-								</div>
-								<div class="task-text">
-									<div class="title">{task.title}</div>
-									<div class="task-details {task.isExpanded ? '' : 'hide'}" bind:this={taskDetails}>
-										<div class="description font-sm">
-											{task.description}
-										</div>
-										<div class="flex-row">
-											<div class="priority {getPriorityClassForLabel(task.priority)} font-sm">
-												{getPriorityPrettyName(task.priority)}
-											</div>
-											<div class="due-date font-sm">
-												Due date
-												<span class="date"> {getPrettyDate(task.dueDate)} </span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="task-menu">
-								<i
-									class="fas {task.isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'} icon chevron"
-									on:click={handleExpandTaskClick(task)}
-								></i>
-								<i class="fas fa-ellipsis-v icon more" on:click={handleShowTaskMenu(task)}></i>
-								<div class="more-menu {task.showMenu ? '' : 'hide'}">
-									<ul>
-										<li class="more-menu-option edit">
-											<i class="far fa-edit icon"></i>Edit
-										</li>
-										<li class="more-menu-option delete">
-											<i class="far fa-trash-alt icon"></i> Delete
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
+							<Task
+								{task}
+								{index}
+								projectId={projectData.projectId}
+								on:update={handleTaskUpdate}
+								on:delete={handleDeleteTask}
+							/>
 						{/if}
 					{/each}
-					{:else}
+				{:else}
 					<h1>Nothing to do, enjoy your free time</h1>
 				{/if}
 				{#if completedTasks.length > 0}
 					<div class="tasks-title">Done</div>
 					<div>
 						{#each taskList as task, index}
-						{#if task.completed}
-						<div class="task {getPriorityClassForWrapper(task.priority)}" data-index={index}>
-							<div class="task-content">
-								<input type="checkbox" id="task-{index}" checked={task.completed} on:click={handleCheckTask(task.taskId)}/>
-								<div class="checkbox-wrapper">
-									<label for="task-{index}">
-										<span class="checkbox">
-											<span class="check"></span>
-										</span>
-									</label>
-								</div>
-								<div class="task-text">
-									<div class="title">{task.title}</div>
-									<div class="task-details {task.isExpanded ? '' : 'hide'}" bind:this={taskDetails}>
-										<div class="description font-sm">
-											{task.description}
-										</div>
-										<div class="flex-row">
-											<div class="priority {getPriorityClassForLabel(task.priority)} font-sm">
-												{getPriorityPrettyName(task.priority)}
-											</div>
-											<div class="due-date font-sm">
-												Due date
-												<span class="date"> {getPrettyDate(task.dueDate)} </span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="task-menu">
-								<i
-									class="fas {task.isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'} icon chevron"
-									on:click={handleExpandTaskClick(task)}
-								></i>
-								<i class="fas fa-ellipsis-v icon more" on:click={handleShowTaskMenu(task)}></i>
-								<div class="more-menu {task.showMenu ? '' : 'hide'}">
-									<ul>
-										<li class="more-menu-option edit">
-											<i class="far fa-edit icon"></i>Edit
-										</li>
-										<li class="more-menu-option delete">
-											<i class="far fa-trash-alt icon"></i> Delete
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						{/if}
-					{/each}
+							{#if task.completed}
+								<Task
+									{task}
+									{index}
+									projectId={projectData.projectId}
+									on:update={handleTaskUpdate}
+									on:delete={handleDeleteTask}
+								/>
+							{/if}
+						{/each}
 					</div>
-					<div>
+					<div class="bottom-buttons">
 						<button class="btn btn-outline-primary"
 							><i class="fa fa-trash-can"></i> Clear completed tasks</button
 						>
@@ -373,19 +288,23 @@
 	<div
 		class="modal-wrapper wrapper-fade-in-animation hide"
 		id="confirm-task-delete-modal"
-		bind:this={deleteTaskModal}
+		bind:this={deleteTaskModalWrapper}
 	>
-		<div class="new-task-modal modal-show-animation">
+		<div class="new-task-modal modal-show-animation" bind:this={deleteTaskModal}>
 			<h1 class="title">Delete task?</h1>
 			<p>
-				Delete task <span class="task-title"></span>?
+				Delete task <span class="task-title">{taskTitleToDelete}</span>?
 			</p>
 			<div class="form-row form-controls">
-				<button class="btn btn-danger" id="delete-confirm"> Delete </button>
-				<button class="btn btn-primary" id="delete-cancel"> Cancel </button>
+				<button class="btn btn-danger" id="delete-confirm" on:click={confirmTaskDelete}>
+					Delete
+				</button>
+				<button class="btn btn-primary" id="delete-cancel" on:click={hideDeleteModal}>
+					Cancel
+				</button>
 			</div>
 			<div class="close-btn">
-				<i class="fas fa-times"></i>
+				<i class="fas fa-times" on:click={hideDeleteModal}></i>
 			</div>
 		</div>
 	</div>
@@ -413,5 +332,13 @@
 		flex: 1 0 80vh;
 		overflow: auto;
 		padding: 2rem;
+	}
+
+	.more-menu-option:hover {
+		cursor: pointer;
+	}
+
+	.bottom-buttons {
+		margin-top: 2em;
 	}
 </style>

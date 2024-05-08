@@ -66,7 +66,7 @@ public class ProjectController {
     }
 
     @PostMapping("/project/{projId}/task/{taskId}/togglecomplete")
-    public ResponseEntity<Project> toggleTaskComplite(@PathVariable String projId, @PathVariable String taskId,
+    public ResponseEntity<Project> toggleTaskComplete(@PathVariable String projId, @PathVariable String taskId,
                                                @RequestBody String taskIdToToggle) {
         Project projFromRepo = projectRepo.findById(projId).orElse(null);
         if (projFromRepo == null) {
@@ -74,7 +74,9 @@ public class ProjectController {
         }
         Iterable<Task> taskList = projFromRepo.getTaskList();
         taskList.forEach(task -> {
-            boolean isComplete = task.toggleCompleted();
+            if (task.getTaskId().equals(taskId)) {
+                boolean isComplete = task.toggleCompleted();
+            }
         });
         projFromRepo.calculateNumberOfTasks();
         projectRepo.save(projFromRepo);
@@ -186,6 +188,17 @@ public class ProjectController {
     public ResponseEntity<Project> completeAllTasks(@PathVariable String id) {
         Project completedProject = projectService.completeAllTasks(id);
         return ResponseEntity.ok(completedProject);
+    }
+
+    @DeleteMapping("/project/{projId}/task/{taskId}")
+    public ResponseEntity<Project> deleteTask(@PathVariable String projId, @PathVariable String taskId) {
+        Project proj = projectRepo.findById(projId).orElse(null);
+        if (proj == null) {
+            return ResponseEntity.notFound().build();
+        }
+        proj.removeTask(taskId);
+        projectRepo.save(proj);
+        return ResponseEntity.ok().build();
     }
 
 }

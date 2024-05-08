@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @RequiredArgsConstructor
@@ -60,6 +61,12 @@ public class Project {
     public void calculateNumberOfTasks() {
         this.numberOfTasks = this.taskList.size();
         this.numberOfCompletedTasks = (int) this.taskList.stream().filter(Task::isCompleted).count();
+    }
+
+    public void removeTask(String taskId) {
+        this.taskList = this.taskList.stream().filter(task -> {
+            return !task.getTaskId().equals(taskId);
+        }).toList();
     }
 
 //    private TodoUser ownerUser;
