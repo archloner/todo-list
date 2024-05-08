@@ -14,7 +14,7 @@ async function getRequest(url) {
 			throw new Error(`API request failed with status ${res.status}`);
 		}
 		let data = await res.json();
-		notify('Data loaded', 'Data successfully fetched from the API', NotificationType.SUCCESS);
+		// notify('Data loaded', 'Data successfully fetched from the API', NotificationType.SUCCESS);
 		return data;
 	} catch (error) {
 		console.log('Error fetching data: ', error);
@@ -45,4 +45,19 @@ async function postRequest(url, data) {
 	}
 }
 
-export { getRequest, postRequest };
+async function deleteRequest(url) {
+	try {
+		let res = await fetch(url, {
+			method: 'DELETE'
+		});
+		if (!res.ok) {
+			throw new Error(`API request failed with status ${res.status}`);
+		}
+		return true;
+	} catch (error) {
+		console.log(`Error deleting data ${error}`);
+		return null;
+	}
+}
+
+export { getRequest, postRequest, deleteRequest };

@@ -83,6 +83,10 @@
 				'Error while loading data from the service, please try again later of contact support';
 			loadingSpinner.hideSpinner();
 
+			setTimeout(() => {
+				loadData()
+			}, 3000)
+
 			return null;
 		}
 	}
