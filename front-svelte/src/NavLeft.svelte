@@ -40,6 +40,14 @@
 	}
 
 	function initProjectListView() {
+		menuItems = []
+		menuItems.push({
+			projectId: null,
+			name: 'Overview',
+			tasksAmount: 0,
+			isHome: true,
+			isActive: false
+		})
 		projectListViewData.forEach((data) => {
 			console.log(data.name);
 			menuItems.push({
@@ -104,10 +112,12 @@
 							<i class="fa {menuItem.isHome ? 'fa-home' : 'fa-tasks'}"></i>
 							<div class="menu-item-text">
 								{menuItem.name}
+								{#if !menuItem.isHome}
 								<p class="tasks-amount">
 									{menuItem.tasksAmount}
 									{menuItem.tasksAmount !== 1 ? 'Tasks' : 'Task'}
 								</p>
+								{/if}
 							</div>
 						</div>
 					</li>

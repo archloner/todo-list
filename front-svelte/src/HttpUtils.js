@@ -33,15 +33,15 @@ async function postRequest(url, data) {
 			},
 			body: JSON.stringify(data)
 		});
-		if (!res.ok) {
+		console.log(res.status)
+		if (!res.ok || res.status != 201) {
 			throw new Error(`API request failed with status ${res.status}`);
 		}
-		let respData = await res.json();
-		console.log(respData);
-		return respData;
+		console.log(res);
+		return true;
 	} catch (error) {
-		console.log(`Error posting data ${error}`);
-		return null;
+		console.log(error);
+		return false;
 	}
 }
 
