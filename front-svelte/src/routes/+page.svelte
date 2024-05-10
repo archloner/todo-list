@@ -65,11 +65,11 @@
 				throw new Error(`API request failed with status ${res.status}`);
 			}
 			let data = await res.json();
-			NotificationComponent.notify(
-				'Data loaded',
-				'Data successfully fetched from the API',
-				NotificationType.SUCCESS
-			);
+			// NotificationComponent.notify(
+			// 	'Data loaded',
+			// 	'Data successfully fetched from the API',
+			// 	NotificationType.SUCCESS
+			// );
 			return data;
 		} catch (error) {
 			console.log('Error fetching data: ', error);
@@ -99,7 +99,7 @@
 
 		projectData = data;
 		projectListViewData = []
-		
+
 		projectData.forEach((project) => {
 			console.log(project);
 			let taskList = project.taskList;

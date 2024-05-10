@@ -12,6 +12,8 @@ import tdsm.service.ProjectService;
 import tdsm.service.TaskService;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @ComponentScan
@@ -197,6 +199,21 @@ public class ProjectController {
             return ResponseEntity.notFound().build();
         }
         proj.removeTask(taskId);
+        projectRepo.save(proj);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/project/{projectId}/task/clearcomplete")
+    public ResponseEntity<?> clearCompletedTasks(@PathVariable String projectId) {
+        Project proj = projectRepo.findById(projectId).orElse(null);
+        if (proj == null) {
+            return ResponseEntity.notFound().build();
+        }
+        List<Task> completeTasks = proj.getTaskList().stream()
+                .filter(Task::isCompleted)
+                .toList();
+
+        proj.getTaskList().removeAll(completeTasks);
         projectRepo.save(proj);
         return ResponseEntity.ok().build();
     }

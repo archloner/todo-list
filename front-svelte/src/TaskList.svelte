@@ -7,6 +7,7 @@
 	import NotificationType from './NotificationType';
 	import { postRequest, deleteRequest } from './HttpUtils';
 	import Task from './Task.svelte';
+	import { ModuleCacheMap } from 'vite/runtime';
 
 	let dispatch = createEventDispatcher();
 
@@ -101,10 +102,12 @@
 	}
 
 	let isSpinnerHidden;
+	let deleteMode;
 
 	onMount(() => {
 		console.log('Component mounted...');
 		isSpinnerHidden = false;
+		deleteMode = DeleteMode.SINGLE_TASK
 		loadData();
 	});
 
@@ -201,6 +204,10 @@
 		deleteTaskModalWrapper.classList.remove('hide');
 	}
 
+	function showDeleteModal() {
+		deleteTaskModalWrapper.classList.remove('hide');
+	}
+
 	let deleteTaskModal;
 
 	async function confirmTaskDelete() {
@@ -232,6 +239,27 @@
 	function handleReload() {
 		console.log('reload event received in taskList')
 		dispatch('reload', {})
+	}
+
+	function handleClearCompleted() {
+		deleteMode = DeleteMode.COMPLETED_TASKS
+		showDeleteModal();
+	}
+
+	let DeleteMode = {
+		SINGLE_TASK: 1,
+		COMPLETED_TASKS: 2,
+	}
+
+	async function confirmCompletedTasksDelete() {
+		console.log('confirm delete all completed')
+		let url = `${AppConfig.API_URL}/project/${projectData.projectId}/task/clearcomplete`
+		let res = await deleteRequest(url);
+		console.log(res)
+
+		dispatch('reload', {})
+		dispatch('notify', {title: 'Removed', text: 'All completed tasks removed successfully', type: NotificationType.SUCCESS})
+		hideDeleteModal()
 	}
 </script>
 
@@ -290,7 +318,7 @@
 							{/each}
 						</div>
 						<div class="bottom-buttons">
-							<button class="btn btn-outline-primary"
+							<button class="btn btn-outline-primary" on:click={handleClearCompleted}
 								><i class="fa fa-trash-can"></i> Clear completed tasks</button
 							>
 						</div>
@@ -312,6 +340,7 @@
 			bind:this={deleteTaskModalWrapper}
 		>
 			<div class="new-task-modal modal-show-animation" bind:this={deleteTaskModal}>
+				{#if deleteMode === DeleteMode.SINGLE_TASK}
 				<h1 class="title">Delete task?</h1>
 				<p>
 					Delete task <span class="task-title">{taskTitleToDelete}</span>?
@@ -327,6 +356,23 @@
 				<div class="close-btn">
 					<i class="fas fa-times" on:click={hideDeleteModal}></i>
 				</div>
+				{:else if deleteMode === DeleteMode.COMPLETED_TASKS}
+				<h1 class="title">Delete completed task?</h1>
+				<p>
+					Delete all completed tasks?
+				</p>
+				<div class="form-row form-controls">
+					<button class="btn btn-danger" id="delete-confirm" on:click={confirmCompletedTasksDelete}>
+						Delete
+					</button>
+					<button class="btn btn-primary" id="delete-cancel" on:click={hideDeleteModal}>
+						Cancel
+					</button>
+				</div>
+				<div class="close-btn">
+					<i class="fas fa-times" on:click={hideDeleteModal}></i>
+				</div>
+				{/if}
 			</div>
 		</div>
 
