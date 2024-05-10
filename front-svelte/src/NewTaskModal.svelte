@@ -1,5 +1,12 @@
 <script>
-    import { onMount } from "svelte";
+	import { onMount } from 'svelte';
+	import { TaskPriority } from './TaskPriority';
+	import { postRequest } from './HttpUtils';
+	import AppConfig from './AppConfig';
+	import NotificationType from './NotificationType';
+	import { createEventDispatcher } from 'svelte';
+
+	let dispatch = createEventDispatcher();
 
 	let createTaskModalWrapper;
 	let createTaskModal;
@@ -7,28 +14,23 @@
 	let taskTitle;
 	let taskDescription;
 	let dueDate;
+	let dueTime;
 	let priority;
+
+	export let projectId;
 
 	let validation = {
 		taskTitle: '',
 		taskDescription: '',
-		dueDate: ''
+		dueDate: '',
+		dueTime: ''
 	};
 
-    onMount(() => {
-        dueDate = new Date().toISOString().substr(0, 10);
-    })
+	onMount(() => {
+		dueDate = new Date().toISOString().substring(0, 10);
+		dueTime = new Date().toISOString().substring(11, 16);
+	});
 
-	function closeCreateTaskModal() {
-        console.log(createTaskModal)
-		createTaskModal.classList.add('modal-dissmis-animation');
-		setTimeout(() => {
-			createTaskModal.classList.remove('modal-dissmis-animation');
-			createTaskModalWrapper.classList.add('hide');
-            // window.removeEventListener('keydown', escapeKeydownListener, false)
-			resetForm();
-		}, 500);
-	}
 
 	function resetForm() {
 		taskTitle = '';
@@ -43,20 +45,38 @@
 		};
 	}
 
-    function escapeKeydownListener(e) {
-        if (e.key === 'Escape') {
-		    closeCreateTaskModal();
+	function escapeKeydownListener(e) {
+		if (e.key === 'Escape') {
+			closeCreateTaskModal();
 		}
-    }
+	}
 
 	export function showModal() {
 		createTaskModalWrapper.classList.remove('hide');
 		// window.addEventListener('keydown', escapeKeydownListener); // strange js shit happening, don't have energy to deal with it at the moment
 	}
 
+	function closeCreateTaskModal() {
+		createTaskModal.classList.add('modal-dissmis-animation');
+		setTimeout(() => {
+			createTaskModal.classList.remove('modal-dissmis-animation');
+			createTaskModalWrapper.classList.add('hide');
+			// window.removeEventListener('keydown', escapeKeydownListener, false)
+			resetForm();
+		}, 500);
+	}
+
+	// export function closeModal() {
+	// 	createTaskModal.classList.toggle('modal-dissmis-animation')
+	// 	setTimeout(() => {
+	// 		createTaskModal.classList.toggle('modal-dismiss-animation');
+	// 		createTaskModalWrapper.classList.toggle('hide')
+	// 	}, 550)	
+	// }
+
 	function validateTaskTitle() {
-        console.log('validating task title')
-        console.log(taskTitle)
+		console.log('validating task title');
+		console.log(taskTitle);
 		if (taskTitle == undefined || taskTitle == '') {
 			validation.taskTitle = 'Task title must not be empty';
 		} else if (taskTitle.length > 30) {
@@ -67,7 +87,7 @@
 	}
 
 	function validateTaskDescription() {
-        console.log('validating task description')
+		console.log('validating task description');
 		if (taskDescription == undefined || taskDescription == '') {
 			validation.taskDescription = 'Must not be empty';
 		} else if (taskDescription.length > 150) {
@@ -77,20 +97,57 @@
 		}
 	}
 
-    function validateDueDate() {
-        console.log('validating due date')
-        console.log(dueDate)
-        if (dueDate == undefined || dueDate == '') {
-            validation.dueDate = 'Must not be empty'
-        } else if (new Date(dueDate) < new Date()) {
-            validation.dueDate = 'Must be in the future'
-        } else {
-            validation.dueDate = ''
-        }
-    }
+	function validateDueDate() {
+		console.log('validating due date');
+		console.log(dueDate);
+		if (dueDate == undefined || dueDate == '') {
+			validation.dueDate = 'Must not be empty';
+		} else if (new Date(dueDate) < new Date()) {
+			validation.dueDate = 'Must be in the future';
+		} else {
+			validation.dueDate = '';
+		}
+	}
 
-	function handleCreateClick() {
-		alert('Creating new task!');
+	function validateDueTime() {
+		if (dueTime == undefined || dueTime == '') {
+			validation.dueTime = 'Due time must not be empty';
+		} else {
+			validation.dueTime = '';
+		}
+	}
+
+	function getPriority(val) {
+		if (val === 'default') {
+			return TaskPriority.DEFALUT_PRIORITY;
+		} else if (val === 'medium') {
+			return TaskPriority.MEDIUM_PRIORITY;
+		} else if (val === 'low') {
+			return TaskPriority.LOW_PRIORITY;
+		} else if (val == 'high') {
+			return TaskPriority.HIGH_PRIORITY;
+		}
+	}
+
+	async function handleCreateClick() {
+		let task = {
+			title: taskTitle,
+			description: taskDescription,
+			dueDate: new Date(`${dueDate} ${dueTime}`).toISOString(),
+			priority: getPriority(priority),
+			assignedToUserId: 1
+		};
+
+		let url = `${AppConfig.API_URL}/project/${projectId}/task`
+		let res = await postRequest(url, task);
+		if (res) {
+			// Task created, close modal
+			closeCreateTaskModal()
+			dispatch('reload', {});
+		} else {
+			dispatch('notify', {title: 'Error', text: 'There was error creating new task', type: NotificationType.ERROR})
+			closeCreateTaskModal();
+		}
 	}
 </script>
 
@@ -185,7 +242,26 @@
 				<label htmlFor="task-due-date" class="form-label" id="form-label-due-date">
 					Due date <span class="validation-msg">{validation.dueDate}</span>
 				</label>
-				<input type="date" name="task-due-date" id="task-due-date" bind:value={dueDate} on:blur={validateDueDate}/>
+				<input
+					type="date"
+					name="task-due-date"
+					id="task-due-date"
+					bind:value={dueDate}
+					on:blur={validateDueDate}
+				/>
+			</div>
+
+			<div class="form-row">
+				<label htmlFor="task-due-time" class="form-label" id="form-label-due-time">
+					Due time <span class="validation-msg">{validation.dueTime}</span>
+				</label>
+				<input
+					type="time"
+					name="task-due-time"
+					id="task-due-time"
+					bind:value={dueTime}
+					on:blur={validateDueTime}
+				/>
 			</div>
 
 			<div class="form-row form-controls">

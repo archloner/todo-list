@@ -82,10 +82,11 @@
 			loadingPageErrorMsg =
 				'Error while loading data from the service, please try again later of contact support';
 			loadingSpinner.hideSpinner();
+			taskListComponent.hideLoadingPage();
 
 			setTimeout(() => {
-				loadData()
-			}, 3000)
+				loadData();
+			}, 3000);
 
 			return null;
 		}
@@ -97,7 +98,8 @@
 		console.log('Received data OK!');
 
 		projectData = data;
-
+		projectListViewData = []
+		
 		projectData.forEach((project) => {
 			console.log(project);
 			let taskList = project.taskList;
@@ -106,6 +108,7 @@
 				task.isExpanded = false;
 				task.showMenu = false;
 			});
+
 			projectListViewData.push({
 				projectId: project.projectId,
 				name: project.name,
@@ -130,6 +133,11 @@
 		loadData();
 	});
 
+	function handleReload() {
+		console.log('reloading');
+		loadData();
+	}
+
 	let projectListView;
 </script>
 
@@ -140,7 +148,7 @@
 			<NavLeft bind:this={projectListView} on:project-click={handleProjectViewChange} />
 			<main class="content-right">
 				{#if page == Page.TASK_LIST}
-					<TaskList bind:this={taskListComponent} on:notify={handleNotify} />
+					<TaskList bind:this={taskListComponent} on:notify={handleNotify} on:reload={handleReload} />
 				{/if}
 			</main>
 		</div>

@@ -14,6 +14,10 @@
 		dispatch('notify', { title, text, type });
 	}
 
+	function reload() {
+		dispatch('reload', {});
+	}
+
 	let pageContent;
 	let projectData = {};
 	let taskList = {};
@@ -74,6 +78,12 @@
 			task.isExpanded = false;
 			task.showMenu = false;
 		});
+		// Show content and hide spinner
+		pageContent.classList.remove('hide');
+		isSpinnerHidden = true;
+	}
+
+	export function hideLoadingPage() {
 		// Show content and hide spinner
 		pageContent.classList.remove('hide');
 		isSpinnerHidden = true;
@@ -218,51 +228,40 @@
 			deleteTaskModal.classList.toggle('modal-dissmis-animation');
 		}, 550);
 	}
+
+	function handleReload() {
+		console.log('reload event received in taskList')
+		dispatch('reload', {})
+	}
 </script>
 
-<div id="page-content" bind:this={pageContent}>
-	<div class="flex-1">
-		<div class="flex-row">
-			<h1 class="list-title">{projectData.name}</h1>
-			<div class="push-right align-center">
-				<i class="fas fa-ellipsis-v"></i>
-			</div>
-		</div>
-		<p class="list-description">
-			{projectData.description}
-		</p>
-
-		<div class="tasks-wrapper">
+<div>
+	<div id="page-content" bind:this={pageContent}>
+		<div class="flex-1">
 			<div class="flex-row">
-				<div class="tasks-title">Todo</div>
-				<div class="push-right">
-					<span id="expand-all-hide-all-span" class="font-sm" on:click={handleExpandAll}>
-						{expandAllToggleLabel}
-					</span>
+				<h1 class="list-title">{projectData.name}</h1>
+				<div class="push-right align-center">
+					<i class="fas fa-ellipsis-v"></i>
 				</div>
 			</div>
+			<p class="list-description">
+				{projectData.description}
+			</p>
 
-			<form class="task-list">
-				{#if taskList.length > 0}
-					{#each taskList as task, index}
-						{#if !task.completed}
-							<Task
-								{task}
-								{index}
-								projectId={projectData.projectId}
-								on:update={handleTaskUpdate}
-								on:delete={handleDeleteTask}
-							/>
-						{/if}
-					{/each}
-				{:else}
-					<h1>Nothing to do, enjoy your free time</h1>
-				{/if}
-				{#if completedTasks.length > 0}
-					<div class="tasks-title">Done</div>
-					<div>
+			<div class="tasks-wrapper">
+				<div class="flex-row">
+					<div class="tasks-title">Todo</div>
+					<div class="push-right">
+						<span id="expand-all-hide-all-span" class="font-sm" on:click={handleExpandAll}>
+							{expandAllToggleLabel}
+						</span>
+					</div>
+				</div>
+
+				<form class="task-list">
+					{#if taskList.length > 0}
 						{#each taskList as task, index}
-							{#if task.completed}
+							{#if !task.completed}
 								<Task
 									{task}
 									{index}
@@ -272,51 +271,74 @@
 								/>
 							{/if}
 						{/each}
-					</div>
-					<div class="bottom-buttons">
-						<button class="btn btn-outline-primary"
-							><i class="fa fa-trash-can"></i> Clear completed tasks</button
-						>
-					</div>
-				{/if}
-			</form>
+					{:else}
+						<h1>Nothing to do, enjoy your free time</h1>
+					{/if}
+					{#if completedTasks.length > 0}
+						<div class="tasks-title">Done</div>
+						<div>
+							{#each taskList as task, index}
+								{#if task.completed}
+									<Task
+										{task}
+										{index}
+										projectId={projectData.projectId}
+										on:update={handleTaskUpdate}
+										on:delete={handleDeleteTask}
+									/>
+								{/if}
+							{/each}
+						</div>
+						<div class="bottom-buttons">
+							<button class="btn btn-outline-primary"
+								><i class="fa fa-trash-can"></i> Clear completed tasks</button
+							>
+						</div>
+					{/if}
+				</form>
+			</div>
+		</div>
+
+		<NewTaskModal
+			bind:this={newTaskModal}
+			projectId={projectData.projectId}
+			on:notify
+			on:reload={handleReload}
+		/>
+
+		<div
+			class="modal-wrapper wrapper-fade-in-animation hide"
+			id="confirm-task-delete-modal"
+			bind:this={deleteTaskModalWrapper}
+		>
+			<div class="new-task-modal modal-show-animation" bind:this={deleteTaskModal}>
+				<h1 class="title">Delete task?</h1>
+				<p>
+					Delete task <span class="task-title">{taskTitleToDelete}</span>?
+				</p>
+				<div class="form-row form-controls">
+					<button class="btn btn-danger" id="delete-confirm" on:click={confirmTaskDelete}>
+						Delete
+					</button>
+					<button class="btn btn-primary" id="delete-cancel" on:click={hideDeleteModal}>
+						Cancel
+					</button>
+				</div>
+				<div class="close-btn">
+					<i class="fas fa-times" on:click={hideDeleteModal}></i>
+				</div>
+			</div>
+		</div>
+
+		<div class="new-task-btn" bind:this={newTaskButton} on:click={handleClickNewTaskButton}>
+			<i class="fas fa-plus"></i>
 		</div>
 	</div>
 
-	<NewTaskModal bind:this={newTaskModal} />
-
-	<div
-		class="modal-wrapper wrapper-fade-in-animation hide"
-		id="confirm-task-delete-modal"
-		bind:this={deleteTaskModalWrapper}
-	>
-		<div class="new-task-modal modal-show-animation" bind:this={deleteTaskModal}>
-			<h1 class="title">Delete task?</h1>
-			<p>
-				Delete task <span class="task-title">{taskTitleToDelete}</span>?
-			</p>
-			<div class="form-row form-controls">
-				<button class="btn btn-danger" id="delete-confirm" on:click={confirmTaskDelete}>
-					Delete
-				</button>
-				<button class="btn btn-primary" id="delete-cancel" on:click={hideDeleteModal}>
-					Cancel
-				</button>
-			</div>
-			<div class="close-btn">
-				<i class="fas fa-times" on:click={hideDeleteModal}></i>
-			</div>
-		</div>
+	<div class="hide" bind:this={errorPage}>
+		<h1>Something went wrong</h1>
+		<p>Uh oh, uwu, sometwing went wong, please twy agwain lawter :(</p>
 	</div>
-
-	<div class="new-task-btn" bind:this={newTaskButton} on:click={handleClickNewTaskButton}>
-		<i class="fas fa-plus"></i>
-	</div>
-</div>
-
-<div class="hide" bind:this={errorPage}>
-	<h1>Something went wrong</h1>
-	<p>Uh oh, uwu, sometwing went wong, please twy agwain lawter :(</p>
 </div>
 
 <style>

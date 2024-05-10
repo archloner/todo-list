@@ -966,7 +966,8 @@ input[type="text"]:focus {
   border-style: solid; */
 }
 
-.new-task-modal input[type="date"] {
+.new-task-modal input[type="date"],
+.new-task-modal input[type="time"] {
   border: var(--input-border) solid transparent;
   border-radius: 10px;
   min-width: 150px;
@@ -976,7 +977,8 @@ input[type="text"]:focus {
   padding: 15px 15px;
 }
 
-.new-task-modal input[type="date"]:focus {
+.new-task-modal input[type="date"]:focus,
+.new-task-modal input[type="time"] {
   outline: none !important;
   border: var(--input-border) solid var(--accent-color);
 }
