@@ -75,6 +75,10 @@
   function handleDeleteTask(taskId) {
     dispatch('delete', {id: taskId});
   }
+
+  function isOverdue(dueDate) {
+    return new Date(dueDate) <= new Date();
+  }
 </script>
 
 <div class="task {getPriorityClassForWrapper(task.priority)}" data-index={index}>
@@ -109,6 +113,12 @@
 				</div>
 			</div>
 		</div>
+
+    {#if isOverdue(task.dueDate)}
+    <div class="overdue-label bg-danger">
+      Overdue
+    </div>
+    {/if}
 	</div>
 
 	<div class="task-menu">
@@ -128,3 +138,15 @@
 		</div>
 	</div>
 </div>
+
+<style>
+  .overdue-label {
+    padding: 0.3em 0.4em;
+    margin-right: 1.3rem;
+    border-radius: 8px;
+  }
+
+  .task-content {
+    align-items: start;
+  }
+</style>
