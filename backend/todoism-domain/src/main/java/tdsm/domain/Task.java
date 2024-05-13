@@ -59,4 +59,5 @@ public class Task {
         this.setUpdatedAtToNow();
         return this.completed;
     }
+
 }

@@ -48,12 +48,6 @@ public class Project {
         this.calculateNumberOfTasks();
     }
 
-    public boolean removeTask(Task task) {
-        boolean removeStatus = this.taskList.remove(task);
-        this.calculateNumberOfTasks();
-        return removeStatus;
-    }
-
     public void setUpdatedAtToNow() {
         this.updatedAt = new Date();
     }
@@ -67,6 +61,7 @@ public class Project {
         this.taskList = this.taskList.stream().filter(task -> {
             return !task.getTaskId().equals(taskId);
         }).toList();
+        this.calculateNumberOfTasks();
     }
 
 //    private TodoUser ownerUser;
