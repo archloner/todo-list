@@ -34,7 +34,7 @@ async function postRequest(url, data) {
 			body: JSON.stringify(data)
 		});
 		console.log(res.status)
-		if (!res.ok || res.status != 201) {
+		if (!res.ok || res.status < 200 || res.status >= 300) {
 			throw new Error(`API request failed with status ${res.status}`);
 		}
 		console.log(res);
