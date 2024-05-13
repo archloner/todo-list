@@ -27,9 +27,9 @@
 	 --color-secondary: rgb(0, 0, 0);
 	 --color-danger: crimson;
 	 --color-danger-light: rgb(231, 78, 108);
-	 --color-medium: gold;
+	 --color-medium: rgb(244, 222, 94);
 	 --color-medium-light: rgb(255, 232, 100); 
-	 --color-low: greenyellow;
+	 --color-low: rgb(166, 218, 88);
 	 --color-white: white;
 	 --color-black: black;
  
@@ -53,6 +53,7 @@
  
 	 --padding-main: 35px;
 	 --padding-small: 15px;
+   --padding-medium: 20px;
 	 --padding-extra-small: 10px;
 	 --padding-big: 50px;
  
@@ -66,7 +67,9 @@
 
 body {
 	min-height: 100vh;
+  max-height: 100vh;
 	margin: 0;
+  padding: 0;
 	background-attachment: fixed;
 	background-color: var(--color-bg-1);
 	background-size: 100vw 100vh;
@@ -183,10 +186,6 @@ a {
 
 .wrapper {
   display: flex; 
-}
-
-.app {
-	min-height: 100vh;
 }
 
 .menu-left {
@@ -754,7 +753,7 @@ input[type="text"]:focus {
 }
 
 .bg-default {
-  background-color: var(--accent-color-light);
+  background-color: var(--light-mode-bg-color-dark);
 }
 
 .task-text .due-date {
@@ -967,7 +966,8 @@ input[type="text"]:focus {
   border-style: solid; */
 }
 
-.new-task-modal input[type="date"] {
+.new-task-modal input[type="date"],
+.new-task-modal input[type="time"] {
   border: var(--input-border) solid transparent;
   border-radius: 10px;
   min-width: 150px;
@@ -977,7 +977,8 @@ input[type="text"]:focus {
   padding: 15px 15px;
 }
 
-.new-task-modal input[type="date"]:focus {
+.new-task-modal input[type="date"]:focus,
+.new-task-modal input[type="time"] {
   outline: none !important;
   border: var(--input-border) solid var(--accent-color);
 }
@@ -1096,50 +1097,6 @@ input[type="text"]:focus {
 .task-text .title {
   display: flex;
   align-items: center;
-}
-
-/* NOTIFICATIONS */
-
-.notification-wrapper {
-  position: absolute;
-  top: 20px;
-  left: calc(50% - 200px);
-  width: 400px;
-}
-
-.notification {
-  position: relative;
-  margin-bottom: 10px;
-  max-width: 400px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding: var(--padding-small);
-  box-shadow: 5px 5px 15px rgba(0,0,0,0.15);
-  border-radius: 10px;
-  animation: notification-show 0.5s ease-out;
-  z-index: 10;
-}
-
-.notification-animate-hide {
-  animation: notification-hide 0.5s ease-in;
-}
-
-.notification-body {
-  flex: 1 1 auto;
-}
-
-.notification-icon {
-  padding: 0.5rem 1rem;
-}
-
-.notification-icon .close {
-  cursor: pointer;
-}
-
-.notification-title {
-  font-size: var(--font-size-large);
-  font-weight: 800;
 }
 
 /* KEYFRAMES */
@@ -1449,10 +1406,6 @@ input[type="text"]:focus {
     width: 100%;
     left: 0;
     bottom: 10px;
-  }
-
-  .content-right {
-    padding: 15px;
   }
 
   .search-bar-wrapper {

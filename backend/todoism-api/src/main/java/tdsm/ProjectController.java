@@ -12,6 +12,8 @@ import tdsm.service.ProjectService;
 import tdsm.service.TaskService;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @ComponentScan
@@ -63,6 +65,24 @@ public class ProjectController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(tasks);
+    }
+
+    @PostMapping("/project/{projId}/task/{taskId}/togglecomplete")
+    public ResponseEntity<Project> toggleTaskComplete(@PathVariable String projId, @PathVariable String taskId,
+                                               @RequestBody String taskIdToToggle) {
+        Project projFromRepo = projectRepo.findById(projId).orElse(null);
+        if (projFromRepo == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Iterable<Task> taskList = projFromRepo.getTaskList();
+        taskList.forEach(task -> {
+            if (task.getTaskId().equals(taskId)) {
+                boolean isComplete = task.toggleCompleted();
+            }
+        });
+        projFromRepo.calculateNumberOfTasks();
+        projectRepo.save(projFromRepo);
+        return ResponseEntity.ok(projFromRepo);
     }
 
     @PostMapping("/project")
@@ -170,6 +190,32 @@ public class ProjectController {
     public ResponseEntity<Project> completeAllTasks(@PathVariable String id) {
         Project completedProject = projectService.completeAllTasks(id);
         return ResponseEntity.ok(completedProject);
+    }
+
+    @DeleteMapping("/project/{projId}/task/{taskId}")
+    public ResponseEntity<Project> deleteTask(@PathVariable String projId, @PathVariable String taskId) {
+        Project proj = projectRepo.findById(projId).orElse(null);
+        if (proj == null) {
+            return ResponseEntity.notFound().build();
+        }
+        proj.removeTask(taskId);
+        projectRepo.save(proj);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/project/{projectId}/task/clearcomplete")
+    public ResponseEntity<?> clearCompletedTasks(@PathVariable String projectId) {
+        Project proj = projectRepo.findById(projectId).orElse(null);
+        if (proj == null) {
+            return ResponseEntity.notFound().build();
+        }
+        List<Task> completeTasks = proj.getTaskList().stream()
+                .filter(Task::isCompleted)
+                .toList();
+
+        proj.getTaskList().removeAll(completeTasks);
+        projectRepo.save(proj);
+        return ResponseEntity.ok().build();
     }
 
 }

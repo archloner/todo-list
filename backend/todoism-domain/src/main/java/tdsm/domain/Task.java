@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
@@ -16,6 +17,7 @@ import java.util.Date;
 public class Task {
 
     public Task(String title, String description, TaskPriority priority, Date dueDate, String assignedToUserId) {
+        this.taskId = UUID.randomUUID().toString().substring(0, 8);
         this.title = title;
         this.description = description;
         this.priority = priority;
@@ -28,6 +30,7 @@ public class Task {
 
     @Id
     private String taskId;
+
     private boolean completed;
     private String title;
     private String description;
@@ -44,6 +47,17 @@ public class Task {
 
     public void setUpdatedAtToNow() {
         this.updatedAt = new Date();
+    }
+
+    public void regenerateId() {
+        this.taskId = UUID.randomUUID().toString().substring(0, 8);
+        this.setUpdatedAtToNow();
+    }
+
+    public boolean toggleCompleted() {
+        this.completed = !this.completed;
+        this.setUpdatedAtToNow();
+        return this.completed;
     }
 
 }
