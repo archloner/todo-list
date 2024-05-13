@@ -59,7 +59,7 @@
 			});
 		});
 		menuItems = [...menuItems];
-		console.log(menuItems);
+		console.log('update menu items');
 	}
 
 	function handleMenuItemClick(newActiveItem) {
