@@ -19,6 +19,11 @@
 	}
 
 	let pageContent;
+
+	export function toggleHide() {
+		pageContent.classList.toggle('hide')
+	}
+
 	let projectData = {};
 	let taskList = {};
 

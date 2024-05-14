@@ -42,7 +42,7 @@
 	function initProjectListView() {
 		menuItems = []
 		menuItems.push({
-			projectId: null,
+			projectId: 0,
 			name: 'Overview',
 			tasksAmount: 0,
 			isHome: true,
