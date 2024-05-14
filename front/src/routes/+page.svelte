@@ -6,6 +6,8 @@
 	import TaskList from '../TaskList.svelte';
 	import Spinner from '../Spinner.svelte';
 	import AppConfig from '../AppConfig';
+	import ProjectList from '../ProjectList.svelte';
+
 	import { onMount } from 'svelte';
 	import './styles.css';
 
@@ -22,6 +24,8 @@
 	}
 
 	let NotificationComponent;
+	let taskListComponent;
+	let projectListComponent;
 
 	function handleNotify(event) {
 		console.log(event.detail);
@@ -33,30 +37,40 @@
 		console.log(
 			'At root level, received project change event, projectId: ' + event.detail.projectId
 		);
+		if (event.detail.projectId == 0 && page == Page.TASK_LIST || event.detail.projectId != 0 && page == Page.PROJECT_OVERVIEW) {
+			taskListComponent.toggleHide();
+			projectListComponent.toggleHide();
+			if (page == Page.TASK_LIST) {
+				page = Page.PROJECT_OVERVIEW
+			} else if (page == Page.PROJECT_OVERVIEW) {
+				page = Page.TASK_LIST
+			}
+		}
 		let projectDataToRender = projectData.filter(
 			(proj) => proj.projectId === event.detail.projectId
 		)[0];
 		taskListComponent.updateTaskList(projectDataToRender);
 	}
 
-	let taskListComponent;
-
 	const Page = {
 		TASK_LIST: {
 			type: 'TASK_LIST',
 			param: 1
+		},
+		PROJECT_OVERVIEW: {
+			type: 'PROJECT_OVERVIEW',
+			param: 1
 		}
 	};
 
-	let page = Page.TASK_LIST;
+	// Initial page to load
+	let page = Page.PROJECT_OVERVIEW;
 
 	let loadingPageErrorMsg = '';
 	let loadingSpinner;
 	let loadingPageShow = true;
 
 	let projectData;
-
-	let projectListViewData = [];
 
 	async function fetchData(url) {
 		try {
@@ -92,13 +106,17 @@
 		}
 	}
 
+	let projectListViewData = [];
+	let projectOverview = [];
+
 	async function loadData() {
 		console.log('Getting data...');
 		let data = await fetchData(AppConfig.API_URL + '/project');
 		console.log('Received data OK!');
 
 		projectData = data;
-		projectListViewData = []
+		projectListViewData = [];
+		projectOverview = [];
 
 		projectData.forEach((project) => {
 			console.log(project);
@@ -114,22 +132,32 @@
 				name: project.name,
 				numberOfTasks: project.numberOfTasks
 			});
+
+			projectOverview.push({
+				title: project.name,
+				taskCount: project.numberOfTasks,
+				id: project.projectId
+			});
 		});
 
 		// render project list view
 		projectListView.renderListViewData(projectListViewData);
 
-		// update TaskList component to render first project on the list TODO: init projects overview view
-		let projectDataToRender = projectData[0];
-		console.log(projectDataToRender.projectId);
-		projectListView.setActiveItem(projectDataToRender.projectId);
-		taskListComponent.updateTaskList(projectDataToRender);
+		if (page == Page.PROJECT_OVERVIEW) {
+			projectListView.setActiveItem(0);
+		} else {
+			// update TaskList component to render first project on the list TODO: init projects overview view
+			let projectDataToRender = projectData[0];
+			projectListView.setActiveItem(projectDataToRender.projectId);
+			taskListComponent.updateTaskList(projectDataToRender);
+		}
 
 		// Show content and hide spinner
 		loadingPageShow = false;
 	}
 
 	onMount(() => {
+		taskListComponent.toggleHide();
 		loadData();
 	});
 
@@ -139,6 +167,12 @@
 	}
 
 	let projectListView;
+
+	function changeProj(e) {
+		console.log('change proj at root level');
+		let newProjId = e.detail;
+		handleProjectViewChange(e);
+	}
 </script>
 
 <div class="app" bind:this={appContainer}>
@@ -147,9 +181,8 @@
 		<div class="wrapper">
 			<NavLeft bind:this={projectListView} on:project-click={handleProjectViewChange} />
 			<main class="content-right">
-				{#if page == Page.TASK_LIST}
-					<TaskList bind:this={taskListComponent} on:notify={handleNotify} on:reload={handleReload} />
-				{/if}
+				<TaskList bind:this={taskListComponent} on:notify={handleNotify} on:reload={handleReload} />
+				<ProjectList bind:this={projectListComponent} projectList={projectOverview} on:change-proj={changeProj} />
 			</main>
 		</div>
 		<Notification bind:this={NotificationComponent} />
