@@ -36,17 +36,24 @@ public class DevConfig {
             projectOne.addTask(taskOne);
             projectOne.addTask(taskTwo);
             projectOne.addTask(taskThree);
+            projectRepo.save(projectOne);
 
 //            Logger.log.info(UUID.randomUUID().toString().substring(0, 8));
 //
-//            Project proj = projectRepo.findById("66142b5182663e741c8dfec2").orElse(null);
-//            proj.addTask(taskOne);
-//            proj.addTask(taskTwo);
-//            proj.addTask(taskThree);
+            Project proj = projectRepo.findById("66142b5182663e741c8dfec2").orElse(null);
+            if (proj == null) {
+                proj = new Project("Project from MongoDB", "This is new project loaded" +
+                        "from MongoDB");
+                proj.setProjectId("66142b5182663e741c8dfec2");
+            }
+            proj.addTask(taskOne);
+            proj.addTask(taskTwo);
+            proj.addTask(taskThree);
+//
 //            for (Task task : proj.getTaskList()) {
 //                task.regenerateId();
 //            }
-//            projectRepo.save(proj);
+            projectRepo.save(proj);
 
 //            Logger.log.info("Saving tasks to the database");
 //            taskRepo.saveAll(List.of(taskOne, taskTwo, taskThree));

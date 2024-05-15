@@ -25,7 +25,6 @@
       <span class="task-count">{taskCount} {taskCount == 1 ? 'task' : 'tasks'}</span>
     </div>
   </div>
-
 </div>
 
 <style>

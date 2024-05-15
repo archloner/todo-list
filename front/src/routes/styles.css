@@ -1042,6 +1042,9 @@ input[type="text"]:focus {
   background: linear-gradient(15deg, rgba(0, 0, 0, 0.29), rgba(0, 0, 0, 0.08));
   border-radius: 10px;
   transition: all 0.45s;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
 }
 
 .project-grid-item .controls {
