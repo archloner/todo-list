@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { TaskPriority } from './TaskPriority';
-	import { postRequest } from './HttpUtils';
+	import { putRequest } from './HttpUtils';
 	import AppConfig from './AppConfig';
 	import NotificationType from './NotificationType';
 	import { createEventDispatcher } from 'svelte';
@@ -11,13 +11,14 @@
 	let createTaskModalWrapper;
 	let createTaskModal;
 
+  let taskId;
 	let taskTitle;
 	let taskDescription;
 	let dueDate;
 	let dueTime;
 	let priority;
 
-	export let projectId;
+  export let projectId;
 
 	let validation = {
 		taskTitle: '',
@@ -27,9 +28,26 @@
 	};
 
 	onMount(() => {
-		dueDate = new Date().toISOString().substring(0, 10);
-		dueTime = new Date().toISOString().substring(11, 16);
+    taskId = task.id;
+    taskTitle = task.title;
+    taskDescription = task.description;
+    dueDate = task.dueDate;
+    priority = task.priority;
+
+		dueTime = new Date(dueDate).toISOString().substring(11, 16);
+		dueDate = new Date(dueDate).toISOString().substring(0, 10);
 	});
+
+  export function setTask(task) {
+    taskId = task.taskId;
+    taskTitle = task.title;
+    taskDescription = task.description;
+    dueDate = task.dueDate;
+    priority = task.priority;
+
+		dueTime = new Date(dueDate).toISOString().substring(11, 16);
+		dueDate = new Date(dueDate).toISOString().substring(0, 10);
+  }
 
 
 	function resetForm() {
@@ -121,26 +139,27 @@
 		}
 	}
 
-	async function handleCreateClick() {
-		let task = {
-			title: taskTitle,
+  async function handleSubmit() {
+    let task = {
+      title: taskTitle,
 			description: taskDescription,
 			dueDate: new Date(`${dueDate} ${dueTime}`).toISOString(),
 			priority: getPriority(priority),
 			assignedToUserId: 1
-		};
+    }
 
-		let url = `${AppConfig.API_URL}/project/${projectId}/task`
-		let res = await postRequest(url, task);
+    let url = `${AppConfig.API_URL}/project/${projectId}/task/${taskId}`
+		let res = await putRequest(url, task);
 		if (res) {
 			// Task created, close modal
 			closeCreateTaskModal()
 			dispatch('reload', {});
+      dispatch('notify', {title: 'Success', text: 'Task updated successfully', type: NotificationType.SUCCESS})
 		} else {
 			dispatch('notify', {title: 'Error', text: 'There was error creating new task', type: NotificationType.ERROR})
 			closeCreateTaskModal();
 		}
-	}
+  }
 </script>
 
 <div
@@ -149,7 +168,7 @@
 	bind:this={createTaskModalWrapper}
 >
 	<div class="new-task-modal modal-show-animation" bind:this={createTaskModal}>
-		<h1 class="title">Add new task</h1>
+		<h1 class="title">Edit existing task</h1>
 		<form id="new-task-form">
 			<div class="form-row">
 				<label htmlFor="task-title" class="form-label" id="form-label-title">
@@ -260,9 +279,9 @@
 				<button
 					class="btn btn-primary"
 					id="new-task-submit"
-					on:click|preventDefault={handleCreateClick}
+					on:click|preventDefault={handleSubmit}
 				>
-					Create
+					Edit
 				</button>
 			</div>
 			<div class="close-btn" on:click={closeCreateTaskModal}>
