@@ -64,6 +64,14 @@ public class Project {
         this.calculateNumberOfTasks();
     }
 
+    public void setProjectId(String id) {
+        this.projectId = id;
+    }
+
+    public List<Task> getTaskList() {
+        return this.taskList;
+    }
+
 //    private TodoUser ownerUser;
 
 }
