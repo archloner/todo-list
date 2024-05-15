@@ -7,6 +7,7 @@
 	import NotificationType from './NotificationType';
 	import { postRequest, deleteRequest } from './HttpUtils';
 	import Task from './Task.svelte';
+	import EditTaskModal from './EditTaskModal.svelte';
 
 	let dispatch = createEventDispatcher();
 
@@ -21,7 +22,7 @@
 	let pageContent;
 
 	export function toggleHide() {
-		pageContent.classList.toggle('hide')
+		pageContent.classList.toggle('hide');
 	}
 
 	let projectData = {};
@@ -29,6 +30,7 @@
 
 	let createTaskModalWrapper;
 	let createTaskModal;
+	let editTaskModal;
 
 	let deleteTaskModalWrapper;
 	let newTaskButton;
@@ -267,6 +269,16 @@
 		});
 		hideDeleteModal();
 	}
+
+	let taskToEdit;
+
+	function handleEditTask(e) {
+		console.log('Received edit event...')
+		taskToEdit = e.detail.task;
+		console.log(taskToEdit)
+		editTaskModal.setTask(taskToEdit)
+		editTaskModal.showModal();
+	}
 </script>
 
 <div>
@@ -302,6 +314,7 @@
 									projectId={projectData.projectId}
 									on:update={handleTaskUpdate}
 									on:delete={handleDeleteTask}
+									on:edit={handleEditTask}
 								/>
 							{/if}
 						{/each}
@@ -319,6 +332,7 @@
 										projectId={projectData.projectId}
 										on:update={handleTaskUpdate}
 										on:delete={handleDeleteTask}
+										on:edit={handleEditTask}
 									/>
 								{/if}
 							{/each}
@@ -339,6 +353,8 @@
 			on:notify
 			on:reload={handleReload}
 		/>
+
+		<EditTaskModal bind:this={editTaskModal} projectId={projectData.projectId} on:notify on:reload={handleReload}/>
 
 		<div
 			class="modal-wrapper wrapper-fade-in-animation hide"
