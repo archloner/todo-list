@@ -28,14 +28,6 @@
 	};
 
 	onMount(() => {
-    taskId = task.id;
-    taskTitle = task.title;
-    taskDescription = task.description;
-    dueDate = task.dueDate;
-    priority = task.priority;
-
-		dueTime = new Date(dueDate).toISOString().substring(11, 16);
-		dueDate = new Date(dueDate).toISOString().substring(0, 10);
 	});
 
   export function setTask(task) {
@@ -157,8 +149,8 @@
       dispatch('notify', {title: 'Success', text: 'Task updated successfully', type: NotificationType.SUCCESS})
 		} else {
 			dispatch('notify', {title: 'Error', text: 'There was error creating new task', type: NotificationType.ERROR})
-			closeCreateTaskModal();
 		}
+		closeCreateTaskModal();
   }
 </script>
 

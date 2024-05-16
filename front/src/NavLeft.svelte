@@ -86,20 +86,22 @@
 		makeItemActive(projectId);
 	}
 
-	function showNewTask() {}
+	function showNewProjectModal() {
+		dispatch('newproject', {})
+	}
 
 	onMount(() => {});
 </script>
 
 <div class="menu-left padding-top">
 	<div class="menu-controls menu-padding">
-		<button class="btn btn-outline-primary new-project-btn" on:click={showNewTask}>
+		<button class="btn btn-outline-primary new-project-btn" on:click={showNewProjectModal}>
 			<i class="fas fa-plus"></i> New list
 		</button>
 	</div>
 
 	<div class="menu flex-1">
-		<ul class="flex-1 menu-items">
+		<ul class="menu-items">
 			{#each menuItems as menuItem, index (menuItem)}
 				<a
 					href="#"
