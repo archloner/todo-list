@@ -7,8 +7,10 @@
 	import Spinner from '../Spinner.svelte';
 	import AppConfig from '../AppConfig';
 	import ProjectList from '../ProjectList.svelte';
+	import NewProjectModal from '../NewProjectModal.svelte';
 
 	import { onMount } from 'svelte';
+
 	import './styles.css';
 
 	let appContainer;
@@ -106,6 +108,8 @@
 		}
 	}
 
+	let activeProject;
+
 	let projectListViewData = [];
 	let projectOverview = [];
 
@@ -147,7 +151,9 @@
 			projectListView.setActiveItem(0);
 		} else {
 			// update TaskList component to render first project on the list TODO: init projects overview view
-			let projectDataToRender = projectData[0];
+			console.log(projectData)
+			let projectDataToRender = projectData.filter((item) => item.projectId == activeProject.projectId)[0];
+			console.log(projectDataToRender)
 			projectListView.setActiveItem(projectDataToRender.projectId);
 			taskListComponent.updateTaskList(projectDataToRender);
 		}
@@ -157,12 +163,11 @@
 	}
 
 	onMount(() => {
-		taskListComponent.toggleHide();
 		loadData();
+		taskListComponent.toggleHide();
 	});
 
-	function handleReload() {
-		console.log('reloading');
+	function handleReload(e) {
 		loadData();
 	}
 
@@ -171,15 +176,25 @@
 	function changeProj(e) {
 		console.log('change proj at root level');
 		let newProjId = e.detail;
+		activeProject = newProjId;
+		console.log(activeProject)
 		handleProjectViewChange(e);
 	}
+
+	let newProjectModalComponent;
+
+	function handleNewProject() {
+		console.log('new project event received')
+		newProjectModalComponent.show();
+	}
+
 </script>
 
 <div class="app" bind:this={appContainer}>
 	<div class="page-wrapper">
 		<Header {toggleDarkMode} />
 		<div class="wrapper">
-			<NavLeft bind:this={projectListView} on:project-click={handleProjectViewChange} />
+			<NavLeft bind:this={projectListView} on:project-click={handleProjectViewChange} on:newproject={handleNewProject}/>
 			<main class="content-right">
 				<TaskList bind:this={taskListComponent} on:notify={handleNotify} on:reload={handleReload} />
 				<ProjectList bind:this={projectListComponent} projectList={projectOverview} on:change-proj={changeProj} />
@@ -193,7 +208,10 @@
 				<p>{loadingPageErrorMsg}</p>
 			</div>
 		</div>
+		<NewProjectModal bind:this={newProjectModalComponent} on:reload={handleReload}/>
 	</div>
+
+
 </div>
 
 <style>
@@ -218,6 +236,7 @@
 		display: flex;
 		flex: 1 0 auto;
 		margin-bottom: 0.5rem;
+		align-items: start;
 	}
 
 	.content-right {

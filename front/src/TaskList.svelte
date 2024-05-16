@@ -56,39 +56,39 @@
 	projectData = dummyProjectData;
 	taskList = dummyProjectData.taskList;
 
-	async function fetchData() {
-		try {
-			let res = await fetch(AppConfig.API_URL + '/project');
-			if (!res.ok) {
-				throw new Error(`API request failed with status ${res.status}`);
-			}
-			let data = await res.json();
-			// notify('Data loaded', 'Data successfully fetched from the API', NotificationType.SUCCESS);
-			return data;
-		} catch (error) {
-			console.log('Error fetching data: ', error);
-			notify('Error', 'Error while loading data from the service', NotificationType.ERROR);
-			showError();
-			return null;
-		}
-	}
+	// async function fetchData() {
+	// 	try {
+	// 		let res = await fetch(AppConfig.API_URL + '/project');
+	// 		if (!res.ok) {
+	// 			throw new Error(`API request failed with status ${res.status}`);
+	// 		}
+	// 		let data = await res.json();
+	// 		// notify('Data loaded', 'Data successfully fetched from the API', NotificationType.SUCCESS);
+	// 		return data;
+	// 	} catch (error) {
+	// 		console.log('Error fetching data: ', error);
+	// 		notify('Error', 'Error while loading data from the service', NotificationType.ERROR);
+	// 		showError();
+	// 		return null;
+	// 	}
+	// }
 
-	async function loadData() {
-		console.log('Getting data...');
-		let data = await fetchData();
-		console.log('Received data OK!');
+	// async function loadData() {
+	// 	console.log('Getting data...');
+	// 	let data = await fetchData();
+	// 	console.log('Received data OK!');
 
-		projectData = data[0];
-		taskList = data[0].taskList;
+	// 	projectData = data[0];
+	// 	taskList = data[0].taskList;
 
-		taskList.forEach((task) => {
-			task.isExpanded = false;
-			task.showMenu = false;
-		});
-		// Show content and hide spinner
-		pageContent.classList.remove('hide');
-		isSpinnerHidden = true;
-	}
+	// 	taskList.forEach((task) => {
+	// 		task.isExpanded = false;
+	// 		task.showMenu = false;
+	// 	});
+	// 	// Show content and hide spinner
+	// 	pageContent.classList.remove('hide');
+	// 	isSpinnerHidden = true;
+	// }
 
 	export function hideLoadingPage() {
 		// Show content and hide spinner
@@ -104,6 +104,7 @@
 
 	export function updateTaskList(newTaskData) {
 		console.log('In TaskListView, project changed, new tasks: ' + newTaskData.projectId);
+		console.log(newTaskData)
 		console.log(`completed tasks (computed) : ${completedTasks}`);
 		projectData = newTaskData;
 		taskList = projectData.taskList;
