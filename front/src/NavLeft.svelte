@@ -68,11 +68,10 @@
 	}
 
 	function makeItemActive(projectId) {
-		let itemsCpy = [...menuItems];
-		itemsCpy.forEach((item) => {
+		menuItems.forEach((item) => {
 			item.isActive = item.projectId === projectId;
 		});
-		menuItems = itemsCpy;
+		menuItems = [...menuItems];
 	}
 
 	let dispatch = createEventDispatcher();

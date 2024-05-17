@@ -177,8 +177,12 @@
 		console.log('change proj at root level');
 		let newProjId = e.detail;
 		activeProject = newProjId;
-		console.log(activeProject)
 		handleProjectViewChange(e);
+		
+		let projectDataToRender = projectData.filter((item) => item.projectId == activeProject.projectId)[0];
+		
+		projectListView.setActiveItem(projectDataToRender.projectId);
+		taskListComponent.updateTaskList(projectDataToRender);
 	}
 
 	let newProjectModalComponent;
