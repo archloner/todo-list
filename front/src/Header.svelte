@@ -13,17 +13,17 @@
 	<div class="top-bar">
 		<div class="brand menu-padding"><i class="fa fa-clipboard-check"></i> .todo<span class="brand-small">ism</span></div>
 		<nav class="top-bar-nav-wrapper">
-			<a href="/task">
+			<a href="#">
 				<div class="nav-item active">
 					Home
 				</div>
 			</a>
-			<a href="/about">
+			<a href="#">
 				<div class="nav-item">
 					About
 				</div>
 			</a>
-			<a href="/contact">
+			<a href="#">
 				<div class="nav-item">
 					Contact
 				</div>

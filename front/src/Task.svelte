@@ -79,6 +79,11 @@
   function isOverdue(dueDate) {
     return new Date(dueDate) <= new Date();
   }
+
+	function handleEditTask(task) {
+		console.log(task);
+		dispatch('edit', { task });
+	}
 </script>
 
 <div class="task {getPriorityClassForWrapper(task.priority)}" data-index={index}>
@@ -122,7 +127,7 @@
 	</div>
 
 	<div class="task-menu">
-		<li class="more-menu-option edit">
+		<li class="more-menu-option edit" on:click={handleEditTask(task)}>
 			<i class="far fa-edit icon"></i>
 		</li>
 		<li class="more-menu-option delete" on:click={handleDeleteTask(task.taskId)}>

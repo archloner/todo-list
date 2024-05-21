@@ -7,6 +7,7 @@
 	import NotificationType from './NotificationType';
 	import { postRequest, deleteRequest } from './HttpUtils';
 	import Task from './Task.svelte';
+	import EditTaskModal from './EditTaskModal.svelte';
 
 	let dispatch = createEventDispatcher();
 
@@ -19,11 +20,17 @@
 	}
 
 	let pageContent;
+
+	export function toggleHide() {
+		pageContent.classList.toggle('hide');
+	}
+
 	let projectData = {};
 	let taskList = {};
 
 	let createTaskModalWrapper;
 	let createTaskModal;
+	let editTaskModal;
 
 	let deleteTaskModalWrapper;
 	let newTaskButton;
@@ -49,39 +56,39 @@
 	projectData = dummyProjectData;
 	taskList = dummyProjectData.taskList;
 
-	async function fetchData() {
-		try {
-			let res = await fetch(AppConfig.API_URL + '/project');
-			if (!res.ok) {
-				throw new Error(`API request failed with status ${res.status}`);
-			}
-			let data = await res.json();
-			// notify('Data loaded', 'Data successfully fetched from the API', NotificationType.SUCCESS);
-			return data;
-		} catch (error) {
-			console.log('Error fetching data: ', error);
-			notify('Error', 'Error while loading data from the service', NotificationType.ERROR);
-			showError();
-			return null;
-		}
-	}
+	// async function fetchData() {
+	// 	try {
+	// 		let res = await fetch(AppConfig.API_URL + '/project');
+	// 		if (!res.ok) {
+	// 			throw new Error(`API request failed with status ${res.status}`);
+	// 		}
+	// 		let data = await res.json();
+	// 		// notify('Data loaded', 'Data successfully fetched from the API', NotificationType.SUCCESS);
+	// 		return data;
+	// 	} catch (error) {
+	// 		console.log('Error fetching data: ', error);
+	// 		notify('Error', 'Error while loading data from the service', NotificationType.ERROR);
+	// 		showError();
+	// 		return null;
+	// 	}
+	// }
 
-	async function loadData() {
-		console.log('Getting data...');
-		let data = await fetchData();
-		console.log('Received data OK!');
+	// async function loadData() {
+	// 	console.log('Getting data...');
+	// 	let data = await fetchData();
+	// 	console.log('Received data OK!');
 
-		projectData = data[0];
-		taskList = data[0].taskList;
+	// 	projectData = data[0];
+	// 	taskList = data[0].taskList;
 
-		taskList.forEach((task) => {
-			task.isExpanded = false;
-			task.showMenu = false;
-		});
-		// Show content and hide spinner
-		pageContent.classList.remove('hide');
-		isSpinnerHidden = true;
-	}
+	// 	taskList.forEach((task) => {
+	// 		task.isExpanded = false;
+	// 		task.showMenu = false;
+	// 	});
+	// 	// Show content and hide spinner
+	// 	pageContent.classList.remove('hide');
+	// 	isSpinnerHidden = true;
+	// }
 
 	export function hideLoadingPage() {
 		// Show content and hide spinner
@@ -97,6 +104,7 @@
 
 	export function updateTaskList(newTaskData) {
 		console.log('In TaskListView, project changed, new tasks: ' + newTaskData.projectId);
+		console.log(newTaskData)
 		console.log(`completed tasks (computed) : ${completedTasks}`);
 		projectData = newTaskData;
 		taskList = projectData.taskList;
@@ -262,6 +270,16 @@
 		});
 		hideDeleteModal();
 	}
+
+	let taskToEdit;
+
+	function handleEditTask(e) {
+		console.log('Received edit event...')
+		taskToEdit = e.detail.task;
+		console.log(taskToEdit)
+		editTaskModal.setTask(taskToEdit)
+		editTaskModal.showModal();
+	}
 </script>
 
 <div>
@@ -297,6 +315,7 @@
 									projectId={projectData.projectId}
 									on:update={handleTaskUpdate}
 									on:delete={handleDeleteTask}
+									on:edit={handleEditTask}
 								/>
 							{/if}
 						{/each}
@@ -314,6 +333,7 @@
 										projectId={projectData.projectId}
 										on:update={handleTaskUpdate}
 										on:delete={handleDeleteTask}
+										on:edit={handleEditTask}
 									/>
 								{/if}
 							{/each}
@@ -334,6 +354,8 @@
 			on:notify
 			on:reload={handleReload}
 		/>
+
+		<EditTaskModal bind:this={editTaskModal} projectId={projectData.projectId} on:notify on:reload={handleReload}/>
 
 		<div
 			class="modal-wrapper wrapper-fade-in-animation hide"

@@ -45,6 +45,27 @@ async function postRequest(url, data) {
 	}
 }
 
+async function putRequest(url, data) {
+	try {
+		let res = await fetch(url, {
+			method: 'PUT', // or 'PUT'
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
+		console.log(res.status)
+		if (!res.ok || res.status < 200 || res.status >= 300) {
+			throw new Error(`API request failed with status ${res.status}`);
+		}
+		console.log(res);
+		return true;
+	} catch (error) {
+		console.log(error);
+		return false;
+	}
+}
+
 async function deleteRequest(url) {
 	try {
 		let res = await fetch(url, {
@@ -60,4 +81,4 @@ async function deleteRequest(url) {
 	}
 }
 
-export { getRequest, postRequest, deleteRequest };
+export { getRequest, postRequest, putRequest, deleteRequest };
