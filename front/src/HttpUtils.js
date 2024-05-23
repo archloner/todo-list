@@ -20,7 +20,7 @@ async function getRequest(url) {
 		console.log('Error fetching data: ', error);
 		notify('Error', 'Error while loading data from the service', NotificationType.ERROR);
 
-		return null;
+		return error;
 	}
 }
 
@@ -38,10 +38,10 @@ async function postRequest(url, data) {
 			throw new Error(`API request failed with status ${res.status}`);
 		}
 		console.log(res);
-		return true;
+		return res;
 	} catch (error) {
 		console.log(error);
-		return false;
+		return error;
 	}
 }
 
