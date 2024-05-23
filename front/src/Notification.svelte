@@ -54,7 +54,7 @@
 			</div>
 			<div class="notification-body">
 				<div class="notification-title">{notif.title}</div>
-				<div class="notification-text">{notif.text}</div>
+				<div class="notification-text">{@html notif.text}</div>
 			</div>
 			<div class="notification-icon">
 				<i class="fa-solid fa-xmark close"></i>

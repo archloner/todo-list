@@ -27,7 +27,7 @@
 		<div class="flex-1">
 			<div class="flex-row">
 				<h1 class="list-title">{pageText.title}</h1>
-				<div class="push-right align-center">
+				<div class="push-right align-center project-menu">
 					<i class="fas fa-ellipsis-v"></i>
 				</div>
 			</div>
@@ -52,4 +52,14 @@
 </div>
 
 <style>
+	.project-menu i {
+		margin: 0 0.4em;
+		cursor: pointer;
+		transition: all 0.3s;
+	}
+
+	.project-menu i:hover {
+		opacity: 0.8;
+	}
+
 </style>

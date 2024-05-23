@@ -12,6 +12,7 @@
 	import { onMount } from 'svelte';
 
 	import './styles.css';
+	import EditProjectModal from '../EditProjectModal.svelte';
 
 	let appContainer;
 
@@ -192,6 +193,14 @@
 		newProjectModalComponent.show();
 	}
 
+	let editProjectModalComponent;
+
+	function handleEditProject(e) {
+		console.log('Edit project...')
+		console.log(e.detail.name, e.detail.description, e.detail.id)
+		editProjectModalComponent.sendData(e.detail.name, e.detail.description, e.detail.id)
+	}
+
 </script>
 
 <div class="app" bind:this={appContainer}>
@@ -200,7 +209,7 @@
 		<div class="wrapper">
 			<NavLeft bind:this={projectListView} on:project-click={handleProjectViewChange} on:newproject={handleNewProject}/>
 			<main class="content-right">
-				<TaskList bind:this={taskListComponent} on:notify={handleNotify} on:reload={handleReload} />
+				<TaskList bind:this={taskListComponent} on:notify={handleNotify} on:reload={handleReload} on:editproject={handleEditProject}/>
 				<ProjectList bind:this={projectListComponent} projectList={projectOverview} on:change-proj={changeProj} />
 			</main>
 		</div>
@@ -212,7 +221,8 @@
 				<p>{loadingPageErrorMsg}</p>
 			</div>
 		</div>
-		<NewProjectModal bind:this={newProjectModalComponent} on:reload={handleReload}/>
+		<NewProjectModal bind:this={newProjectModalComponent} on:reload={handleReload} on:notify={handleNotify}/>
+		<EditProjectModal bind:this={editProjectModalComponent} on:reload={handleReload} on:notify={handleNotify}/>
 	</div>
 
 
