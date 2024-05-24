@@ -155,7 +155,7 @@
 			let projectDataToRender = projectData.filter(
 				(item) => item.projectId == activeProject.projectId
 			)[0];
-			projectListCompon.setActiveItem(projectDataToRender.projectId);
+			projectListView.setActiveItem(projectDataToRender.projectId);
 			taskListComponent.updateTaskList(projectDataToRender);
 
 			projectListComponent.hide();
