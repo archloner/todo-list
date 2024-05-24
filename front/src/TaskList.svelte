@@ -8,7 +8,7 @@
 	import { postRequest, deleteRequest } from './HttpUtils';
 	import Task from './Task.svelte';
 	import EditTaskModal from './EditTaskModal.svelte';
-	import { page } from '$app/stores';
+	import ProgressBar from './ProgressBar.svelte';
 
 	let dispatch = createEventDispatcher();
 
@@ -57,40 +57,6 @@
 	projectData = dummyProjectData;
 	taskList = dummyProjectData.taskList;
 
-	// async function fetchData() {
-	// 	try {
-	// 		let res = await fetch(AppConfig.API_URL + '/project');
-	// 		if (!res.ok) {
-	// 			throw new Error(`API request failed with status ${res.status}`);
-	// 		}
-	// 		let data = await res.json();
-	// 		// notify('Data loaded', 'Data successfully fetched from the API', NotificationType.SUCCESS);
-	// 		return data;
-	// 	} catch (error) {
-	// 		console.log('Error fetching data: ', error);
-	// 		notify('Error', 'Error while loading data from the service', NotificationType.ERROR);
-	// 		showError();
-	// 		return null;
-	// 	}
-	// }
-
-	// async function loadData() {
-	// 	console.log('Getting data...');
-	// 	let data = await fetchData();
-	// 	console.log('Received data OK!');
-
-	// 	projectData = data[0];
-	// 	taskList = data[0].taskList;
-
-	// 	taskList.forEach((task) => {
-	// 		task.isExpanded = false;
-	// 		task.showMenu = false;
-	// 	});
-	// 	// Show content and hide spinner
-	// 	pageContent.classList.remove('hide');
-	// 	isSpinnerHidden = true;
-	// }
-
 	export function hideLoadingPage() {
 		// Show content and hide spinner
 		pageContent.classList.remove('hide');
@@ -98,9 +64,12 @@
 	}
 
 	let completedTasks;
+	let allTasks;
 
 	function updateCompleteTasks() {
 		completedTasks = taskList.filter((tsk) => tsk.completed).length;
+		allTasks = taskList.length;
+		progressBar.setCompleteCounter(completedTasks, allTasks)
 	}
 
 	export function updateTaskList(newTaskData) {
@@ -297,6 +266,12 @@
 	export function hide() {
 		pageContent.classList.add('hide')
 	}
+
+	let progressBar;
+
+	onMount(() => {
+		// progressBar.setCompleteCounter(1, 3)
+	})
 </script>
 
 <div>
@@ -314,6 +289,8 @@
 				{projectData.description}
 			</p>
 
+			<ProgressBar bind:this={progressBar}/>
+			
 			<div class="tasks-wrapper">
 				<div class="flex-row">
 					<div class="tasks-title">Todo</div>
