@@ -36,7 +36,7 @@ public class DevConfig {
             projectOne.addTask(taskOne);
             projectOne.addTask(taskTwo);
             projectOne.addTask(taskThree);
-//            projectRepo.save(projectOne);
+            projectRepo.save(projectOne);
 
 //            Logger.log.info(UUID.randomUUID().toString().substring(0, 8));
 //
@@ -53,7 +53,7 @@ public class DevConfig {
 //            for (Task task : proj.getTaskList()) {
 //                task.regenerateId();
 //            }
-//            projectRepo.save(proj);
+            projectRepo.save(proj);
 
 //            Logger.log.info("Saving tasks to the database");
 //            taskRepo.saveAll(List.of(taskOne, taskTwo, taskThree));
