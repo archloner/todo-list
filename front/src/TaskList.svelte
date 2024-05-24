@@ -8,6 +8,7 @@
 	import { postRequest, deleteRequest } from './HttpUtils';
 	import Task from './Task.svelte';
 	import EditTaskModal from './EditTaskModal.svelte';
+	import { page } from '$app/stores';
 
 	let dispatch = createEventDispatcher();
 
@@ -284,6 +285,18 @@
 	function handleEditProject(project) {
 		dispatch('editproject', { name: project.name, description: project.description, id: project.projectId })
 	}
+
+	function handleDeleteProject(project) {
+		dispatch('deleteproj', { name: project.name, description: project.description, id: project.projectId })
+	}
+
+	export function show() {
+		pageContent.classList.remove('hide')
+	}
+
+	export function hide() {
+		pageContent.classList.add('hide')
+	}
 </script>
 
 <div>
@@ -293,7 +306,7 @@
 				<h1 class="list-title">{projectData.name}</h1>
 				<div class="push-right align-center task-menu">
 					<i class="fa-solid fa-pen-to-square" on:click={handleEditProject(projectData)}></i>
-					<i class="fa-solid fa-trash-can"></i>
+					<i class="fa-solid fa-trash-can" on:click={handleDeleteProject(projectData)}></i>
 					<i class="fas fa-ellipsis-v"></i>
 				</div>
 			</div>
