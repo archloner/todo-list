@@ -1,25 +1,33 @@
 <script>
-	import ProjectListItem from "./ProjectListItem.svelte";
-  import { createEventDispatcher } from "svelte";
-	import { onMount } from "svelte";
+	import ProjectListItem from './ProjectListItem.svelte';
+	import { createEventDispatcher } from 'svelte';
+	import { onMount } from 'svelte';
 
-  let dispatch = createEventDispatcher();
+	let dispatch = createEventDispatcher();
 
 	let pageText = {
 		title: 'Projects Overview',
 		description: 'List of all available projects'
 	};
 
-  let pageContent;
-  export let projectList;
+	let pageContent;
+	export let projectList;
 
 	onMount(() => {
 		// console.log(projectList)
-	})
+	});
 
 	export function toggleHide() {
-    pageContent.classList.toggle('hide')
-  }
+		pageContent.classList.toggle('hide');
+	}
+
+	export function show() {
+		pageContent.classList.remove('hide');
+	}
+
+	export function hide() {
+		pageContent.classList.add('hide');
+	}
 </script>
 
 <div>
@@ -35,20 +43,27 @@
 				{pageText.description}
 			</p>
 
-          <div class="project-grid-wrapper">
-            <div class="project-grid">
-                <!-- project item -->
-                {#each projectList as project}
-                  <ProjectListItem projId={project.id} projectTitle={project.title} taskCount={project.taskCount} on:change-proj/>
-                {/each}
-            </div>
-          </div>
-
+			{#if projectList.length > 0}
+				<div class="project-grid-wrapper">
+					<div class="project-grid">
+						{#each projectList as project}
+							<ProjectListItem
+								projId={project.id}
+								projectTitle={project.title}
+								taskCount={project.taskCount}
+								on:change-proj
+							/>
+						{/each}
+					</div>
 				</div>
-			
+			{:else}
+				<div class="info">
+					<h1>There are no project at the moment, try adding some</h1>
+				</div>
+			{/if}
+		</div>
 	</div>
 
-  <!-- new project button -->
 </div>
 
 <style>
@@ -62,4 +77,7 @@
 		opacity: 0.8;
 	}
 
+	.info {
+		padding: 3em 0;
+	}
 </style>
