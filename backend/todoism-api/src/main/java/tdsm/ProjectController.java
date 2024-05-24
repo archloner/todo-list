@@ -218,4 +218,20 @@ public class ProjectController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/project/{projectId}/task/search&s={searchTerm}")
+    public ResponseEntity<Iterable> searchForTasks(@PathVariable String projectId,
+                                                   @PathVariable String searchTerm) {
+        Project proj = projectRepo.findById(projectId).orElse(null);
+        if (proj == null) {
+            return ResponseEntity.notFound().build();
+        }
+        List<Task> tasks = proj.getTaskList().stream()
+                .filter(t -> {
+                    return t.getTitle().contains(searchTerm) || t.getDescription().contains(searchTerm);
+                })
+                .toList();
+
+        return ResponseEntity.ok(tasks);
+    }
+
 }
