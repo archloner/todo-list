@@ -280,6 +280,10 @@
 		editTaskModal.setTask(taskToEdit)
 		editTaskModal.showModal();
 	}
+
+	function handleEditProject(project) {
+		dispatch('editproject', { name: project.name, description: project.description, id: project.projectId })
+	}
 </script>
 
 <div>
@@ -287,7 +291,9 @@
 		<div class="flex-1">
 			<div class="flex-row">
 				<h1 class="list-title">{projectData.name}</h1>
-				<div class="push-right align-center">
+				<div class="push-right align-center task-menu">
+					<i class="fa-solid fa-pen-to-square" on:click={handleEditProject(projectData)}></i>
+					<i class="fa-solid fa-trash-can"></i>
 					<i class="fas fa-ellipsis-v"></i>
 				</div>
 			</div>
@@ -428,5 +434,15 @@
 
 	.bottom-buttons {
 		margin-top: 2em;
+	}
+
+	.task-menu i {
+		margin: 0 0.4em;
+		cursor: pointer;
+		transition: all 0.3s;
+	}
+
+	.task-menu i:hover {
+		opacity: 0.8;
 	}
 </style>

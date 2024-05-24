@@ -59,10 +59,10 @@ async function putRequest(url, data) {
 			throw new Error(`API request failed with status ${res.status}`);
 		}
 		console.log(res);
-		return true;
+		return res;
 	} catch (error) {
 		console.log(error);
-		return false;
+		return error;
 	}
 }
 
@@ -74,10 +74,10 @@ async function deleteRequest(url) {
 		if (!res.ok) {
 			throw new Error(`API request failed with status ${res.status}`);
 		}
-		return true;
+		return res;
 	} catch (error) {
 		console.log(`Error deleting data ${error}`);
-		return null;
+		return error;
 	}
 }
 
