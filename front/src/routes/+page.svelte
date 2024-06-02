@@ -8,10 +8,11 @@
 	import AppConfig from '../AppConfig';
 	import ProjectList from '../ProjectList.svelte';
 	import NewProjectModal from '../NewProjectModal.svelte';
-
-	import { onMount } from 'svelte';
-
+	import DeleteProjectModal from '../DeleteProjectModal.svelte';
+	import EditProjectModal from '../EditProjectModal.svelte';
 	import './styles.css';
+	
+	import { onMount } from 'svelte';
 
 	let appContainer;
 
@@ -39,13 +40,16 @@
 		console.log(
 			'At root level, received project change event, projectId: ' + event.detail.projectId
 		);
-		if (event.detail.projectId == 0 && page == Page.TASK_LIST || event.detail.projectId != 0 && page == Page.PROJECT_OVERVIEW) {
+		if (
+			(event.detail.projectId == 0 && page == Page.TASK_LIST) ||
+			(event.detail.projectId != 0 && page == Page.PROJECT_OVERVIEW)
+		) {
 			taskListComponent.toggleHide();
 			projectListComponent.toggleHide();
 			if (page == Page.TASK_LIST) {
-				page = Page.PROJECT_OVERVIEW
+				page = Page.PROJECT_OVERVIEW;
 			} else if (page == Page.PROJECT_OVERVIEW) {
-				page = Page.TASK_LIST
+				page = Page.TASK_LIST;
 			}
 		}
 		let projectDataToRender = projectData.filter(
@@ -81,11 +85,6 @@
 				throw new Error(`API request failed with status ${res.status}`);
 			}
 			let data = await res.json();
-			// NotificationComponent.notify(
-			// 	'Data loaded',
-			// 	'Data successfully fetched from the API',
-			// 	NotificationType.SUCCESS
-			// );
 			return data;
 		} catch (error) {
 			console.log('Error fetching data: ', error);
@@ -144,22 +143,31 @@
 			});
 		});
 
-		// render project list view
-		projectListView.renderListViewData(projectListViewData);
-
 		if (page == Page.PROJECT_OVERVIEW) {
+			// render project list view
+			projectListView.renderListViewData(projectListViewData);
 			projectListView.setActiveItem(0);
+
+			projectListComponent.show();
+			taskListComponent.hide();
 		} else {
 			// update TaskList component to render first project on the list TODO: init projects overview view
-			console.log(projectData)
-			let projectDataToRender = projectData.filter((item) => item.projectId == activeProject.projectId)[0];
-			console.log(projectDataToRender)
+			let projectDataToRender = projectData.filter(
+				(item) => item.projectId == activeProject.projectId
+			)[0];
 			projectListView.setActiveItem(projectDataToRender.projectId);
 			taskListComponent.updateTaskList(projectDataToRender);
+
+			projectListComponent.hide();
+			taskListComponent.show();
 		}
 
 		// Show content and hide spinner
 		loadingPageShow = false;
+	}
+
+	function setPageToProjectOverview() {
+		page = Page.PROJECT_OVERVIEW;
 	}
 
 	onMount(() => {
@@ -177,27 +185,64 @@
 		console.log('change proj at root level');
 		let newProjId = e.detail;
 		activeProject = newProjId;
-		console.log(activeProject)
 		handleProjectViewChange(e);
+
+		let projectDataToRender = projectData.filter(
+			(item) => item.projectId == activeProject.projectId
+		)[0];
+
+		projectListView.setActiveItem(projectDataToRender.projectId);
+		taskListComponent.updateTaskList(projectDataToRender);
 	}
 
 	let newProjectModalComponent;
 
 	function handleNewProject() {
-		console.log('new project event received')
+		console.log('new project event received');
 		newProjectModalComponent.show();
 	}
 
+	let editProjectModalComponent;
+
+	function handleEditProject(e) {
+		console.log('Edit project...');
+		console.log(e.detail.name, e.detail.description, e.detail.id);
+		editProjectModalComponent.sendData(e.detail.name, e.detail.description, e.detail.id);
+	}
+
+	let deleteProjectModalComponent;
+
+	function handleDeleteProj(e) {
+		console.log('delete proj', e.detail);
+		deleteProjectModalComponent.setProjectToDelete({ name: e.detail.name, projectId: e.detail.id });
+		deleteProjectModalComponent.show();
+		setPageToProjectOverview();
+	}
 </script>
 
 <div class="app" bind:this={appContainer}>
 	<div class="page-wrapper">
 		<Header {toggleDarkMode} />
 		<div class="wrapper">
-			<NavLeft bind:this={projectListView} on:project-click={handleProjectViewChange} on:newproject={handleNewProject}/>
+			<NavLeft
+				bind:this={projectListView}
+				on:project-click={handleProjectViewChange}
+				on:newproject={handleNewProject}
+			/>
 			<main class="content-right">
-				<TaskList bind:this={taskListComponent} on:notify={handleNotify} on:reload={handleReload} />
-				<ProjectList bind:this={projectListComponent} projectList={projectOverview} on:change-proj={changeProj} />
+				<TaskList
+					bind:this={taskListComponent}
+					on:notify={handleNotify}
+					on:reload={handleReload}
+					on:editproject={handleEditProject}
+					on:deleteproj={handleDeleteProj}
+				/>
+				<ProjectList
+					bind:this={projectListComponent}
+					projectList={projectOverview}
+					on:change-proj={changeProj}
+					on:deleteproj={handleDeleteProj}
+				/>
 			</main>
 		</div>
 		<Notification bind:this={NotificationComponent} />
@@ -208,10 +253,22 @@
 				<p>{loadingPageErrorMsg}</p>
 			</div>
 		</div>
-		<NewProjectModal bind:this={newProjectModalComponent} on:reload={handleReload}/>
+		<NewProjectModal
+			bind:this={newProjectModalComponent}
+			on:reload={handleReload}
+			on:notify={handleNotify}
+		/>
+		<EditProjectModal
+			bind:this={editProjectModalComponent}
+			on:reload={handleReload}
+			on:notify={handleNotify}
+		/>
+		<DeleteProjectModal
+			bind:this={deleteProjectModalComponent}
+			on:notify={handleNotify}
+			on:reload={handleReload}
+		/>
 	</div>
-
-
 </div>
 
 <style>

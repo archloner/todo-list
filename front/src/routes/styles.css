@@ -371,6 +371,7 @@ a.menu-item li {
   max-height: 100vh;
   display: flex;
   flex-direction: column;
+  align-self: stretch;
   background-color: var(--light-mode-bg-color-darker);
 }
 
@@ -1445,6 +1446,8 @@ input[type="text"]:focus {
 
   .content-right {
     max-height: none;
+    min-height: 100vh;
+    
   }
 
   .project-grid {
